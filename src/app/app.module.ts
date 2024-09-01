@@ -113,9 +113,12 @@ import { FeeTransportReportComponent } from './report/fee-transport-report/fee-t
 import { ParentAssoChildComponent } from './student/parent-asso-child/parent-asso-child.component';
 import { MisReportComponent } from './report/mis-report/mis-report.component';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+import {AsyncPipe} from '@angular/common';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -231,6 +234,15 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     AngularEditorModule,
     NgxPrintModule,
     Ng2SearchPipeModule,
+
+
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+
+    
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]

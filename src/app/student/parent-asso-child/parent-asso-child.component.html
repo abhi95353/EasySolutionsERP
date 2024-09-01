@@ -1,269 +1,369 @@
 <div class="row">
-    <div class="col-8 col-lg-10">
-        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Parent Assosication List</h3>
-    </div>
-    <!-- <div class="col-4 col-lg-2" style="text-align: right;">
+  <div class="col-8 col-lg-10">
+    <h3 style="text-transform: uppercase; letter-spacing: 0.9px">
+      Parent Assosication List
+    </h3>
+  </div>
+  <!-- <div class="col-4 col-lg-2" style="text-align: right;">
         <span class="mt-lg-1 mt-sm-0 btn btn-success btn-sm rounded-pill" [routerLink]="['../school-registration' , {action:'add' , id:null}]">School&nbsp;&nbsp;<i
                 class="fa fa-plus-square"></i></span>
     </div> -->
-    <hr class="p-0 m-0">
+  <hr class="p-0 m-0" />
 
-    <br>
+  <br />
 
-
-    <div class="col-12 my-2 tabs">
-        <div class="row px-1">
-            <div class="col-12 col-lg-8 my-2">
-                <button class="btn btn-sm btn-warning" (click)="downloadCSV()">Excel</button>&nbsp;
-                <button class="btn btn-sm btn-success" (click)="addFather()">Add Parent</button>&nbsp;
-            </div>
-            <div class="col-12 col-lg-4">
-                <div style="display: flex;justify-content: end;">
-                    <input type="search" 
-                  class="form-control"
-                  placeholder="Ex: Name, Code"   
-                  title="Ex: Name, Code"
-                  [(ngModel)]="searchText"
-                  >
-                    <i class="fa fa-search fa-lg"
-                        style="background-color: lightseagreen;color: white;padding: 0px 10px;margin-left: -10px;border-radius: 5px;padding-top: 12px;"></i>
-                </div>
-            </div>
+  <div class="col-12 my-2 tabs">
+    <div class="row px-1">
+      <div class="col-12 col-lg-8 my-2">
+        <button class="btn btn-sm btn-warning" (click)="downloadCSV()">
+          Excel</button
+        >&nbsp;
+        <button class="btn btn-sm btn-success" (click)="addFather()">
+          Add Parent</button
+        >&nbsp;
+      </div>
+      <div class="col-12 col-lg-4">
+        <div style="display: flex; justify-content: end">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Ex: Name, Code"
+            title="Ex: Name, Code"
+            [(ngModel)]="searchText"
+          />
+          <i
+            class="fa fa-search fa-lg"
+            style="
+              background-color: lightseagreen;
+              color: white;
+              padding: 0px 10px;
+              margin-left: -10px;
+              border-radius: 5px;
+              padding-top: 12px;
+            "
+          ></i>
         </div>
-        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
-            <table class="table  table-hover table-bordered table-sm"  id="htmlData">
-                <thead class="bg-success text-white">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Login&nbsp;Credential</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Father&nbsp;Name</th>
-                        <th scope="col">Mother&nbsp;Name</th>
-                        <th scope="col">Child&nbsp;Count</th>
-                        <th scope="col">Students&nbsp;Details</th>
-                        <th scope="col">Action</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngIf="loaderStatus;else loadingTem">
-                        <tr>
-                            <td colspan="8" style="text-align: center;">
-                                <i class="fa fa-spinner fa-spin fa-2x text-success"></i>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-template #loadingTem>
-                        <ng-container *ngIf="!dataNotFound;else notfound">
-                            <tr *ngFor="let data of dataList | filter:searchText; let i = index" >
-                                <td>{{i+1}}</td>
-                                <td>{{data.cred}}</td>
-                                <td>{{data.username}}</td>
-                                <td>{{data.f_name}}</td>
-                                <td>{{data.m_name}}</td>
-                                <td>{{data.students.length}}</td>
-                                <td>
-                                    <ng-container *ngIf="data.students != null">
-                                        <ng-container *ngFor="let dt of data.students">
-                                                <span class="btn btn-warning btn-sm rounded-pill mx-1 my-1">{{dt.name}} / {{dt.account}} / {{dt.standard.notation}} / {{dt.f_name}} / {{dt.m_name}}
-                                                   &nbsp; <i class="fa fa-edit fa-lg" style="color:black;cursor:pointer" (click)="changeFather(dt.id , dt.uuid , dt.name , data.f_name)"></i>
-                                                </span>
-                                        </ng-container>
-                                    </ng-container>
-                                </td>
-                                <td>
-                                    <i class="fa fa-edit" style="cursor: pointer;" (click)="updateFather(data.id , data.uuid)"></i>
-                                </td>
-                               
-                            </tr>
-                        </ng-container>
-                        <ng-template #notfound>
-                            <tr>
-                                <td colspan="11">No Data Found</td>
-                            </tr>
-                        </ng-template>
-                    </ng-template>
-                    
-                </tbody>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
+      </div>
     </div>
+    <div class="table-responsive mx-1 my-4" style="border-radius: 5px">
+      <table class="table table-hover table-bordered table-sm" id="htmlData">
+        <thead class="bg-success text-white">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Login&nbsp;Credential</th>
+            <th scope="col">Username</th>
+            <th scope="col">Father&nbsp;Name</th>
+            <th scope="col">Mother&nbsp;Name</th>
+            <th scope="col">Child&nbsp;Count</th>
+            <th scope="col">Students&nbsp;Details</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="loaderStatus; else loadingTem">
+            <tr>
+              <td colspan="8" style="text-align: center">
+                <i class="fa fa-spinner fa-spin fa-2x text-success"></i>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #loadingTem>
+            <ng-container *ngIf="!dataNotFound; else notfound">
+              <tr
+                *ngFor="
+                  let data of dataList | filter : searchText;
+                  let i = index
+                "
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ data.cred }}</td>
+                <td>{{ data.username }}</td>
+                <td>{{ data.f_name }}</td>
+                <td>{{ data.m_name }}</td>
+                <td>{{ data.students.length }}</td>
+                <td>
+                  <ng-container *ngIf="data.students != null">
+                    <ng-container *ngFor="let dt of data.students">
+                      <span
+                        class="btn btn-warning btn-sm rounded-pill mx-1 my-1"
+                        >{{ dt.name }} / {{ dt.account }} /
+                        {{ dt.standard.notation }} / {{ dt.f_name }} /
+                        {{ dt.m_name }} &nbsp;
+                        <i
+                          class="fa fa-edit fa-lg"
+                          style="color: black; cursor: pointer"
+                          (click)="
+                            changeFather(dt.id, dt.uuid, dt.name, data.f_name)
+                          "
+                        ></i>
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </td>
+                <td>
+                  <i
+                    class="fa fa-edit"
+                    style="cursor: pointer"
+                    (click)="updateFather(data.id, data.uuid)"
+                  ></i>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-template #notfound>
+              <tr>
+                <td colspan="11">No Data Found</td>
+              </tr>
+            </ng-template>
+          </ng-template>
+        </tbody>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
-
-
-
-
-
-
-<div *ngIf="classesBoxStatus"
-    style="position: fixed;top: 0;left: 0;width:100%;height: 100%;background-color:rgba(0,0,0, 0.5);z-index: 10;">
-</div>
-
- 
+<div
+  *ngIf="classesBoxStatus"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  "
+></div>
 
 <!-- Add Box -->
-<div class="box" style="z-index: 11;" [ngClass]="this.classesBoxStatus? 'top-10' : ''">
-    <div>
-        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
-            <h4 style="letter-spacing: 0.9px; text-transform: uppercase; ">{{title}}</h4>
-            <span class="btn btn-sm rounded-pill" ><i
-                    class="fa fa-times" (click)="clickClose()"></i></span>
-        </div>
-        <hr class="p-0 m-0"> 
-        <br>
-        <div style="display: flex; justify-content: space-between;">
-            <form [formGroup]="studentForm" (ngSubmit)="submitForm()"  ngNativeValidate>
-                <div class="row g-4 px-4">
-                    <!-- <div class="col-12 col-lg-12 col-xl-12">
+<div
+  class="box"
+  style="z-index: 11"
+  [ngClass]="this.classesBoxStatus ? 'top-10' : ''"
+>
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4 style="letter-spacing: 0.9px; text-transform: uppercase">
+        {{ title }}
+      </h4>
+      <span class="btn btn-sm rounded-pill"
+        ><i class="fa fa-times" (click)="clickClose()"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+    <div style="display: flex; justify-content: space-between">
+      <form
+        [formGroup]="studentForm"
+        (ngSubmit)="submitForm()"
+        ngNativeValidate
+      >
+        <div class="row g-4 px-4">
+          <!-- <div class="col-12 col-lg-12 col-xl-12">
                         <label>School List</label><sup class="text-danger">*</sup>
                         <input type="text" formControlName="school_code" required readonly class="form-control">
                     </div> -->
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Student Name</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" value="{{title}}" readonly>
-                    </div>
-                    <hr class="p-0 m-0" style="color: white;">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Current Assosiate Father</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" value="{{current_parent}}" readonly>
-                    </div>
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Current Assosiate Father</label><sup class="text-danger">*</sup>
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Student Name</label><sup class="text-danger">*</sup>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ title }}"
+              readonly
+            />
+          </div>
+          <hr class="p-0 m-0" style="color: white" />
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Current Associate Father</label
+            ><sup class="text-danger">*</sup>
+            <input
+              type="text"
+              class="form-control"
+              value="{{ current_parent }}"
+              readonly
+            />
+          </div>
+          <!-- <div class="col-12 col-lg-12 col-xl-12">
+                        <label>Current Associate Father</label><sup class="text-danger">*</sup>
                         <select (change)="onChnageParent(parent.value)" class="form-control" #parent>
                             <option value="">Selects Parent</option>
                             <option value="{{data | json}}" *ngFor="let data of dataList"> {{data.f_name}} / {{data.cred}}</option>
                         </select>
-                    </div>
-                   
-                    <!-- <mat-form-field class="example-full-width">
-                        <mat-label>Number</mat-label>
-                        <input type="text"
-                               placeholder="Pick one"
-                               aria-label="Number"
-                               matInput
-                               [formControl]="myControl"
-                               [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                          @for (option of filteredOptions | async; track option) {
-                            <mat-option [value]="option">{{option}}</mat-option>
-                          }
-                        </mat-autocomplete>
-                      </mat-form-field> -->
-
-
-                    <div class="col-12 mb-4">
-                        <input type="submit" class="btn btn-md btn-success rounded-pill" [disabled]="submitStatus" value="Update">&nbsp;<i
-                        class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="submitStatus"></i>
-                    </div>
-                </div>
-            </form>
-
+                    </div> -->
+          <div class="row">
+            <mat-form-field>
+              <label>Current Associate Father</label
+              ><sup class="text-danger">*</sup>
+              <input
+                class="spacing"
+                matInput
+                [formControl]="myControl"
+                [matAutocomplete]="auto"
+              />
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="onOptionSelected($event)"
+              >
+                <mat-option
+                  *ngFor="let option of filteredOptions | async"
+                  [value]="option"
+                >
+                  {{ option.f_name }} / {{ option.cred }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-12 mb-4">
+            <input
+              type="submit"
+              class="btn btn-md btn-success rounded-pill"
+              [disabled]="submitStatus"
+              value="Update"
+            />&nbsp;<i
+              class="fas fa-spinner fa-pulse text-success fa-lg"
+              *ngIf="submitStatus"
+            ></i>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </div>
-
-
-
 
 <!-- Edit Box -->
-<div class="box shadow" style="z-index: 11;" [ngClass]="this.EditBoxStatus? 'top-10' : ''">
-    <div>
-        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
-            <h4 style="letter-spacing: 0.9px; text-transform: uppercase; ">Update Father Details</h4>
-            <span class="btn btn-sm rounded-pill" ><i
-                    class="fa fa-times" (click)="clickClose()"></i></span>
-        </div>
-        <hr class="p-0 m-0"> 
-        <br>
-        <div style="display: flex; justify-content: space-between;">
-            <form [formGroup]="parentUpdateForm" (ngSubmit)="updateFatherFormSubmit()"  ngNativeValidate>
-                <div class="row g-4 px-4">
-                    <!-- <div class="col-12 col-lg-12 col-xl-12">
+<div
+  class="box shadow"
+  style="z-index: 11"
+  [ngClass]="this.EditBoxStatus ? 'top-10' : ''"
+>
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Update Father Details
+      </h4>
+      <span class="btn btn-sm rounded-pill"
+        ><i class="fa fa-times" (click)="clickClose()"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+    <div style="display: flex; justify-content: space-between">
+      <form
+        [formGroup]="parentUpdateForm"
+        (ngSubmit)="updateFatherFormSubmit()"
+        ngNativeValidate
+      >
+        <div class="row g-4 px-4">
+          <!-- <div class="col-12 col-lg-12 col-xl-12">
                         <label>School List</label><sup class="text-danger">*</sup>
                         <input type="text" formControlName="school_code" required readonly class="form-control">
                     </div> -->
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Father Name</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="f_name" >
-                    </div>
-                    <hr class="p-0 m-0" style="color: white;">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Mother Name</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="m_name" >
-                    </div>
-                   
-                    <div class="col-12 mb-4">
-                        <input type="submit" class="btn btn-md btn-success rounded-pill" [disabled]="submitStatus" value="Update">&nbsp;<i
-                        class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="submitStatus"></i>
-                    </div>
-                </div>
-            </form>
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Father Name</label><sup class="text-danger">*</sup>
+            <input type="text" class="form-control" formControlName="f_name" />
+          </div>
+          <hr class="p-0 m-0" style="color: white" />
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Mother Name</label><sup class="text-danger">*</sup>
+            <input type="text" class="form-control" formControlName="m_name" />
+          </div>
 
+          <div class="col-12 mb-4">
+            <input
+              type="submit"
+              class="btn btn-md btn-success rounded-pill"
+              [disabled]="submitStatus"
+              value="Update"
+            />&nbsp;<i
+              class="fas fa-spinner fa-pulse text-success fa-lg"
+              *ngIf="submitStatus"
+            ></i>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </div>
-
-
 
 <!-- Add Box -->
-<div class="box shadow" style="z-index: 11;" [ngClass]="this.addBoxStatus? 'top-10' : ''">
-    <div>
-        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
-            <h4 style="letter-spacing: 0.9px; text-transform: uppercase; ">Update Father Details</h4>
-            <span class="btn btn-sm rounded-pill" ><i
-                    class="fa fa-times" (click)="clickClose()"></i></span>
-        </div>
-        <hr class="p-0 m-0"> 
-        <br>
-        <div style="display: flex; justify-content: space-between;">
-            <form [formGroup]="parentAddForm" (ngSubmit)="addFatherFormSubmit()"  ngNativeValidate>
-                <div class="row g-4 px-4">
-                    <!-- <div class="col-12 col-lg-12 col-xl-12">
+<div
+  class="box shadow"
+  style="z-index: 11"
+  [ngClass]="this.addBoxStatus ? 'top-10' : ''"
+>
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Update Father Details
+      </h4>
+      <span class="btn btn-sm rounded-pill"
+        ><i class="fa fa-times" (click)="clickClose()"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+    <div style="display: flex; justify-content: space-between">
+      <form
+        [formGroup]="parentAddForm"
+        (ngSubmit)="addFatherFormSubmit()"
+        ngNativeValidate
+      >
+        <div class="row g-4 px-4">
+          <!-- <div class="col-12 col-lg-12 col-xl-12">
                         <label>School List</label><sup class="text-danger">*</sup>
                         <input type="text" formControlName="school_code" required readonly class="form-control">
                     </div> -->
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Father Name</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="f_name" >
-                    </div>
-                    <hr class="p-0 m-0" style="color: white;">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Mother Name</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="m_name" >
-                    </div>
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Father Name</label><sup class="text-danger">*</sup>
+            <input type="text" class="form-control" formControlName="f_name" />
+          </div>
+          <hr class="p-0 m-0" style="color: white" />
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Mother Name</label><sup class="text-danger">*</sup>
+            <input type="text" class="form-control" formControlName="m_name" />
+          </div>
 
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Login Mobile Number</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="cred" >
-                    </div>
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Login Mobile Number</label><sup class="text-danger">*</sup>
+            <input type="text" class="form-control" formControlName="cred" />
+          </div>
 
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Father Mobile Number</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="f_mobile_no" >
-                    </div>
-                    <hr class="p-0 m-0" style="color: white;">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Mother Mobile Number</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="m_mobile_no" >
-                    </div>
-                    <hr class="p-0 m-0" style="color: white;">
-                    <div class="col-12 col-lg-12 col-xl-12">
-                        <label>Password</label><sup class="text-danger">*</sup>
-                        <input type="text" class="form-control" formControlName="secret" >
-                    </div>
-                   
-                    <div class="col-12 mb-4">
-                        <input type="submit" class="btn btn-md btn-success rounded-pill" [disabled]="submitStatus" value="Add">&nbsp;<i
-                        class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="submitStatus"></i>
-                    </div>
-                </div>
-            </form>
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Father Mobile Number</label><sup class="text-danger">*</sup>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="f_mobile_no"
+            />
+          </div>
+          <hr class="p-0 m-0" style="color: white" />
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Mother Mobile Number</label><sup class="text-danger">*</sup>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="m_mobile_no"
+            />
+          </div>
+          <hr class="p-0 m-0" style="color: white" />
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label>Password</label><sup class="text-danger">*</sup>
+            <input type="text" class="form-control" formControlName="secret" />
+          </div>
 
+          <div class="col-12 mb-4">
+            <input
+              type="submit"
+              class="btn btn-md btn-success rounded-pill"
+              [disabled]="submitStatus"
+              value="Add"
+            />&nbsp;<i
+              class="fas fa-spinner fa-pulse text-success fa-lg"
+              *ngIf="submitStatus"
+            ></i>
+          </div>
         </div>
+      </form>
     </div>
+  </div>
 </div>
-
-
