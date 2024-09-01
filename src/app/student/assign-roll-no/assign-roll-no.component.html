@@ -1,0 +1,94 @@
+<div
+  *ngIf="regBoxStatus"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  "
+></div>
+
+<!-- Add Box -->
+<div class="box" [ngClass]="this.regBoxStatus ? 'top-10' : ''">
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4 
+        class="px-3"
+        style="letter-spacing: 0.9px; text-transform: uppercase"
+        *ngIf="regBoxStatus"
+      > 
+      Assign Roll No
+        <!-- &nbsp;&nbsp; <i class="fa fa-download" style="font-size: 16px; cursor: pointer;" (click)="openPDF()">Download</i> -->
+      </h4>
+      <span class="btn btn-sm rounded-pill" (click)="onClickRegBox(false)"
+        ><i class="fa fa-times"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <div style="display: flex; justify-content: space-between" class="px-4">
+      <table class="table table-striped" *ngIf="regBoxStatus" id="htmlData">
+        <thead> 
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Account No</th>
+            <th scope="col">
+              Name
+              <span
+                style="cursor: pointer; color: grey"
+                (click)="arrangeOrder('name', 'string')" 
+              >
+                <i class="fas fa-arrow-down" style="font-size: 12px"></i
+                ><i class="fas fa-arrow-up" style="font-size: 12px"></i
+              ></span>
+            </th>
+            <th scope="col">Roll no</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of studentData; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ data.account }}</td> 
+            <td>{{ data.name }}</td>
+            <td>
+              <input
+                type="text"
+                pattern="[0-9]"
+                maxlength="6"
+                minlength="1"
+                value="{{ data.roll_no }}"
+                #roll_no_value
+              />
+            </td>
+           
+          </tr>
+
+          <tr *ngIf="studentData.length > 0;else noDataFound">
+            <td [attr.colspan]="6" style="text-align: right">
+              <i class="fas fa-spinner fa-pulse" *ngIf="loadingStatus"></i>&nbsp;
+              <span class="btn btn-danger btn-sm" (click)="clear()" 
+                >Clear&nbsp;Roll&nbsp;No</span
+              > &nbsp;
+            
+              <span class="btn btn-warning btn-sm" (click)="updateRollNo()" 
+                >Assign&nbsp;Roll&nbsp;No</span
+              > &nbsp;
+              <span class="btn btn-success btn-sm" (click)="submit()" 
+              >Submit</span
+            > 
+            &nbsp;
+            </td>
+          </tr>
+
+          <ng-template #noDataFound>
+            <tr>
+              <td [attr.colspan]="4">All Students Roll Number Have Been Assigned</td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

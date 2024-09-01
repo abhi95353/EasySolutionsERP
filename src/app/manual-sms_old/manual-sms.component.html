@@ -1,0 +1,94 @@
+<div class="row px-1">
+  <div class="col-8 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Manual&nbsp;SMS
+    </h3>
+  </div>
+
+  <div
+    class="col-4 col-lg-2"
+    style="text-align: right"
+    *ngIf="this.school_code != 'Select School'"
+  ></div>
+  <hr class="p-0 m-0" />
+  <br />
+
+  <div
+    class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+    *ngIf="this.school_code != 'Select School'"
+  >
+    <form (ngSubmit)="SendSMS()" ngNativeValidate>
+      <div class="row">
+        <div class="col-6 p-3 mb-2 tabs" style="border-right:4px solid whitesmoke ;">
+          <h5>Manual&nbsp;Massage</h5>
+          <br />
+          <div class="row g-4">
+            <div class="col-12">
+              <div class="inputBox">
+                <!-- <textarea class="form-control" required [(ngModel)]="mobileNoString" name="mobileNoString"  (input)="mobileNoUpdate(value.value)" #value  cols="30" rows="10" placeholder="Mobile Number"></textarea> -->
+              </div>
+            </div>
+
+            <div class="col-12">
+              <ng-container *ngFor="let dt of fakeForVar ; let i = index" >
+                <div class="inputBox my-2">
+                  <input
+                    type="text"
+                    required
+                    (change)="createString(value.value , i)"
+                    #value
+                  />
+                   <label>Variables&nbsp;[{{i + 1}}]</label>
+               </div>
+               <br>
+              </ng-container>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="col-12 col-md-4">
+            <input
+              type="submit"
+              value="Create"
+              class="btn btn-sm btn-success"
+              [disabled]="loadingStatus"
+            />
+            &nbsp;<i
+              class="fas fa-spinner fa-pulse text-success fa-lg"
+              *ngIf="loadingStatus"
+            ></i>
+          </div>
+        </div>
+
+
+        <div class="col-6 p-3 mb-2 tabs">
+          <h5>Select&nbsp;Message&nbsp;Template</h5>
+          <br />
+          <ng-container>
+            <div class="row">
+              <ul *ngFor="let dt of templteList.data">
+                <li style="cursor: pointer ; padding:2px 8px" (click)="onclickSelectSMS(dt.id , dt.uuid , dt.design)"><b>{{dt.template_id}}</b> / {{dt.design}}</li>
+              </ul>
+            </div>
+          </ng-container>
+        </div>
+
+
+      </div>
+    </form>
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>

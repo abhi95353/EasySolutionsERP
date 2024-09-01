@@ -1,0 +1,30 @@
+        <div class="container-fluid" id="htmlData" *ngIf="viewFile"
+    style="background-color: white; height: 100%;position: relative;overflow-x: hidden;padding-top: 1cm;">
+    <div class="row" style="overflow-x: hidden;">
+        <!-- <div class="col-3" style="display: flex;justify-content: center; padding: 12px;">
+            <img src="https://{{schoolData.logo}}" alt="LOGO"
+                style="display: block !important; width: 180px;height: 180px;border-radius:5px">
+        </div> -->
+        <div class="col-12" style="text-align: left;">
+            <div style="text-align: center;">
+                <h2 style="text-transform: uppercase;">{{schoolData.name}}</h2>
+                <span style="font-size: 12px;">(Senior Secondary affiliated with {{schoolData.affiliation}}, Delhi, Vide
+                    Regn.
+                    No is {{schoolData.affiliation_no}})</span><br>
+                <span>{{schoolData.location}}</span><br>
+                <span>Tel: {{schoolData.contact_no}}</span><br>
+                <span>E-mail: {{schoolData.contact_mail}} , Visit us at: {{schoolData.website}}</span><br>
+            </div>
+        </div>
+    </div>
+    <div class="row px-5">
+        <div class="col-12" style="border: 1px solid black; border-radius: 5px;">
+            <div class="row">
+                <div class="col-12 px-5" style="font-size: 24px; letter-spacing: 1.9px; line-height: 1.9;text-align: justify;">
+                    Dear <b>{{studentist.name}}</b> your online registration form is Submitted successfully on date <b>{{today | date:'medium'}}</b>. Your Reference number is {{registration_id}}. Please remember your reference number for further process.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

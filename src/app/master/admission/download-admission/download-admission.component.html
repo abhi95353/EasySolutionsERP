@@ -1,0 +1,628 @@
+<ng-container>
+    <div style="position: fixed; width: 100%; height: 100%; top: 0;left: 0;background-color: rgba(0, 0, 0, 0.4); z-index: 20;">
+        <i class="fa fa-spinner fa-spin" style="position: fixed; top: 50%;left: 50%;font-size:54px;transform: translate(-50%,-50%) ; z-index: 22;"></i>Downloading PDF
+    </div>
+    <div class="conatiner-fluid" id="htmlData" style="background-color: white; height: 100%;position: relative;" >
+        <div class="row">
+            <div class="col-12" style="text-align: left;">
+                <div style="text-align: center; display: block !important;">
+                    <h2 style="text-transform: uppercase;">{{schoolData.name}}</h2>
+                    <span style="font-size: 12px;">(Senior Secondary affiliated with {{schoolData.affiliation}}, Delhi, Vide
+                        Regn.
+                        No is {{schoolData.affiliation_no}})</span><br>
+                    <span>{{schoolData.location}}</span><br>
+                    <span>Tel: {{schoolData.contact_no}}</span><br>
+                    <span>E-mail: {{schoolData.contact_mail}} , Visit us at: {{schoolData.website}}</span><br>
+                </div>
+            </div>
+        </div>
+        <hr> 
+        <div class="row mx-4">
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;"> Admission&nbsp;in&nbsp;class:</label><input type="text" class="form-control" value="">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;"> Aadhar&nbsp;Card&nbsp;No:</label><input type="text" class="form-control" value="{{studentist.aadhar_no}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Name&nbsp;of&nbsp;the&nbsp;Student:</label><input type="text"
+                    class="form-control" value="{{studentist.name}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Name&nbsp;of&nbsp;Father:</label><input type="text" class="form-control" value="{{studentist.f_name}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Occupation:</label><input type="text" class="form-control" value="{{studentist.f_occupation}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Name&nbsp;of&nbsp;Mother:</label><input type="text" class="form-control" value="{{studentist.m_name}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Occupation:</label><input type="text" class="form-control" value="{{studentist.m_occupation}}">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Gender:</label><input type="text" class="form-control" value="{{studentist.gender}}">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Date&nbsp;of&nbsp;Birth:</label><input type="text" class="form-control" value="{{studentist.dob}}">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Age&nbsp;on&nbsp;1st&nbsp;April:</label><input type="text"
+                    class="form-control" value="{{age}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Social&nbsp;Category&nbsp;:&nbsp;General/OBC/SC/ST:</label><input type="text"
+                    class="form-control" value="{{studentist.category}}">
+            </div>
+            <!-- <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Religion:</label><input type="text" class="form-control">
+            </div> -->
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Mother&nbsp;Tongue:</label><input type="text" class="form-control" value="{{studentist.mother_tongue}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Permanent&nbsp;Address</label><input type="text" class="form-control" value="{{studentist.location}}">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Telephone&nbsp;No:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Mobile&nbsp;No:</label><input type="text" class="form-control"  value="{{studentist.f_mobile_no}} , {{studentist.m_mobile_no}}">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Student&nbsp;Email&nbsp;ID:</label><input type="text" class="form-control"  value="{{studentist.email_id}}">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Parent&nbsp;Email&nbsp;ID:</label><input type="text" class="form-control" value="{{studentist.f_email}}">
+    
+            </div>
+            <!-- <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Whether&nbsp;belongs&nbsp;to&nbsp;BPL:</label><input type="text"
+                    class="form-control">
+            </div> -->
+            <!-- <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Class&nbsp;Studied&nbsp;in&nbsp;the&nbsp;Previous:</label><input type="text"
+                    class="form-control">
+            </div> -->
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Medium&nbsp;of&nbsp;Instruction:</label><input type="text"
+                    class="form-control"  value="{{studentist.instruction_medium}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Any&nbsp;Brother/Sister&nbsp;studying&nbsp;in&nbsp;SNSPS with
+                    class:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Type of Disability (If any)</label><input type="text" class="form-control" value="{{studentist.disability}}">
+            </div>
+        </div>
+        <br>
+        <hr class="m-0 p-0">
+        <span>For Office Use</span>
+        <br>
+    
+        <div class="row mx-4">
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;"> Admission&nbsp;No:</label><input type="text" class="form-control" value="{{addmission_id}}">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;"> Date&nbsp;Of&nbsp;Admission(DD/MM/YYYY):</label><input type="text"
+                    class="form-control">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;"> Session</label><input type="text" class="form-control">
+            </div>
+            <div class="col-12  mt-4" style="text-align: right;">
+                <span><b>Admission Granted / Not Granted</b></span>
+            </div>
+            <div class="col-12" style="text-align: right;">
+                <span>sd/- Principla / Headmistresss<b></b></span>
+            </div>
+        </div>
+    
+    
+    
+        <div style="position: absolute;bottom: 0;padding-left: 10px;">
+            <span>{{schoolData.website}}</span>
+        </div>
+    
+    </div>
+    
+    <div class="container-fluid" id="htmlDataI">
+    
+        <!-- Next Page For Printing -->
+    
+        <div class="row mx-4">
+            <div class="col-12">
+                <h2 style="text-align: center;">Important</h2>
+                <b style="font-size: 21px;">
+                    I <i>{{studentist.name}}</i> Parent/Guardian of my son/daughter
+                    <i>{{studentist.f_name}}</i>
+                    agree to adhere to the following rules as they are essential for self-discipline and overall growth of
+                    my child.
+                </b>
+                <ul style="list-style-type: upper-roman;">
+                    <li>I understand that for withdrawal of a pupil from the school, at least one calendar months’ notice
+                        must be given otherwise one calendar month's fees in lieu of notice will be charged. A full year's
+                        fee will be charged for any withdrawal that occurs after 120 days of the commencement of the
+                        session. (Admission Fee is Non-Refundable under any Circumstances)</li>
+                    <li>I understand that attendance is very important for life skills and I'll submit valid
+                        documentation to the teacher and the office for missed classes. I also understand that persistent
+                        absence of my ward from school for 2 weeks or more will result in his/her suspension from the
+                        school.</li>
+                    <li>I undertake that <b><u>I shall deposit the school fees and other dues within the given time
+                                slot</u></b>. I understand that no negotiation in this regard will be considered under any
+                        circumstances. In the event I do not pay my ward fees and other dues on time, I accept, that the
+                        school has the right to fine and take disciplinary action and after 3 months of default the school
+                        will strike my son's/ward name off from the school rolls. I also accept that in the eventuality that
+                        I am unable to pay my child's fee, I will voluntarily withdraw him/her from the school and will not
+                        seek a concession as I understand that the school already shoulders the expenses for the
+                        economically less abled children.</li>
+                    <li>I understand that the meetings with the Principal, Coordinators, Class Teachers and Subject
+                        Teachers will be by prior <i>appointment only.</i></li>
+                    <li>I will answer the phone each time the school calls me and will respond immediately. I understand
+                        that the school will only do so in an effort to help my child improve and become a more responsible
+                        human being.</li>
+                    <li>In an eventuality of my phone number/address/mail changing, I agree to intimate the school about
+                        the change immediately.</li>
+                    <li>7. I understand that punctuality is a very important skill and if my ward is late more than twice,
+                        he shall be sent home there after each time he is late.</li>
+                    <li>8. I shall personally bring in a leave application when my ward is absent the day before a UNIT
+                        ASSESSMENT / Evaluation.</li>
+                    <li>As parent I'll ensure that my ward comes to school wearing proper school uniform, with proper
+                        haircut.</li>
+                    <li>I'll ensure that if my ward carries his/her Tiffin box, there will be a healthy snack in it. I
+                        will actively discourage junk food. I accept that Tiffin boxes and other material have to be sent
+                        with the child and no later deliveries will be accepted in the school.</li>
+                    <li>The school discourages birthday celebrations in the school. Should I wish to celebrate my ward's
+                        birthday in school it will be restricted to the distribution of two toffees or a small chocolate per
+                        child only.</li>
+                    <li>I accept that disciplinary action will be initiated against a pupil who does not act in
+                        accordance with the code of conduct as laid down in the school diary.</li>
+                </ul>
+            </div>
+    
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="row my-4 mx-4">
+            <div class="col-4">
+                <span>Name:</span>
+            </div>
+            <div class="col-4">
+                <span>Date:</span>
+            </div>
+            <div class="col-4" style="text-align: right;">
+                <span>SIGNATURE OF PARENT</span>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div class="container-fluid" id="htmlDataIB">
+    
+        <!-- Next Page For Printing -->
+    
+        <div class="row mx-4">
+            <div class="col-12">
+                <h2 style="text-align: center;">INDEMNITY BOOD</h2>
+                <p>
+                    This Indemnity Bond is executed by____________________________________________________________________
+                    guardian of their ward_____________________________________________ studying in______________________
+                    class in this school between the Guardian of the said ward with the Principal of National Public School
+                    on this day of________________________________________________________________________ at Yamuna Nagar.
+                    <br>
+                    <br>
+                    Whereas Master/Miss has been admitted in this school in________________________________________________
+                    Class with effect from____________________________________________________________________________
+                    and the Management of the
+                    school has undertaken to impart education to the said ward in a safe environment.
+                    <br>
+                    <br>
+    
+                    Whereas in case the aforesaid ward suffers any loss, injury, minor or fatal during the school hours in
+                    conveyance, in sports, picnic and other outings organized by the school, the School Authorities shall
+                    not be liable in any manner whatsoever and the Management of the school, the principal and staff are
+                    exonerated.
+                    <br>
+                    <br>
+    
+                    Whereas the guardian of the said ward has executed this indemnity bond in favor of the school /
+                    management of their free will and volition.
+                    <br>
+                    <br>
+    
+                </p>
+    
+            </div>
+    
+        </div>
+    
+        <div class="row mx-4 my-4">
+            <div class="col-6">
+                <span>SIGNATURE OF Father</span>
+                <br>
+                <br>
+                <br>
+                <span>Name:</span>
+            </div>
+            <div class="col-6">
+                <span>SIGNATURE OF Mother</span>
+                <br>
+                <br>
+                <br>
+                <span>Name:</span>
+            </div>
+        </div>
+    
+        <div class="row mx-4 my-4">
+    
+            <div class="col-8" style="display: flex;">
+                <label style="margin: auto;">Name:</label><input type="text" class="form-control">
+            </div>
+    
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Signature:</label><input type="text" class="form-control">
+            </div>
+    
+    
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Address:</label><input type="text" class="form-control">
+            </div>
+    
+    
+            <div class="col-8" style="display: flex;">
+                <input type="text" class="form-control">
+            </div>
+    
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Phone:</label><input type="text" class="form-control">
+            </div>
+        </div>
+    
+        <div class="row mx-4 my-4">
+            <div class="col-8" style="display: flex;">
+                <label style="margin: auto;">Name:</label><input type="text" class="form-control">
+            </div>
+    
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Signature:</label><input type="text" class="form-control">
+            </div>
+    
+    
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;"> Address:</label><input type="text" class="form-control">
+            </div>
+    
+    
+            <div class="col-8" style="display: flex;">
+                <input type="text" class="form-control">
+            </div>
+    
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;"> Phone:</label><input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="container-fluid" id="htmlDataTA">
+    
+        <!-- Next Page For Printing -->
+    
+        <div class="row mx-4">
+            <h2 style="text-align: center;">TELL US ABOUT</h2>
+            <b style="font-size: 21px;">
+                Fill in the following to help us know more about your child:
+            </b>
+            <div class="col-12">
+                <label for="">STRENGTHS:</label><br>
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+            </div>
+    
+            <div class="col-12">
+                <label for="">WEAKNESSES:</label><br>
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+            </div>
+    
+    
+            <div class="col-12">
+                <label for="">SPECIFIC ISSUES:</label><br>
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+            </div>
+    
+    
+            <div class="col-12">
+                <label for="">HEALTH ISSUES:</label><br>
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+            </div>
+            <br>
+            <br>
+            <br>
+    
+            <div class="col-4">
+                <span>Father's Signature</span>
+                <br>
+                <br>
+                <br>
+                <span>Name_____________________</span>
+            </div>
+    
+            <div class="col-4">
+                <span>Mother's Signature</span>
+                <br>
+                <br>
+                <br>
+                <span>Name_____________________</span>
+            </div>
+    
+            <div class="col-4">
+                <span>Guardian's Signature</span>
+                <br>
+                <br>
+                <br>
+                <span>Name_____________________</span>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+    
+    
+    
+    
+    
+    <div class="container-fluid" id="htmlDataIC">
+    
+        <!-- Next Page For Printing -->
+    
+        <div class="row mx-4">
+            <h2 style="text-align: center;">Details For I-Card</h2>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12" style="display: flex;">
+                        <label style="margin: auto;">Class:</label><input type="text" class="form-control">
+                    </div>
+                    <div class="col-12" style="display: flex;">
+                        <label style="margin: auto;">Section:</label><input type="text" class="form-control">
+                    </div>
+                    <div class="col-12" style="display: flex;">
+                        <label style="margin: auto;">Admission&nbsp;No:</label><input type="text" class="form-control" value="{{addmission_id}}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div style="width: 240px; height: 240px; border: 1px solid black;margin: auto;text-align: center;">
+                    <span>PHOTO</span>
+                </div>
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Name:</label><input type="text" class="form-control" value="{{studentist.name}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">DOB:</label><input type="text" class="form-control" value="{{studentist.dob}}">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">BLOOD&nbsp;Grorp:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">M.O.T.:Self/School&nbsp;Transport/Other:</label><input type="text" class="form-control" value="{{transport.transport_name}} , {{transport.transport_no}}">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;">School&nbsp;Bus&nbsp;No:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;">Pick&nbsp;up&nbsp;point:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;">Drop&nbsp;Point:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-8" style="display: flex;">
+                <label style="margin: auto;">Father's&nbsp;Name:</label><input type="text" class="form-control" value="{{studentist.f_name}}">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;">Occupation:</label><input type="text" class="form-control" value="{{studentist.f_occupation}}">
+            </div>
+            <div class="col-8" style="display: flex;">
+                <label style="margin: auto;">Mother's&nbsp;Name:</label><input type="text" class="form-control" value="{{studentist.m_name}}">
+            </div>
+            <div class="col-4" style="display: flex;">
+                <label style="margin: auto;">Occupation:</label><input type="text" class="form-control" value="{{studentist.m_occupation}}">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Student&nbsp;Email&nbsp;ID:</label><input type="text" class="form-control" value="{{studentist.email_id}}">
+    
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Parent&nbsp;Email&nbsp;ID:</label><input type="text" class="form-control" value="{{studentist.f_email}} , {{studentist.m_email}}">
+    
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Telephone&nbsp;No:</label><input type="text" class="form-control">
+    
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Mobile&nbsp;No</label><input type="text" class="form-control" value="{{studentist.f_mobile_no}} , {{studentist.m_mobile_no}}">
+    
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Address:</label>
+                <input type="text" class="form-control">
+                <input type="text" class="form-control">
+            </div>
+            
+        <br>
+        <br>
+            <div class="col-6">
+                <br>
+                <br>
+                <br>
+                <span>Parents' Signature</span>
+                <br>
+                <br>
+                <span>Name_____________________</span>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="container-fluid" id="htmlDataMI">
+    
+        <!-- Next Page For Printing -->
+    
+        <div class="row mx-4">
+            <h2 style="text-align: center;">Medical Information (Most Important)</h2>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Any&nbsp;Allergy:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Any&nbsp;Medical&nbsp;Issue:</label><input type="text" class="form-control">
+            </div>
+            <p>In case of emergency doctor to be contacted</p>
+            <div class="col-12" style="display: flex;">
+                <label style="margin: auto;">Doctor's&nbsp;Name&nbsp;and&nbsp;Address:</label><input type="text" class="form-control">
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Telephone&nbsp;No:</label><input type="text" class="form-control">
+    
+            </div>
+            <div class="col-6" style="display: flex;">
+                <label style="margin: auto;">Mobile&nbsp;No</label><input type="text" class="form-control">
+    
+            </div>    
+            
+            <p>Please mark if your ward is allergic to any of the medicines given below</p>
+            <ul style="list-style-type: none; display: flex; flex-wrap: wrap;justify-content: space-between;">
+                <li class="mx-2">Crocin <input type="checkbox"> </li>
+                <li class="mx-2">Crocin Syrup <input type="checkbox"> </li>
+                <li class="mx-2">Savlon <input type="checkbox"> </li>
+                <li class="mx-2">Hajmola <input type="checkbox"> </li>
+                <li class="mx-2">Sualin <input type="checkbox"> </li>
+                <li class="mx-2">Pudin Hara <input type="checkbox"> </li>
+                <li class="mx-2">Nimulid-Kid <input type="checkbox"> </li>
+                <li class="mx-2">Moov Spray <input type="checkbox"> </li>
+                <li class="mx-2">Betadin-Ointment <input type="checkbox"> </li>
+            </ul>
+    </div>
+    
+    
+    
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="container-fluid" id="htmlDataDS">
+    
+        <!-- Next Page For Printing -->
+    
+        <div class="row mx-4">
+            <h2 style="text-align: center;">DOCUMENTS TO BE SUBMITTED</h2>
+            <div class="col-12">
+                <table class="table border">
+                    <thead>
+                        <tr>
+                        <th>S.No</th>
+                        <th>Particulars</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Attested Birth Certificate.</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3 passport size photographs of your ward with his/her name and blood group written
+                                at the back with a permanent marker.
+                                .</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Copy of Immunizations Card</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Transfer Certificate (if applicable)</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Single Parents: Suitable supporting documentation indicating custody of the child by
+                                the applicant to be submitted
+                                </td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Foreign national: Please attach copy of Valid Passport/Valid Visa/Residential permit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 style="text-align: center;">ACKNOWLEDGEMENT</h3>
+            <p>I/we have read the contents detailed above and agree to abide by all the instructions given. We understand that failure to submit our ward's valid documents will result in his admission being cancelled.</p>
+            
+        <br>
+        <br>
+            <div class="col-6">
+                <br>
+                <br>
+                <br>
+                <span>Father' Signature</span>
+                <br>
+                <br>
+                <span>Name_____________________</span>
+            </div>
+    
+            <div class="col-6">
+                <br>
+                <br>
+                <br>
+                <span>Mother' Signature</span>
+                <br>
+                <br>
+                <span>Name_____________________</span>
+            </div>
+    
+        </div>
+    </div>
+    
+</ng-container>

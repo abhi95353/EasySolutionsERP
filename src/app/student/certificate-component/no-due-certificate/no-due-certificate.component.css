@@ -1,0 +1,25 @@
+p{
+    font-size: 68px !important;
+    line-height: 1.9;
+    word-spacing: 5px;
+}
+.side-span span{
+    font-size: 68px;
+}
+span{
+    font-size: 48px;
+}
+h3{
+    font-size: 100px;
+}
+div{
+    font-size: 42px;
+}
+h6{
+    font-size: 68px;
+    padding: 50px 0px;
+}
+
+th,td{
+    font-size: 68px;
+}

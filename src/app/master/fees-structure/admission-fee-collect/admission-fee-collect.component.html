@@ -1,0 +1,257 @@
+<div class="row px-1" *ngIf="feesBox"> 
+    <div
+      class="col-12 my-2"
+    >
+      <div class="row">
+    
+        <div
+          class="col-12 col-lg-12 col-xl-12 tabs"
+        >
+          <div >
+            <div class="col-6">
+              <div>
+                <h5>Admission Fee</h5>
+              </div>
+            </div>
+  
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-sm" style="border: 5px double black">
+                  <tr style="background-color: wheat">
+                    <td>
+                      <span
+                        >Name:&nbsp;<b>{{
+                          studentProfiledata.student.name
+                        }}</b></span
+                      >
+                    </td>
+                    <td>
+                      <span
+                        >A/c&nbsp;No:&nbsp;<b>{{
+                          studentProfiledata.student.account
+                        }}</b></span
+                      >
+                    </td>
+                    <td [attr.colspan]="2">
+                      <span
+                        >Father&nbsp;Name:&nbsp;<b>{{
+                          studentProfiledata.parent.f_name
+                        }}</b></span
+                      >
+                    </td>
+                  </tr>
+                  <tr style="background-color: wheat">
+                    <td>
+                      <label>Amount&nbsp;</label>:
+                      <select
+                        (change)="onSelectMonth(fee_month.value)"
+                        [(ngModel)]="monthId"
+                        #fee_month
+                      >
+                        <option value="{{ dt.id }}" *ngFor="let dt of monthList">
+                          {{ dt.month }}
+                        </option>
+                      </select>
+                    </td>
+                    <td>
+                      <span
+                        >Date:&nbsp;<b>{{  today | date:"medium"}}</b></span
+                      >
+                    </td>
+                    <td [attr.colspan]="2">
+                      <span
+                        >Session:&nbsp;<b>{{
+                          studentProfiledata.student.academic_session.session
+                        }}</b></span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td [attr.colspan]="4">
+                      <table class="table table-sm">
+                        <thead>
+                          <tr>
+                            <th>Particulars</th>
+                            <th>Fee</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ng-container
+                            *ngIf="studentData.length > 0; else pay"
+                          >
+                            <ng-container *ngFor="let dt of studentData">
+                              <ng-container *ngIf="dt.id == monthId">
+                                <tr>
+                                  <td>Admission Fee</td>
+                                  <td>{{dt.admission_fee}}</td>
+                                </tr>
+                                <tr>
+                                  <td>Outstanding Balance</td>
+                                  <td>{{dt.due}}</td>
+                                </tr>
+                                <tr>
+                                  <td>Total Paid</td> 
+                                  <td>{{dt.paid}}</td>
+                                </tr>
+
+                                <tr>
+                                  <td>Less</td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      [(ngModel)]="less"
+                                      (input)="payableFunction(dt)"
+                                    />
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <b>Total Amount Fee</b>
+                                  </td>
+                                  <td>
+                                
+  
+                                    <b id="payableAmount">{{ dt.due }}</b>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Pay Amount</td>
+                                  <td> <input type="number" [(ngModel)]="payAmount"> </td>
+                                </tr>
+
+                                <tr>
+                                  <td>
+                                    <b>Auto Receipt Generated</b>
+                                  </td>
+                                  <td>
+                                    <input type="checkbox" [(ngModel)]="autoPrint" [checked]="autoPrint" />
+                                  </td>
+                                </tr>
+  
+                                <tr *ngIf="paymentType == 'cheque'">
+                                  <td>
+                                    <div class="py-1">
+                                      Date:
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                        type="date"
+                                        [(ngModel)]="cheque_date"
+                                      />
+                                    </div>
+                                    <div class="py-1">
+                                      Bank: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                        [(ngModel)]="cheque_bank"
+                                        type="text"
+                                      />
+                                      <br />
+                                    </div>
+                                    <div class="py-1">
+                                      Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                        [(ngModel)]="cheque_payer"
+                                        type="text"
+                                      />
+                                      <br />
+                                    </div>
+                                    <div class="py-1">
+                                      IFS Code:
+                                      <input
+                                        [(ngModel)]="cheque_ifs_code"
+                                        type="text"
+                                      /><br />
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="py-1">
+                                      A/C no:
+                                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                        [(ngModel)]="cheque_account_no"
+                                        type="number"
+                                      /><br />
+                                    </div>
+                                    <div class="py-1">
+                                      Cheque No:
+                                      <input
+                                        type="text"
+                                        [(ngModel)]="cheque_no"
+                                      /><br />
+                                    </div>
+                                    <div class="py-1">
+                                      Amount: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                        type="number"
+                                        [(ngModel)]="payAmount"
+                                      />
+                                    </div>
+                                  </td>
+                                </tr>
+
+                                <tr style="background-color: white">
+                                  <td [attr.colspan]="2">
+                                   
+                                    <span>
+                                      <select
+                                        class="mt-4"
+                                        class="rounded-pill"
+                                        style="padding: 8px 20px"
+                                        (change)="clickCash(clickoncash.value)"
+                                        #clickoncash
+                                      >
+                                        <option value="cash">Cash</option>
+                                        <option value="online">Online</option>
+                                        <option value="cheque">Cheque</option>
+                                      </select>
+                                    </span>
+
+                                    &nbsp;
+                                    <span
+                                    *ngIf="!submitStatus"
+                                    class="btn btn-success rounded-pill"
+                                    (click)="payButtonClick(dt.id, dt.uuid ,dt.due)"
+                                      >Collect : {{payAmount}}                                  
+                                      /-Rs
+                                  </span>
+                                  <span
+                                    *ngIf="submitStatus"
+                                    class="btn btn-secondaryrounded-pill"
+                                    >
+                                    Collect : {{payAmount}}                                  
+                                    /-Rs
+                                  </span>
+                                   
+                                  </td>
+                                </tr>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                          <ng-template #pay>
+                            <tr>
+                              <td [attr.colspan]="2">All Month Fees Paid</td>
+                            </tr>
+                          </ng-template>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #notFound>
+      <div class="row my-2 px-2">
+        <div
+          class="col-12 tabs"
+          style="position: relative; display: flex; align-items: baseline"
+        >
+          <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+          >&nbsp;&nbsp;&nbsp;
+          <h5 class="text-danger">
+            No school Selected. Please Select the school
+          </h5>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  
+ 

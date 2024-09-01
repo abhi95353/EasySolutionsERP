@@ -1,0 +1,112 @@
+.tabs{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    }
+    
+    label{
+    text-transform: uppercase;
+    }
+    .box{
+        position: fixed;
+        top: -1000px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        border-radius: 5px;
+        transition: all 0.4s;
+    }
+    .top-10{
+        top: 10px;
+    }
+    p{
+    font-size: 14px;
+    font-weight: bold;
+    }
+    table,tr,td{
+        border: 0;
+    }
+    
+    input,select,textarea {border:0;
+    outline:0;
+    border-bottom:1px solid grey ;
+    border-radius: 0px;
+    transition: all 0.3s;
+    }
+    textarea:focus, 
+    textarea.form-control:focus, 
+    input.form-control:focus, 
+    input[type=text]:focus, 
+    input[type=password]:focus, 
+    input[type=email]:focus, 
+    input[type=number]:focus, 
+    [type=text].form-control:focus, 
+    [type=password].form-control:focus, 
+    [type=email].form-control:focus, 
+    [type=tel].form-control:focus, 
+    [contenteditable].form-control:focus {
+    box-shadow: inset 0 -1px 0 #ddd;
+    border-bottom: 2px solid green;
+    }
+    
+    
+    
+    @media (max-width: 575.98px) {  
+    p{
+    font-size: 12px;
+    }
+    .tabs{
+    padding: 0px;
+    border-radius: 5px;
+    }
+    }
+    
+    @media (max-width: 767.98px) { 
+    p{
+    font-size: 12px;
+    }
+    .tabs{
+    padding: 0px;
+    border-radius: 5px;
+    }
+    .box{
+        width: 98%;
+    }
+    }
+    
+    
+    
+    
+
+    .bgs {
+        background-color: lightseagreen;
+        color:white;
+        border-color: lightseagreen;
+      }
+    
+      .tabs{
+        padding: 20px;
+        border-radius: 5px;
+        background-color: white;
+        }
+      ul li a{
+          color: black;
+      }
+      th{
+          font-weight: 500;
+      }
+      
+      tr{
+          border-left: 1px solid green;
+          border-right: 1px solid green;
+      }
+    
+      td{
+          border: 0;
+      }
+      .fa {
+          cursor: pointer;
+      }
+      /* table{
+          border-color: green;
+      } */

@@ -1,0 +1,480 @@
+
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+        <h3 style="letter-spacing: 0.9px; text-transform: uppercase;">Transfer Certificate</h3>
+    </div>
+    
+    <hr class="p-0 m-0">
+    <br> 
+
+    <div class="col-12 my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row">
+          <div class="col-12 col-lg-4 tabs">
+            <div class="row g-4">
+                <div class="col-12">
+                  <div>
+                    <h5>Search Students</h5>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div style="position: relative;">
+                  <div class="inputBox" style="display: flex;">
+                    <input
+                    type="text"
+                    (focus)="focusIn()"
+                    (focusout)="onFocusOut()"
+                    [(ngModel)]="searchText"
+                    #searchInput
+                  /> 
+                  <label>Search</label>
+                  </div>
+                    <div
+                    *ngIf="this.hintBox"
+                      style="
+                        position: absolute;
+                        margin: auto;
+                        width: 100%;
+                        height: 400px;
+                        background-color: whitesmoke;
+                        -webkit-box-shadow: 10px 10px 86px -19px rgba(0, 0, 0, 0.75);
+                        -moz-box-shadow: 10px 10px 86px -19px rgba(0, 0, 0, 0.75);
+                        box-shadow: 10px 10px 86px -19px rgba(0, 0, 0, 0.75);
+                        overflow-y: scroll;
+                        z-index: 10;
+                      " 
+                    >
+                    <div style="position: sticky;top: 0;background-color: antiquewhite;z-index: 10;">
+                      <div style="display: flex; justify-content: space-between;padding: 10px;">
+                        <p style="padding: 0;margin: 0;">Student List</p>
+                        <i class="fa fa-times" style="padding-top: 4px;" (click)="onFocusOut()"></i>
+                      </div>
+                    </div>
+                      <ng-container *ngFor="let dt of studentDataList |  filter:searchText ">
+                        <p
+                          arrow-div
+                          class="text-center hint-text p-0 m-0 py-2" style="display: block;"
+                          (click)="onChangeBox(dt.account)" id="seracr-box"
+                        >
+                       <span for="seracr-box">   {{ dt.name }} / {{ dt.account }} /
+                        {{ dt.parental.f_name }} / {{ dt.standard.class }} /</span>
+                          <span *ngIf="dt.division != null">{{
+                            dt.division.section
+                          }}</span>
+                          <span
+                            *ngIf="dt.division == null"
+                            style="font-size: 12px; color: red"
+                            >Not Assigned</span
+                          >
+                        </p>
+                        <hr class="m-0 p-0" />
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12" style="text-align: right">
+                  <i class="fa fa-spinner fa-spin fa-lg" *ngIf="this.feesSearchStatus"></i>
+                  &nbsp;
+                  <span class="btn btn-sm btn-success" (click)="searchByAdmission()"
+                    >Show Fee Details</span
+                  >
+                </div>
+              </div>
+        </div>
+        <div class="col-12 col-lg-8 tabs" style="border-left: 4px solid whitesmoke;">
+          <div class="col-12">
+            <div>
+              <h5 class="mb-4">Form Data</h5>
+            </div>
+          </div>
+          <form [formGroup]="tcForm" (ngSubmit)="submit()" ngNativeValidate >
+          <div class="row g-4">
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="affiliation_no"
+                required
+              /> 
+              <label>Affiliation No</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="school_code"
+                required
+              /> 
+              <label>School Code</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="book_no"
+                required
+              /> 
+              <label>Book Number</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="admission_no"
+                required
+              /> 
+              <label>Admission No</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="sl_no"
+                required
+              /> 
+              <label>Sl No</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="srn"
+                required
+              /> 
+              <label>SRN</label>
+              </div>
+            </div>    
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="name"
+                required
+              /> 
+              <label>Name</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="m_name"
+                required
+              /> 
+              <label>Mother Name</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="f_name"
+                required
+              /> 
+              <label>Father Name</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="dob"
+                required
+              /> 
+              <label>DOB</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="dobInWord"
+                required
+              /> 
+              <label>DOB In Word</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="dobProof"
+                required
+              /> 
+              <label>DOB Proof</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="nationality"
+                required
+              /> 
+              <label>Nationality</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="admission_date"
+                required
+              /> 
+              <label>Admission Date</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="admissionClass"
+                required
+              /> 
+              <label>Admission Class</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="class"
+                required
+              /> 
+              <label>Class</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="board"
+                required
+              /> 
+              <label>Board</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="isFailed"
+                required
+              /> 
+              <label>is Failed</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="subject1"
+                required
+              /> 
+              <label>Subject1</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="subject2"
+                required
+              /> 
+              <label>Subject2</label>
+              </div>
+            </div> 
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="subject3"
+                required
+              /> 
+              <label>Subject3</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="subject4"
+                required
+              /> 
+              <label>Subject4</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="subject5"
+                required
+              /> 
+              <label>Subject5</label>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="subject6"
+                required
+              /> 
+              <label>Subject6</label>
+              </div>
+            </div>
+
+
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="isPromoted"
+                required
+              /> 
+              <label>is Promoted</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="acTotalWorkDay"
+                required
+              /> 
+              <label>Working days in the academic session</label>
+              </div>
+            </div>
+
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="acTotalPresent"
+                required
+              /> 
+              <label>presence in the academic session</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="duePaidMonth"
+                required
+              /> 
+              <label>Due paid upto month</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="datedAt"
+                required
+              /> 
+              <label>Dated At</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="offDatedAt"
+                required
+              /> 
+              <label>off Dated At</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="issuedAt"
+                required
+              /> 
+              <label>Issued At</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="receivedAt"
+                required
+              /> 
+              <label>Received At</label>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="inputBox" style="display: flex;">
+                <input
+                type="text"
+                formControlName="remark"
+                required
+              /> 
+              <label>Remark</label>
+              </div>
+            </div>
+
+
+            <input type="submit" value="Submit" class="btn btn-sm btn-success" value="Download PDF">
+
+          </div>
+
+          </form>
+        </div>
+        </div>
+    
+    </div>
+
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+ 
+</div>
+
+ 

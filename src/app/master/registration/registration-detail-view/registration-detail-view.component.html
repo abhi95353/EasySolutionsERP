@@ -1,0 +1,142 @@
+<div
+  *ngIf="regBoxStatus"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  "
+></div>
+
+<!-- Add Box -->
+<div class="box" [ngClass]="this.regBoxStatus ? 'top-10' : ''">
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4
+        class="px-3"
+        style="letter-spacing: 0.9px; text-transform: uppercase"
+        *ngIf="regBoxStatus"
+      >
+        {{ studentData.name }}
+        <!-- &nbsp;&nbsp; <i class="fa fa-download" style="font-size: 16px; cursor: pointer;" (click)="openPDF()">Download</i> -->
+      </h4>
+      <span class="btn btn-sm rounded-pill" (click)="onClickRegBox(false)"
+        ><i class="fa fa-times"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <div style="display: flex; justify-content: space-between" class="px-4">
+      <table class="table table-striped" *ngIf="regBoxStatus" id="htmlData">
+        <thead>
+          <tr>
+            <th scope="col">Keys</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Student Name</td>
+            <td>{{ studentData.name }}</td>
+          </tr>
+          <tr>
+            <td>DOB</td>
+            <td>{{ studentData.dob }}</td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td>{{ studentData.gender }}</td>
+          </tr>
+          <tr>
+            <td>Student Mobile Number</td>
+            <td>{{ studentData.mobile_no }}</td>
+          </tr>
+          <tr>
+            <td>Student Email-ID</td>
+            <td>{{ studentData.email_id }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ studentData.location }}</td>
+          </tr>
+          <tr>
+            <td>Pincode</td>
+            <td>{{ studentData.pincode }}</td>
+          </tr>
+          <tr>
+            <td>City & State</td>
+            <td>{{ studentData.city.city }} & {{studentData.state.state}}</td>
+          </tr>
+          <tr>
+            <td>Category</td>
+            <td>{{ studentData.category }}</td>
+          </tr>
+          <tr>
+            <td>Aadhar Number</td>
+            <td>{{ studentData.aadhar_no }}</td>
+          </tr>
+          <tr>
+            <td>Apply For (Class)</td>
+            <td>{{ studentData.app.class }}</td>
+          </tr>
+          <tr>
+            <td>Apply For (Current Class)</td>
+            <td>{{ studentData.pre.class }}</td>
+          </tr>
+          <tr>
+            <td>Academic Session </td>
+            <td>{{ studentData.academic_session.session }}</td>
+          </tr>
+
+          <tr>
+            <td>Father Name</td>
+            <td>{{ studentData.f_name }}</td>
+          </tr>
+          <tr>
+            <td>Father Occupation</td>
+            <td>{{ studentData.f_occupation }}</td>
+          </tr>
+          <tr>
+            <td>Father Mobile Number</td>
+            <td>{{ studentData.f_mobile_no }}</td>
+          </tr>
+          <tr>
+            <td>Father Email-Id</td>
+            <td>{{ studentData.f_email }}</td>
+          </tr>
+          <tr>
+            <td>Mother Name</td>
+            <td>{{ studentData.m_name }}</td>
+          </tr>
+          <tr>
+            <td>Mother Occupation</td>
+            <td>{{ studentData.m_occupation }}</td>
+          </tr>
+          <tr>
+            <td>Mother Mobile Number</td>
+            <td>{{ studentData.m_mobile_no }}</td>
+          </tr>
+          <tr>
+            <td>Mother Email-Id</td>
+            <td>{{ studentData.m_email }}</td>
+          </tr>
+          <tr *ngFor="let dt of studentData.doc">
+            <td>{{ dt.imageName }}</td>
+            <td>
+              <a
+                href="https://{{ studentData.base_url }}{{studentData.url}}{{ dt.imageName }}"
+                target="_blank"
+                ><img
+                  src="https://{{ studentData.base_url }}{{studentData.url}}{{ dt.imageName }}"
+                  alt="image"
+                  style="width: 120px"
+              /></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

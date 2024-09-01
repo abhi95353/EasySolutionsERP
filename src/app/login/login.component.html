@@ -1,0 +1,71 @@
+
+    <!-- Email -->
+    <div class="container" style="overflow: hidden;">
+        <div class="left_e" id="email">
+            <div class="top-content">
+                <img src="assets/image/logo/logo_easy.jpeg" *ngIf="!this.deployOnNps">
+                <img src="assets/image/logo/logo.png" *ngIf="this.deployOnNps">
+                <h2>Sign in</h2>
+                <p class="heading" *ngIf="!deployOnAdmin">to continue to Admin Panel
+                 </p>
+                 <p class="heading" *ngIf="deployOnAdmin && school_code_status">Hi! ({{schoolCodeDetails.data.contact_person}})
+                  <br> {{schoolCodeDetails.data.name}}
+                </p>
+            
+              </div> 
+              <form [formGroup]="loginForm" (ngSubmit)="loginUsername()" ngNativeValidate>
+                <div class="inputs" *ngIf="!school_code_status && deployOnAdmin">
+                  <input type="text"  id="text" class="input" name="school_code" formControlName="school_code" required (change)="showSubHost(subHost.value)" #subHost>
+                  <label for="text"  class="input-label">School Code</label>
+                </div>
+                <div class="inputs" *ngIf="school_code_status || !deployOnAdmin">
+                  <input type="text"  id="text" class="input" name="username" formControlName="username" required>
+                  <label for="text"  class="input-label">Username</label>
+                </div>
+                <a href="" class="link-btn">Forgot Username?</a>
+              <p class="color">If you feel any problem and error pop just click on reset</p>
+              <div class="btn-group mt-5">
+                <button class="create-btn">Reset</button>
+                <button class="next-btn" *ngIf="school_code_status || !deployOnAdmin">Next</button>
+              </div>
+              </form>
+              
+              
+        </div>
+
+
+     <!-- Password  -->
+
+        <div class="left470" id="password">
+
+        
+            <div class="top-content">
+              <img src="assets/image/logo/logo_easy.jpeg" *ngIf="!this.deployOnNps">
+                <img src="assets/image/logo/logo.png" *ngIf="this.deployOnNps">
+              <h2>Welcome</h2>
+              <p class="heading"><span class="password_email" style="font-weight: bold;"><i class="fa fa-user-circle-o fa-lg"></i>&nbsp;&nbsp;{{this.loginForm.value.username}}&nbsp;&nbsp;</span></p>    
+            </div>
+            <div style="margin: 38px 0px;">
+              <p style="font-size: 14px;">To continue, first verify that it's you</p>
+            </div>
+            <form [formGroup]="loginForm" (ngSubmit)="submit()" ngNativeValidate>
+              <div class="inputs">
+                <input type="password" name="" id="password" name="password" formControlName="password"  class="input" required>
+                <label for="password" class="input-label">Enter your password</label>
+            
+              </div>
+              <div style="display: flex; justify-content: baseline;margin-bottom:60px; padding-top: 10px;">
+                  <input type="checkbox" style="width: 20px; height: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Show password</span>
+              </div>
+          
+              <div class="btn-group">
+                <span class="create-btn" (click)="back()">Back</span>
+                <button class="next-btn" >Next</button>
+            
+              </div>
+            </form>
+    
+        </div>
+      
+      </div>
+

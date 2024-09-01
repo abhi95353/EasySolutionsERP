@@ -1,0 +1,195 @@
+<div class="row">
+    <div class="col-10">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Student List</h3>
+    </div>
+    
+    <hr class="p-0 m-0">
+
+    <br>
+
+    <div class="col-12 tabs my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+       <div class="row">
+        <div class="col-12 col-lg-3">
+            <div class="inputBox" >
+                <select class="form-control"  required [(ngModel)]="classId" (change)="onSelectClass(classDt.value)" #classDt>
+                <option value="">Select Class</option>
+                    <option *ngFor="let data of classList" value="{{data.id}}">{{data.class}}</option>
+                </select>
+                <label>Class</label>
+            </div> 
+        </div>
+ 
+        <div class="col-12 col-lg-3">
+            <div class="inputBox">
+                <select [(ngModel)]="sectionId">
+                    <option value="">Select Section</option>  
+                    <ng-container *ngFor="let data of sectionList">
+                    <option *ngFor="let item of data.divisions" [value]="item.pivot.id">{{item.notation}} ({{item.section}})</option>
+                    </ng-container>
+                </select>
+                <label>Section List</label>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3">
+            <div class="inputBox">
+                <select [(ngModel)]="staffId">
+                    <option value="">Select Teacher</option>
+                        <option *ngFor="let item of staffData.data" [value]="item.id">{{item.name}} / {{item.account}} </option>
+                </select>
+                <label >Attandance By</label>
+            </div>
+        </div> 
+
+        <div class="col-12 col-lg-3">
+            <div class="inputBox">
+                <input type="date" [(ngModel)]="todaydate">
+                <label >Date</label>
+            </div>
+        </div> 
+
+        <div class="col-12 my-4">
+            <span class="btn btn-sm btn-success" (click)="onClickFileter()">Apply Filter</span>
+        </div>
+       </div> 
+    </div> 
+
+    <div class="col-12 my-2 tabs" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row px-1">
+            <div class="col-12 col-lg-6 mt-1flex">
+                <button class="btn btn-sm btn-danger" (click)="markAllLeave()">Mark As Holiday</button>
+                &nbsp;
+                <button class="btn btn-sm btn-warning" (click)="markAllPresent()">Mark As Present</button>
+                &nbsp; 
+                <button class="btn btn-sm btn-success" (click)="updateAttendance()">Save Attendance</button> &nbsp;
+                <ng-container *ngIf="studentList != null">
+                    <button class="fa fa-print btn btn-info btn-lg" printSectionId="print-section-cash-receipt" 
+                [useExistingCss]="true"
+                 printTitle="Student-Attendance - {{studentList.division_standard.standard.notation}} ({{studentList.division_standard.division.notation}}) , Date - {{studentList.date}}" 
+                 [printStyle]="{'.note' : {'display': 'none'} , td : {'font-size' : '14px'}}" 
+                 ngxPrint>print</button
+                    >&nbsp;
+                </ng-container>
+
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled"
+                    [(ngModel)]="is_sms_send" [checked]="is_sms_send">
+                    <label class="form-check-label" for="flexCheckDisabled">
+                      Attandance SMS Send
+                    </label>
+                </div>
+                
+            </div> 
+            <div class="col-12 col-lg-6">
+                <div style="display: flex; justify-content: end">
+                  <input
+                    type="search"
+                    class="form-control"
+                    placeholder="Ex: Name, Code"
+                    title="Ex: Name, Code"
+                    [(ngModel)]="searchText"
+                    #searchInput
+                  />
+                  <i
+                    class="fa fa-search fa-lg"
+                    style="
+                      background-color: lightseagreen;
+                      color: white;
+                      padding: 0px 10px;
+                      margin-left: -10px;
+                      border-radius: 5px;
+                      padding-top: 12px;
+                    "
+                  ></i>
+                </div>
+              </div>
+        </div>
+        <div class="table-responsive mx-1 my-4"    style="
+        width: 100%;
+        background-color: white;
+        height: 100%;
+        overflow-y: scroll;
+        z-index: 11;
+      "
+      
+      id="print-section-cash-receipt">
+            <table class="table table-sm  table-hover table-bordered">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Account&nbsp;No</th>
+                        <th scope="col">Student&nbsp;Name</th>
+                        <th scope="col">Father&nbsp;Name</th>
+                        <th scope="col">Roll&nbsp;No</th>
+                        <th scope="col">Attandace</th>
+                        <th scope="col" class="note">Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+          <ng-container *ngIf="this.studentList != null ; else loading">
+
+                   <ng-container *ngIf="this.studentList.student_attendances.length != 0  ; else nodatafound">
+                    <tr *ngFor="let data of studentList.student_attendances | filter:searchText;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.student.account}}</td>
+                        <td>{{data.student.name}}</td>
+                        <td>{{data.student.f_name}}</td>
+                        <td>{{data.student.roll_no}}</td>
+                        <td>
+                           <div style="display:flex;justify-content: space-evenly; align-items: center;">
+                            <input type="radio" name="a{{i}}" id="a{{i}}" [checked]="data.is_absent" (change)="updateAttandence(data.id , $event ,'abs')"#a> <label for="a{{i}}">Absent</label>
+                            <input type="radio" name="a{{i}}" id="p{{i}}" [checked]="data.is_present" (change)="updateAttandence(data.id ,$event ,'prnt')"#p><label for="p{{i}}">Present</label>
+                            <input type="radio" name="a{{i}}" id="h{{i}}" [checked]="data.is_halfday" (change)="updateAttandence(data.id ,$event, 'hlfdy' )"#h><label for="h{{i}}">Halfday</label>
+                            <input type="radio" name="a{{i}}" id="l{{i}}" [checked]="data.is_late" (change)="updateAttandence(data.id , $event , 'lt')"#l><label for="l{{i}}">Late</label>
+                            <input type="radio" name="a{{i}}" id="le{{i}}" [checked]="data.is_leave" (change)="updateAttandence(data.id , $event ,'lv' )"#lv><label for="le{{i}}">Leave</label>
+                            <input type="radio" name="a{{i}}" id="hd{{i}}" [checked]="data.is_holiday" (change)="updateAttandence(data.id , $event ,'hd' )"#hd><label for="hd{{i}}">Holiday</label>
+                           </div>
+                           
+                        </td>
+                        <td class="note"><input type="text"(change)="updateAttandence(data.id , remark.value , 'rmk')" value="{{data.remark}}" #remark></td>
+                    </tr>
+
+                    <!-- <form [formGroup]="attendanceForm">
+                        <ng-container formArrayName="student_attendances">
+
+                            <ng-container *ngFor="let data of student_attendances.controls; let i = index" [formGroupName]="i">
+                                <td>{{i+1}}</td>
+                                <td>{{data}}</td>
+                                <td>{{data.value.name}}</td>
+                                <td>{{data.value.date}}</td>
+                            </ng-container>
+                        </ng-container>
+                    </form> -->
+                   </ng-container>
+                   <ng-template #nodatafound>
+                       <tr>
+                           <td [colSpan]="13" style="text-align: center;"> 
+                               <span class="text-danger">No Data Found</span>
+                           </td>
+                       </tr>
+                   </ng-template>
+                   </ng-container>
+                   <ng-template #loading>
+                    <tr>
+                        <td [colSpan]="13" style="text-align: center;"> 
+                            <span class="text-success">No Data Avaiable</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                   
+                </tbody> 
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+</div>

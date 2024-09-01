@@ -1,0 +1,173 @@
+<div class="row">
+    <div class="col-10">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Student List</h3>
+    </div>
+    
+    <hr class="p-0 m-0">
+
+    <br>
+
+    <div class="col-12 tabs my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+       <div class="row">
+        <div class="col-12 col-lg-4">
+            <div class="inputBox">
+                <select [(ngModel)]="session">
+                    <option value="all">All</option>
+                    <option value="new">New Student (Current Session)</option>
+                    <option value="old">Old Student</option>
+                </select>
+                <label >Session</label>
+            </div>
+        </div> 
+
+        <div class="col-12 col-lg-4">
+            <div class="inputBox" >
+                <select class="form-control"  required [(ngModel)]="classId" (change)="onSelectClass(classDt.value)" #classDt>
+                <option value="all">All</option>
+                    <option *ngFor="let data of classList" value="{{data.id}}">{{data.class}}</option>
+                </select>
+                <label>Class</label>
+            </div> 
+        </div>
+ 
+        <div class="col-12 col-lg-4">
+            <div class="inputBox">
+                <select [(ngModel)]="sectionId">
+                    <option value="all">All</option>  
+                    <ng-container *ngFor="let data of sectionList">
+                    <option *ngFor="let item of data.divisions" [value]="item.pivot.id">{{item.section}}</option>
+                    </ng-container>
+                </select>
+                <label>Section List</label>
+            </div>
+        </div>
+
+        <div class="col-12 my-4">
+            <span class="btn btn-sm btn-success" (click)="onClickFileter()">Apply Filter</span>
+        </div>
+       </div> 
+    </div> 
+
+    <div class="col-12 my-2 tabs" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row px-1">
+            <div class="col-4 col-lg-4">
+                <button class="btn btn-sm btn-warning" (click)="downloadCSV()">
+                    Excel</button
+                  >
+                &nbsp; 
+            </div> 
+            <div class="col-12 col-lg-8">
+                <div style="display: flex; justify-content: end">
+                  <!-- <select [(ngModel)]="searchType" (change)="onChangingSearchBy()">
+                    <option value="full">Word to word Search</option>
+                    <option value="partial">Partial Search</option>
+                  </select>&nbsp;
+                  <select [(ngModel)]="search_by" (change)="onChangingSearchBy()">
+                    <option value="account">Account&nbsp;No</option>
+                    <option value="stud_name">Student&nbsp;Name</option>
+                    <option value="f_name">Father&nbsp;Name</option>
+                    <option value="mobile_no">
+                      Student&nbsp;Mobile&nbsp;No
+                    </option></select
+                  >&nbsp;&nbsp; -->
+                  <input
+                    type="search"
+                    class="form-control"
+                    placeholder="Ex: Name, Code"
+                    title="Ex: Name, Code"
+                    [(ngModel)]="searchText"
+                    #searchInput
+                  />
+                  <i
+                    class="fa fa-search fa-lg"
+                    style="
+                      background-color: lightseagreen;
+                      color: white;
+                      padding: 0px 10px;
+                      margin-left: -10px;
+                      border-radius: 5px;
+                      padding-top: 12px;
+                    "
+                    (click)="search(searchInput.value)"
+                  ></i>
+                </div>
+              </div>
+        </div>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-sm  table-hover table-bordered" >
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Account&nbsp;No</th>
+                        <th scope="col">Admission&nbsp;No</th>
+                        <th scope="col">Student&nbsp;Name</th>
+                        <th scope="col">Father&nbsp;Name</th>
+                        <th scope="col">Mother&nbsp;Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">DOB</th>
+                        <th scope="col">Sibling</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Login&nbsp;Mobile&nbsp;No</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+          <ng-container *ngIf="this.studentList != null ; else loading">
+
+                   <ng-container *ngIf="this.studentList.length != 0  ; else nodatafound">
+                    <tr *ngFor="let data of studentList | filter:searchText;let i = index">
+                        <td (click)="showDetails(data)" style="cursor: pointer;">{{i+1}}</td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;">{{data.account}}</td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;">{{data.admission_no}}</td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;">{{data.name}}</td> 
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.f_name}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.m_name}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.gender}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.dob}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.child_count}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.class}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.DIV}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.location}}</span></td>
+                        <td (click)="showDetails(data)" style="cursor: pointer;"><span >{{data.cred}}</span></td>
+                        <td> 
+                            <i class="fa fa-eye text-danger" (click)="showDetails(data)"></i>&nbsp;&nbsp;
+                            <i class="fa fa-download" (click)="idCard(data.id , data.uuid,data.name,data.class)"></i>
+                        </td>
+                    </tr>
+                   </ng-container>
+                   <ng-template #nodatafound>
+                       <tr>
+                           <td [colSpan]="13" style="text-align: center;"> 
+                               <span class="text-danger">No Data Found</span>
+                           </td>
+                       </tr>
+                   </ng-template>
+                   </ng-container>
+                   <ng-template #loading>
+                    <tr>
+                        <td [colSpan]="13" style="text-align: center;"> 
+                            <span class="text-success">Loading....</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                   
+                </tbody> 
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<app-admission-details-list></app-admission-details-list> 

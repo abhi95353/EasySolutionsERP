@@ -1,0 +1,63 @@
+<div
+  style="
+    position: fixed;
+    width: 35%;
+    height: 100%;
+    background-color: white;
+    top: 0;
+    padding: 8px 12px;
+    right: 0;
+    overflow-y: scroll;
+    -webkit-box-shadow: -25px -1px 44px -30px rgba(0,0,0,0.75);
+-moz-box-shadow: -25px -1px 44px -30px rgba(0,0,0,0.75);
+box-shadow: -25px -1px 44px -30px rgba(0,0,0,0.75);
+  "
+*ngIf="openNotification"
+>
+  <div>
+    <div >
+        <span (click)="onCLickIcon(false)" class="fa fa-times"></span>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Payment&nbsp;ID</th>
+          <th>Student&nbsp;Details</th>
+          <th>Payment&nbsp;Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="!loadingBox;else loadingTem">
+          <ng-container *ngFor="let dt of paymentList;let i  = index  ">
+            <tr>
+              <td>{{i+1}}</td>
+              <td><b>{{dt.razorpay_payment_id}}</b></td>
+              <td>Name: {{dt.student.name}} <br> Class: {{dt.student.standard.notation}} <br> Account: <b>{{dt.student.account}}</b></td>
+              <td>Date: {{dt.date}} <br> Time: {{dt.time}} <br> Status: <b>{{dt.online_payment_status.status}}</b></td>
+            </tr>
+            <tr style="text-align: center;" *ngIf="dt.online_payment_status.id == 1">
+                <td [colSpan]="2">
+                    <span class="btn btn-sm btn-success w-100" (click)="verifyPayment(dt.reference_id,dt.razorpay_payment_link_id)" >Verify</span> <br />
+                  </td>
+                  <td>
+                    <span class="btn btn-sm btn-danger w-100" (click)="cancelPayment(dt.razorpay_payment_link_id)" >Cancel</span> <br />
+                  </td>
+                  <td>
+                    <span class="btn btn-sm btn-warning w-100" (click)="resendPayment(dt.razorpay_payment_link_id)">Re&nbsp;-&nbsp;send</span>
+                  </td>
+            </tr>
+            <tr><td [colSpan]="3"><hr></td></tr>
+           </ng-container>
+        </ng-container> 
+        <ng-template #loadingTem>
+          <tr>
+            <td [colSpan]="3"><div style="text-align:center;">
+              <i   class="fas fa-spinner fa-pulse text-success fa-lg"></i>
+            </div></td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.bgs {
+    background-color: lightseagreen;
+    color:white;
+    border-color: lightseagreen;
+  }
+
+  ul li a{
+      color: black;
+  }
+  
+  th,td{
+      border: 1px solid grey;
+  }
+  th{ 
+    font-weight: 500;
+}

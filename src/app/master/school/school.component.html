@@ -1,0 +1,405 @@
+<app-side-header></app-side-header>
+<div class="row px-1" style="z-index: -1">
+  <div class="col-8 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      {{ this.action }} New School
+    </h3>
+  </div>
+  <div class="col-4 col-lg-2" style="text-align: right">
+    <span
+      class="mt-sm-0 mt-lg-1 btn btn-success btn-sm rounded-pill"
+      [routerLink]="['/school-list']"
+      >View List&nbsp;<i class="fa fa-eye"></i
+    ></span>
+  </div> 
+  <hr class="p-0 m-0" />
+  <br />
+
+  <div class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1">
+    <div class="row my-2 g-4 tabs">
+      <div class="col-12">
+        <mat-tab-group [backgroundColor]="backgroundColor" dynamicHeight>
+          <mat-tab label="Basic">
+            <form [formGroup]="basic" (ngSubmit)="submit()" ngNativeValidate >
+              <div class="row my-2 g-4 px-1">
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <div>
+                    <label>School Code <sup class="text-danger">*</sup></label>
+
+                    <input
+                      type="text"
+                      class="form-control"
+                      required
+                      formControlName="code"
+                      value=""
+                      placeholder="School Name"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="col-12 col-lg-6 col-xl-6"
+                  style="position: relative"
+                >
+                  <label>School Name</label><sup class="text-danger">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="School Name"
+                    title="School Name"
+                    required
+                    pattern="[a-zA-Z._'\s]+"
+                    formControlName="name"
+                  />
+                  <div
+                    *ngIf="
+                      basic.controls['name'].invalid &&
+                      (basic.controls['name'].dirty ||
+                        basic.controls['name'].touched)
+                    "
+                    class="text-danger p-0 m-0"
+                    style="font-size: 12px; position: absolute"
+                  >
+                    Hint: Only Alphabets And '_. Accepted
+                  </div>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Contact Number</label><sup class="text-danger">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Contact Number"
+                    title="Contact Number"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    minlength="10"
+                    required
+                    formControlName="contact_no"
+                  />
+                  <div
+                    *ngIf="
+                      basic.controls['contact_no'].invalid &&
+                      (basic.controls['contact_no'].dirty ||
+                        basic.controls['contact_no'].touched)
+                    "
+                    class="text-danger p-0 m-0"
+                    style="font-size: 12px; position: absolute"
+                  >
+                    Hint: Only 10 Digits. Don't Add Prefix +91 Or 0
+                  </div>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Email Id</label><sup class="text-danger">*</sup>
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Email ID"
+                    title="Email ID"
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    formControlName="contact_mail"
+                  />
+                  <div
+                    *ngIf="
+                      basic.controls['contact_mail'].invalid &&
+                      (basic.controls['contact_mail'].dirty ||
+                        basic.controls['contact_mail'].touched)
+                    "
+                    class="text-danger p-0 m-0"
+                    style="font-size: 12px; position: absolute"
+                  >
+                    Hint: Invailid E-Mail ID
+                  </div>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Affiliation</label><sup class="text-danger">*</sup>
+                  <select
+                    class="form-control"
+                    formControlName="affiliation"
+                    required
+                  >
+                    <option value="CBSE">CBSE</option>
+                    <option value="ICSE">ICSE</option>
+                    <option value="STATE BOARD">State Board</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Affiliation Number</label
+                  ><sup class="text-danger">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Affiliation Number"
+                    required
+                    formControlName="affiliation_no"
+                  />
+                </div>
+             
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Website Link</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Website Link"
+                    title="Website Link"
+                    formControlName="website"
+                  />
+                </div>
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Contact Person</label><sup class="text-danger">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Contact Person"
+                    title="Contact Person"
+                    formControlName="contact_person"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      basic.controls['contact_person'].invalid &&
+                      (basic.controls['contact_person'].dirty ||
+                        basic.controls['contact_person'].touched)
+                    "
+                    class="text-danger p-0 m-0"
+                    style="font-size: 12px; position: absolute"
+                  >
+                    Only Alphabets Accepted
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Designation</label><sup class="text-danger">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Designation"
+                    title="Designation"
+                    formControlName="designation"
+                    required
+                  />
+                </div>
+                <div class="col-8 col-lg-8 col-xl-8">
+                  <label>Address</label><sup class="text-danger">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Address"
+                    title="Address"
+                    required
+                    formControlName="location"
+                  />
+                </div>
+
+                <div class="col-4 col-lg-4 col-xl-4">
+                  <label>Pincode</label><sup class="text-danger">*</sup>
+                  <input
+                    type="number"
+                    class="form-control"
+                    placeholder="Pincode"
+                    title="Pincode"
+                    required
+                    maxlength="6"
+                    pattern="[0-9]{6,6}"
+                    formControlName="pincode"
+                  />
+                </div> 
+                <div class="col-12 col-lg-4 col-xl-4">
+                  <label>State</label>
+                  <select formControlName="state_id"
+                  (change)="showCity(state.value)"
+                  class="form-control"
+                  #state>
+                    <option *ngFor="let item of stateList" [value]="item.id">{{item.state}}</option>
+                  </select>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4">
+                  <label>City</label>
+                  <select 
+                  class="form-control" 
+                  placeholder="City"
+                  title="City"
+                  formControlName="city_id"
+                  required
+                  >
+                    <option value="">Select City</option>
+                    <option *ngFor="let item of cityList" [value]="item.id">{{item.city}}</option>
+                  </select>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4">
+                  <label>Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Country"
+                    title="Country"
+                    readonly
+                    value="India"
+                  />
+                </div>
+
+                <div class="col-12 mb-4">
+                  <button
+                    type="submit"
+                    class="btn btn-md btn-success rounded-pill"
+                    [disabled]="submitStatus"
+                  >
+                    Submit</button
+                  >&nbsp;<i
+                    class="fas fa-spinner fa-pulse text-success fa-lg"
+                    *ngIf="submitStatus"
+                  ></i>
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Logo">
+            <div class="row my-2 g-4 px-1">
+              <div class="col-12 col-lg-4 col-xl-4">
+                <label>School Name:</label>
+                <select class="form-control" [(ngModel)]="this.school_code">
+                  <option value="">Select School</option>
+                  <option
+                    *ngFor="let data of schoolData"
+                    value="{{ data.code }}"
+                  >
+                    ({{ data.code }}){{ data.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="row my-2 g-4">
+              <div class="col-12 col-lg-4 col-xl-4" style="text-align: center">
+                <i
+                  class="fas fa-user p-2"
+                  style="font-size: 120px; border: 1px solid grey"
+                  *ngIf="this.image == undefined"
+                ></i>
+                <img
+                  [src]="image"
+                  style="width: 120px; height: 120px"
+                  *ngIf="this.image != undefined"
+                /><br />
+                <label>Logo</label><br />
+                <input
+                  type="file"
+                  class="form-control"
+                  (change)="onFileChange($event)"
+                  accept="image/*"
+                />
+              </div>
+
+              <div class="col-12 mb-4">
+                <input
+                  (click)="logo_submit()"
+                  class="btn btn-md btn-success rounded-pill"
+                  [disabled]="submitStatus"
+                  value="Submit"
+                />&nbsp;<i
+                  class="fas fa-spinner fa-pulse text-success fa-lg"
+                  *ngIf="submitStatus"
+                ></i>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Security">
+            <div class="row my-2 g-4">
+              <div class="col-12 col-lg-4 col-xl-4">
+                <label>School Name:</label>
+                <select class="form-control" [(ngModel)]="this.school_code">
+                  <option value="">Select School</option>
+                  <option
+                    *ngFor="let data of schoolData"
+                    value="{{ data.sub_host }}"
+                  >
+                    ({{ data.code }}){{ data.name }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-12 mb-4">
+                <span
+                  class="btn btn-md btn-success rounded-pill"
+                  (click)="resetPassword()"
+                  >Reset Password</span
+                >
+                &nbsp;&nbsp;<i
+                  class="fas fa-spinner fa-pulse text-success fa-lg"
+                  *ngIf="submitStatus"
+                ></i>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="External Configuration">
+
+              <div class="row my-2 g-4">
+
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>School Name:</label>
+                  <select class="form-control" [(ngModel)]="this.school_code" (change)="getExternal()">
+                    <option value="">Select School</option>
+                    <option
+                      *ngFor="let data of schoolData"
+                      value="{{ data.sub_host }}"
+                    >
+                      ({{ data.code }}) {{ data.name }}
+                    </option>
+                  </select>
+                </div>
+                </div>
+            <form [formGroup]="settingForm" (ngSubmit)="submitSchoolSetting(settingForm.value)">
+              
+              <div class="row mt-3">
+
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Registration Fee</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Registration Fee"
+                    title="Registration Fee"
+                    formControlName = 'registration_fee'
+                  />
+                </div>
+              <div class="row mt-3">
+                
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Receipt&nbsp;Count</label> <sup class="text-danger fa-lg">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Receipt Count"
+                    title="Receipt Count"
+                    formControlName = 'receipt_count'
+
+                  />
+                </div>
+                </div>
+              <div class="row mt-3">
+
+                <div class="col-12 col-lg-6 col-xl-6">
+                  <label>Admission&nbsp;No&nbsp;Count</label><sup class="text-danger fa-lg">*</sup>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Admission No Count"
+                    title="Admission No Count"
+                    formControlName = 'admission_count'
+                  />
+                </div>
+                </div>
+                <div class="col-12 my-4">
+                  <input type="submit" class="btn btn-md btn-success rounded-pill" value="Submit"> &nbsp;&nbsp;<i
+                  class="fas fa-spinner fa-pulse text-success fa-lg"
+                  *ngIf="submitStatus"
+                ></i>
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+        </mat-tab-group>
+      </div> 
+    </div>
+  </div>
+</div>

@@ -1,0 +1,215 @@
+<div class="row">
+    <div class="col-12">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Mis Report</h3>
+    </div>
+    <hr class="p-0 m-0">
+
+    <br>
+
+
+    <div class="col-12 my-2 py-4 " style="background-color: white;" id="print-section-cash-receipt">
+       <div style="display: flex; justify-content: space-between;">
+        <h5>Attandance</h5>
+        <button class="fa fa-print btn btn-info my-2 mx-2" printSectionId="print-section-cash-receipt" [useExistingCss]="true" printTitle="MIS Report"  ngxPrint>print</button
+            >
+       </div>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-striped table-hover table-bordered border-success" id="htmlData">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Standard/Division</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Marked</th>
+                        <th scope="col">Present</th>
+                        <th scope="col">Halfday</th>
+                        <th scope="col">Late</th>
+                        <th scope="col">Holiday</th>
+                        <th scope="col">Leave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of misList.attendance_report;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.Date}}</td>
+                        <td>{{data.standard}} / {{data.division}}</td>
+                        <td>{{data.total}}</td>
+                        <td>
+                            <span *ngIf="data.marked == 1">YES</span>
+                            <span *ngIf="data.marked == 0">NO</span>
+                        </td>
+                        <ng-container *ngIf="data.marked == 1;else noData">
+                            <td>{{data.present}}</td>
+                            <td>{{data.halfday}}</td>
+                            <td>{{data.late}}</td>
+                            <td>{{data.holiday}}</td>
+                            <td>{{data.leave}}</td>
+                        </ng-container>
+                        <ng-template #noData>
+                            <td [attr.colspan]="5">Attendance Not Marked</td>
+                        </ng-template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <h5>Taday Birthday</h5>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-striped table-hover table-bordered border-success" id="htmlData">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Father name</th>
+                        <th scope="col">Mother Name</th>
+                        <th scope="col">Mobile No</th>
+                        <th scope="col">Standard / Division</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of misList.today_birthday['birthday_list'];let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.f_name}}</td>
+                        <td>{{data.m_name}}</td>
+                        <td>{{data.mobile_no}}</td>
+                        <td>{{data.standard.notation}} / {{data.division.notation}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <h5>Today Collection Summary</h5>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-striped table-hover table-bordered border-success" id="htmlData">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Online</th>
+                        <th scope="col">Cash</th>
+                        <th scope="col">Cheque</th>
+                        <th scope="col">DD</th>
+                        <th scope="col">RTGS</th>
+                        <th scope="col">NEFT</th>
+                        <th scope="col">IMPS</th>
+                        <th scope="col">UPI</th>
+                        <th scope="col">Grand Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[0].Online.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[0].Online.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[1].Cash.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[1].Cash.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[2].Cheque.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[2].Cheque.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[3].DD.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[3].DD.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[4].RTGS.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[4].RTGS.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[5].NEFT.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[5].NEFT.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[6].IMPS.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[6].IMPS.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[7].UPI.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[7].UPI.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.today_collection_summary[8].grand_total.receipt_count}} <br>
+                            Total Collection: {{misList.today_collection_summary[8].grand_total.total_collection}}
+                        </td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+        <h5>Overall Collection Summary</h5>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-striped table-hover table-bordered border-success" id="htmlData">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Online</th>
+                        <th scope="col">Cash</th>
+                        <th scope="col">Cheque</th>
+                        <th scope="col">DD</th>
+                        <th scope="col">RTGS</th>
+                        <th scope="col">NEFT</th>
+                        <th scope="col">IMPS</th>
+                        <th scope="col">UPI</th>
+                        <th scope="col">Grand Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[0].Online.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[0].Online.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[1].Cash.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[1].Cash.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[2].Cheque.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[2].Cheque.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[3].DD.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[3].DD.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[4].RTGS.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[4].RTGS.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[5].NEFT.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[5].NEFT.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[6].IMPS.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[6].IMPS.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[7].UPI.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[7].UPI.total_collection}}
+                        </td>
+                        <td>
+                            Receipt Count: {{misList.overall_collection_summary[8].grand_total.receipt_count}} <br>
+                            Total Collection: {{misList.overall_collection_summary[8].grand_total.total_collection}}
+                        </td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- <button ngxClipboard [cbContent]="copy(ok)" (cbOnSuccess)="copied($event)">Copy</button> -->

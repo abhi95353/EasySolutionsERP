@@ -1,0 +1,379 @@
+<div class="row px-1">
+  <div class="col-6 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Facility List
+    </h3>
+  </div>
+  <div
+    class="col-6 col-lg-2"
+    style="text-align: right"
+    *ngIf="this.school_code != 'Select School'"
+  >
+    <span
+      class="mt-1 btn btn-success btn-sm rounded-pill"
+      (click)="onClickFacilityBox(true, 'add', null , null)"
+      >ADD&nbsp;<i class="fa fa-plus-square"></i
+    ></span>
+  </div>
+  <hr class="p-0 m-0" />
+  <br />
+
+  <div
+    class="col-12 col-lg-12 col-xxl-12" 
+    *ngIf="this.school_code != 'Select School'; else notFound"
+  >
+    <div class="row my-2 g-4 tabs">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12 my-2">
+            <div class="row px-1">
+              <div class="col-12 col-lg-8 my-2">
+                <!-- <button class="btn btn-sm btn-warning" (click)="downloadCSV()">
+                  Export Excel</button
+                >&nbsp; -->
+              </div>
+              <div class="col-12 col-lg-4">
+                <div style="display: flex; justify-content: end">
+                  <input
+                    type="search"
+                    class="form-control"
+                    placeholder="Search"
+                    style="border: 1px solid black"
+                    [(ngModel)]="searchText"
+                  />
+                  <i
+                    class="fa fa-search fa-lg"
+                    style="
+                      background-color: lightseagreen;
+                      color: white;
+                      padding: 0px 10px;
+                      margin-left: -10px;
+                      border-radius: 5px;
+                      padding-top: 12px;
+                    "
+                  ></i>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive mx-1 my-4" style="border-radius: 5px">
+              <table
+                class="table table-striped table-hover table-bordered border-success"
+              >
+                <thead class="bg-success text-white">
+                  <tr>
+                    <td scope="col">#</td>
+                    <td scope="col">Fees Type/Facility</td>
+                    <td scope="col">Payment/Due Date</td>
+                    <td scope="col">Month</td>
+                    <td scope="col">Action</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let dt of facilityList | filter:searchText; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ dt.name }}</td>
+                    <td>{{ dt.due_date }}</td>
+                    <td>
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.apr ? 'btn-success' : 'btn-danger'"
+                        >Apr
+                      </span>
+
+                      <span
+                        class="btn btn-may rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.may ? 'btn-success' : 'btn-danger'"
+                        >May
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.jun ? 'btn-success' : 'btn-danger'"
+                        >Jun
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.jul ? 'btn-success' : 'btn-danger'"
+                        >Jul
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.aug ? 'btn-success' : 'btn-danger'"
+                        >Aug
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.sep ? 'btn-success' : 'btn-danger'"
+                        >Sep
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.oct ? 'btn-success' : 'btn-danger'"
+                        >Oct
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.nov ? 'btn-success' : 'btn-danger'"
+                        >Nov
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.dec ? 'btn-success' : 'btn-danger'"
+                        >Dec
+                      </span>
+
+                      <span
+                        class="btn rounded-pill m-1 btn-sm"
+                        [ngClass]="dt.jan ? 'btn-success' : 'btn-danger'"
+                        >Jan
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.feb ? 'btn-success' : 'btn-danger'"
+                        >Feb
+                      </span>
+
+                      <span
+                        class="btn rounded-pill mx-1 btn-sm"
+                        [ngClass]="dt.mar ? 'btn-success' : 'btn-danger'"
+                        >Mar
+                      </span>
+                    </td>
+                    <td>
+                      <i
+                        class="fa fa-edit"
+                        style="cursor: pointer"
+                        (click)="onClickFacilityBox(true, 'edit', dt.id , dt.uuid)"
+                      ></i
+                      >&nbsp;<i
+                        class="fa fa-trash"
+                        style="cursor: pointer"
+                        (click)="deleteFacility(dt.id , dt.uuid)"
+                      ></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Fees Type -->
+
+<div
+  *ngIf="classesBoxStatus"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  "
+></div>
+<div
+  class="box"
+  style="z-index: 11"
+  [ngClass]="this.classesBoxStatus ? 'top-10' : ''"
+>
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4 class="px-2" style="letter-spacing: 0.9px; text-transform: uppercase">
+        Add Fees TYPE
+      </h4>
+      <span
+        class="btn btn-sm rounded-pill"
+        (click)="onClickFacilityBox(false, null, null , null)"
+        ><i class="fa fa-times"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+    <form [formGroup]="feesTypeForm" (ngSubmit)="submit()" ngNativeValidate>
+      <div style="display: flex; justify-content: space-between">
+        <div class="row g-4 px-4">
+          <div class="col-12 col-lg-12 col-xl-12">
+            <div class="inputBox">
+              <input
+                type="text"
+                required
+                formControlName="name"
+                pattern="[a-zA-Z._'\s]+"
+                placeholder="Fees Head"
+              />
+              <label>Fees Head</label>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12 col-xl-12 inputBox">
+            <div class="inputBox">
+              <input
+                type="text"
+                required
+                pattern="[0123]{1}[0-9]{,1}"
+                required
+                formControlName="due_date"
+              />
+              <label>Payment/Due Date</label>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12 col-xl-12">
+            <label class="mb-3">Please Select Month</label>
+            <div class="row g-4">
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" checked formControlName="apr" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    April
+                  </span>
+                </label>
+              </div>
+
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="may" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    May
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="jun" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    June
+                  </span>
+                </label>
+              </div>
+
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="jul" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    July
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="aug" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    August
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="sep" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    September
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="oct" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    October
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="nov" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    November
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="dec" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    December
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="jan" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    January
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="feb" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    February
+                  </span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="label-checkbox" (click)="facilityBox('vaue')">
+                  <input type="checkbox" formControlName="mar" />
+                  <span>
+                    <i class="fas fa-check"></i>
+                    March
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 mb-4">
+            <input
+              type="submit"
+              class="btn btn-md btn-success rounded-pill"
+              value="Submit"
+              [disabled]="submitStatus"
+              value="Submit"
+            />&nbsp;<i
+              class="fas fa-spinner fa-pulse text-success fa-lg"
+              *ngIf="submitStatus"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- <button ngxClipboard [cbContent]="copy(ok)" (cbOnSuccess)="copied($event)">Copy</button> -->

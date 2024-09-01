@@ -1,0 +1,29 @@
+.bgs {
+    background-color: lightseagreen;
+    color:white;
+    border-color: lightseagreen;
+  }
+
+  .tabs{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    }
+  ul li a{
+      color: black;
+  }
+  th{
+      font-weight: 500;
+  }
+  
+  tr{
+      border-left: 1px solid green;
+      border-right: 1px solid green;
+  } 
+
+  td{
+      border: 0;
+  }
+  .fa{
+      cursor: pointer;
+  }

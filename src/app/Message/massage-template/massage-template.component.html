@@ -1,0 +1,199 @@
+<div class="row px-1">
+  <div class="col-6 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      DLT&nbsp;Message
+    </h3>
+  </div>
+  <div class="col-6 col-lg-2" style="text-align: right">
+    <!-- <span class="mt-1 btn btn-success btn-sm rounded-pill"  >ADD&nbsp;&nbsp;<i class="fa fa-plus-square"></i></span> -->
+  </div>
+  <hr class="p-0 m-0" />
+  <br />
+
+  <div
+    class="col-12 my-2"
+    *ngIf="this.school_code != 'Select School'; else notFound"
+  >
+    <div class="row tabs">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12">
+            <form
+            [formGroup]="msgTempForm"
+            ngNativeValidate
+            (ngSubmit)="submit()"
+          >
+            <div
+              class="row g-4"
+            >
+              <div class="col-12 col-lg-4 col-xl-4" style="position: relative">
+                <label>Name</label
+                ><sup class="text-danger">*</sup>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Name"
+                  title="Name"
+                  formControlName="name"
+                />
+              </div>
+
+              <div class="col-12 col-lg-4 col-xl-4" style="position: relative">
+                <label>Header</label
+                ><sup class="text-danger">*</sup>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="DLT Header"
+                  title="DLT Header"
+                  formControlName="dlt_header"
+                />
+              </div>
+
+
+              <div class="col-12 col-lg-4 col-xl-4" style="position: relative">
+                <label>Header&nbsp;ID</label
+                ><sup class="text-danger">*</sup>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Header ID"
+                  title="Header ID"
+                  formControlName="header_id"
+                />
+              </div>
+
+
+              <div class="col-12 col-lg-4 col-xl-4" style="position: relative">
+                <label>Entity&nbsp;ID</label
+                ><sup class="text-danger">*</sup>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Entity ID"
+                  title="Entity ID"
+                  formControlName="entity_id"
+                />
+              </div>
+
+              <div class="col-12 col-lg-4 col-xl-4" style="position: relative">
+                <label>Template&nbsp;ID</label
+                ><sup class="text-danger">*</sup>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Template ID"
+                  title="Template ID"
+                  formControlName="template_id"
+                />
+              </div>
+
+
+              <div class="col-12 col-lg-4 col-xl-4" style="position: relative">
+                <label>SMS&nbsp;Type</label
+                ><sup class="text-danger">*</sup>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="SMS Type"
+                  title="SMS Type"
+                  formControlName="sms_type"
+                />
+              </div>
+
+              <div class="col-12 col-lg-12 col-xl-12" style="position: relative">
+                <label>DLT&nbsp;Message</label
+                ><sup class="text-danger">*</sup>
+                <textarea class="form-control" cols="30" rows="10" formControlName="dlt_message"></textarea>
+              </div>
+              <div class="col-12 col-lg-12 col-xl-12" style="position: relative">
+                <label>DLT&nbsp;Design</label
+                ><sup class="text-danger">*</sup>
+                <textarea class="form-control" cols="30" rows="10" formControlName="design"></textarea>
+              </div>
+            </div>
+            <div class="col-6 my-4">
+              <input
+                type="submit"
+                value="Save Template"
+                class="btn btn-success"
+              />
+                &nbsp;
+                &nbsp;
+              <i
+              (click)="reset()"
+              class="btn btn-danger"
+            >Reset</i>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-2 tabs">
+      <div class="col-12">
+        <div>
+          <h3>Message Template List</h3>
+        </div>
+        <table class="table table-sm table-striped table-hover">
+          <thead>
+            <tr>
+              <td>#</td>
+              <td>Name</td>
+              <td>Header</td>
+              <td>Header ID</td>
+              <td>Entity ID</td>
+              <td>SMS Type</td>
+              <td>Template ID</td>
+              <td [width]="100">DLT Message</td>
+              <td>Status</td>
+              <td>Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dt of templteList.data; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ dt.name }}</td>
+              <td>{{ dt.dlt_header }}</td>
+              <td>{{ dt.header_id }}</td>
+              <td>{{ dt.entity_id }}</td>
+              <td>{{ dt.sms_type }}</td>
+              <td>{{ dt.template_id }}</td>
+              <td [width]="100">{{ dt.dlt_message }}</td>
+              <td >
+                <span *ngIf="dt.is_enabled == 1" class="text-success">Enable</span>
+                <span *ngIf="dt.is_enabled == 0" class="text-danger">Disable</span>
+              </td>
+              <td>
+                <a [routerLink]="['/msg-template', { action: 'update', id: null , data: dt | json }]" (click)="scroll()">
+                    <i
+                    class="fa fa-edit text-danger"
+                  ></i>
+                </a>
+              </td>
+            </tr>
+            <tr *ngIf="templteList.count == 0">
+                <td [colSpan]="9" class="text-danger center">No Data Found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>

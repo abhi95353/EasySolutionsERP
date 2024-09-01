@@ -1,0 +1,623 @@
+<div class="row px-1" *ngIf="feesBox">
+  <div class="col-12 my-2">
+    <div class="row">
+      <div
+        class="col-12 col-lg-12 col-xl-12"
+        style="border-left: 12px solid white"
+      >
+        <div class="row gy-4">
+          <div class="col-12">
+            <div>
+              <h5>
+                Monthly&nbsp;Fee&nbsp;
+                <hr />
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault1"
+                    [checked]="!isReceiptTypeManual"
+                    (change)="onClickReceiptType(false)"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="flexRadioDefault1"
+                    style="font-size: 20px"
+                  >
+                    Automatic Receipt
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault2"
+                    [checked]="isReceiptTypeManual"
+                    (change)="onClickReceiptType(true)"
+                  />
+                  <label
+                    class="form-check-label"
+                    for="flexRadioDefault2"
+                    style="font-size: 20px"
+                  >
+                    Manually Receipt
+                  </label>
+                </div>
+                <hr />
+              </h5>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-sm" style="border: 5px double black">
+                <tr style="background-color: wheat">
+                  <td colspan="2" *ngIf="isReceiptTypeManual">
+                    <span
+                      >Name:&nbsp;<b>{{ studentData.student.name }}</b></span
+                    >
+                  </td>
+                  <td *ngIf="!isReceiptTypeManual">
+                    <span
+                      >Name:&nbsp;<b>{{ studentData.student.name }}</b></span
+                    >
+                  </td>
+                  <td>
+                    <span
+                      >A/c&nbsp;No:&nbsp;<b>{{
+                        studentData.student.account
+                      }}</b></span
+                    >
+                  </td>
+                  <td>
+                    <span
+                      >Father&nbsp;Name:&nbsp;<b>{{
+                        studentData.parent.f_name
+                      }}</b></span
+                    >
+                  </td>
+                  <td>
+                    <span
+                      >Class/Sec<b
+                        >: {{ studentData.student.standard.notation }}/{{
+                          studentData.student.division.notation
+                        }}</b
+                      ></span
+                    >
+                  </td>
+                </tr>
+                <tr style="background-color: wheat">
+                  <td>
+                    <label>Month</label>:
+                    <select
+                      (change)="onSelectMonth(fee_month.value)"
+                      [(ngModel)]="monthId"
+                      #fee_month
+                    >
+                      <option value="{{ dt.id }}" *ngFor="let dt of monthList">
+                        {{ dt.month }}
+                      </option>
+                    </select>
+                  </td>
+                  <td [attr.colspan]="2">
+                    <span
+                      >Date:&nbsp;<b *ngIf="!isReceiptTypeManual">{{
+                        today | date : "medium"
+                      }}</b></span
+                    >
+                    <input
+                      type="date"
+                      *ngIf="isReceiptTypeManual"
+                      (change)="setReceiptDate(receiptDate.value)"
+                      #receiptDate
+                    />
+                  </td>
+                  <td *ngIf="isReceiptTypeManual">
+                    <label>Receipt&nbsp;No:</label>
+                    <input
+                      type="number"
+                      *ngIf="isReceiptTypeManual"
+                      (change)="setReceiptNo(receiptNo.value)"
+                      #receiptNo
+                    />
+                  </td>
+                  <td>
+                    <span
+                      >Session:&nbsp;<b>{{
+                        studentData.student.academic_session.session
+                      }}</b></span
+                    >
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td [attr.colspan]="4">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                          <th>Particulars</th>
+                          <th>Fee</th>
+                          <th>Contribution(Paid Amount)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngIf="studentData.preBal != null">
+                          <td style="color: red;">previous Balance</td>
+                          <td style="color: red;">
+                            Availabe Previous Balance {{ studentData.preBal.pre_bal }}
+                          </td>
+                          <td>-</td>
+                        </tr>
+                        <tr>
+                          <td>Manage Admission</td>
+                          <td>
+                            <div class="form-check form-switch">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="manage-addmission"
+                                checked
+                                (change)="
+                                  updateAdmission(
+                                    studentData.student.account,
+                                    $event 
+                                  )
+                                "
+                              />
+                              &nbsp;<span id="loading" class="text-danger"
+                                >Loading....</span
+                              >
+                            </div>
+                          </td>
+                          <td>N/A</td>
+                        </tr>
+                        <ng-container
+                          *ngIf="studentData.due.length > 0; else pay"
+                        >
+                          <ng-container *ngFor="let dt of studentData.due">
+                            <ng-container *ngIf="dt.id == monthId">
+                              <tr>
+                                <td>Previous Due</td>
+                                <td>{{ dt.pre_due }}</td>
+                                <td>N/A</td>
+                              </tr>
+
+                              <tr *ngFor="let fs of dt.fees">
+                                <td>
+                                  {{ fs.facility_standard.facility.name }}
+                                </td>
+                                <td>
+                                  {{ fs.fee }}
+                                  <input
+                                    type="hidden"
+                                    value="{{ fs.fee }}"
+                                    id="{{
+                                      fs.facility_standard.facility.name
+                                    }}_d"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    id="{{
+                                      fs.facility_standard.facility.name
+                                    }}"
+                                    (input)="payableFunction(dt, false)"
+                                  />
+                                </td>
+                              </tr>
+
+                              <tr *ngIf="dt.student_transport_route.fee != 0">
+                                <td>Transport&nbsp;Fee</td>
+                                <td>
+                                  {{ dt.transport_fees
+                                  }}<span
+                                    style="
+                                      color: blue;
+                                      text-decoration: underline;
+                                      cursor: pointer;
+                                    "
+                                    (click)="setTransport(dt)"
+                                    >Manage Transport</span
+                                  >
+                                  <input
+                                    type="hidden"
+                                    value="{{ dt.transport_fees }} "
+                                    id="Transport_d"
+                                  />
+                                </td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    value="{{ dt.student_transport_route.fee }}"
+                                    id="Transport"
+                                    (input)="payableFunction(dt, false)"
+                                  />
+                                </td>
+                              </tr>
+
+                              <tr *ngIf="dt.student_transport_route.fee == 0">
+                                <td>Manage&nbsp;Transport</td>
+                                <td>
+                                  <span
+                                    style="
+                                      color: blue;
+                                      text-decoration: underline;
+                                      cursor: pointer;
+                                    "
+                                    (click)="setTransport(dt)"
+                                    >Click</span
+                                  >
+                                </td>
+                                <td>N/A</td>
+                              </tr>
+
+                              <ng-container
+                                *ngIf="dt.student_fines.length <= 0"
+                              >
+                                <tr>
+                                  <td>Manage Fines</td>
+                                  <td
+                                    (click)="
+                                      concessionBox(
+                                        dt.student_fines,
+                                        true,
+                                        'fines'
+                                      )
+                                    "
+                                  >
+                                    <span
+                                      style="
+                                        color: blue;
+                                        text-decoration: underline;
+                                        cursor: pointer;
+                                      "
+                                      >Click</span
+                                    >
+                                  </td>
+                                  <td>N/A</td>
+                                </tr>
+                              </ng-container>
+
+                              <ng-container
+                                *ngFor="let fns of dt.student_fines"
+                              >
+                                <tr>
+                                  <td>{{ fns.name }}</td>
+                                  <td>
+                                    {{ fns.charge }}&nbsp;<input
+                                      type="checkbox"
+                                      name="{{ fns.name }}"
+                                      id="{{ fns.name }}"
+                                      [checked]="true"
+                                      (change)="payableFunction(dt, true)"
+                                    />
+                                    &nbsp;&nbsp;<span
+                                      style="
+                                        color: blue;
+                                        text-decoration: underline;
+                                        cursor: pointer;
+                                      "
+                                      (click)="
+                                        concessionBox(
+                                          dt.student_fines,
+                                          true,
+                                          'fines'
+                                        )
+                                      "
+                                      >Manage&nbsp;Fines</span
+                                    >
+                                  </td>
+                                  <td>N/A</td>
+                                </tr>
+                              </ng-container>
+
+                              <ng-container
+                                *ngIf="dt.student_concessions.length <= 0"
+                              >
+                                <tr>
+                                  <td>Manage Concessions</td>
+                                  <td
+                                    (click)="
+                                      concessionBox(
+                                        dt.student_concessions,
+                                        true,
+                                        'concessions'
+                                      )
+                                    "
+                                  >
+                                    <span
+                                      style="
+                                        color: blue;
+                                        text-decoration: underline;
+                                        cursor: pointer;
+                                      "
+                                      >Click</span
+                                    >
+                                  </td>
+                                  <td>N/A</td>
+                                </tr>
+                              </ng-container>
+
+                              <ng-container
+                                *ngFor="let cns of dt.student_concessions"
+                              >
+                                <tr>
+                                  <td>
+                                    {{ cns.name }}
+                                  </td>
+                                  <td>
+                                    {{ cns.deduction }}&nbsp;<input
+                                      type="checkbox"
+                                      name="{{ cns.name }}"
+                                      id="{{ cns.name }}"
+                                      [checked]="true"
+                                      (change)="payableFunction(dt, true)"
+                                      (change)="monthlyFee(true)"
+                                    />
+                                    &nbsp;&nbsp;<span
+                                      style="
+                                        color: blue;
+                                        text-decoration: underline;
+                                        cursor: pointer;
+                                      "
+                                      (click)="
+                                        concessionBox(
+                                          dt.student_concessions,
+                                          true,
+                                          'concessions'
+                                        )
+                                      "
+                                      >Manage&nbsp;Concessions</span
+                                    >
+                                  </td>
+                                  <td>N/A</td>
+                                </tr>
+                              </ng-container>
+                              <tr>
+                                <td>Total Fees</td>
+                                <td>{{ dt.payable }}</td>
+                                <td></td>
+                              </tr>
+
+                              <tr>
+                                <td>Less</td>
+                                <td>
+                                  <input
+                                    type="text"
+                                    [(ngModel)]="less"
+                                    (input)="payableFunction(dt, true)"
+                                  />
+                                </td>
+                                <td></td>
+                              </tr>
+                              <!-- <tr>
+                                <td>waiver</td>
+                                <td>
+                                  <input
+                                    type="checkbox"
+                                    [(ngModel)]="is_waiver"
+                                    (change)="payableFunction(dt )" 
+                                  />
+                                </td>
+                              </tr> -->
+                              <tr *ngIf="dt.paid > 0">
+                                <td>
+                                  <b>Paid Amount</b>
+                                </td>
+                                <td>
+                                  {{ dt.paid }}
+                                </td>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <b>Total Amount Fee</b>
+                                </td>
+                                <td>
+                                  <b id="payableAmount">{{ dt.due }}</b>
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                  <b>Pay Amount</b>
+                                </td>
+                                <td>
+                                  <input
+                                    type="number"
+                                    [(ngModel)]="payableFee"
+                                    [readOnly]="false"
+                                  />
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                  <b>Remarks</b>
+                                </td>
+                                <td>
+                                  <input type="text" [(ngModel)]="comment" />
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                  <b>Auto Receipt Generated</b>
+                                </td>
+                                <td>
+                                  <input
+                                    type="checkbox"
+                                    [(ngModel)]="autoPrint"
+                                    [checked]="autoPrint"
+                                  />
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr *ngIf="paymentType == 1">
+                                <td>
+                                  <b>Mobile No (For Payment Link)</b>
+                                </td>
+                                <td>
+                                  <input
+                                    type="number"
+                                    placeholder="No need to add prefix +91"
+                                    [(ngModel)]="mobileNo"
+                                  />
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr *ngIf="paymentType == 1">
+                                <td>
+                                  <b>Email Id (For Payment Link)</b>
+                                </td>
+                                <td>
+                                  <input type="email" [(ngModel)]="emailId" />
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr *ngIf="paymentType == 3">
+                                <td>
+                                  <div class="py-1">
+                                    Date:
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                      type="date"
+                                      [(ngModel)]="cheque_date"
+                                    />
+                                  </div>
+                                  <div class="py-1">
+                                    Bank: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                      [(ngModel)]="cheque_bank"
+                                      type="text"
+                                    />
+                                    <br />
+                                  </div>
+                                  <div class="py-1">
+                                    Name: &nbsp;&nbsp;&nbsp;&nbsp;<input
+                                      [(ngModel)]="cheque_payer"
+                                      type="text"
+                                    />
+                                    <br />
+                                  </div>
+                                  <div class="py-1">
+                                    IFS Code:
+                                    <input
+                                      [(ngModel)]="cheque_ifs_code"
+                                      type="text"
+                                    /><br />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="py-1">
+                                    A/C no:
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                      [(ngModel)]="cheque_account_no"
+                                      type="number"
+                                    /><br />
+                                  </div>
+                                  <div class="py-1">
+                                    Cheque No:
+                                    <input
+                                      type="text"
+                                      [(ngModel)]="cheque_no"
+                                    /><br />
+                                  </div>
+                                  <div class="py-1">
+                                    Amount: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+                                      type="number"
+                                      [(ngModel)]="payableFee"
+                                    />
+                                  </div>
+                                </td>
+                                <td></td>
+                              </tr>
+
+                              <tr style="background-color: white">
+                                <td [attr.colspan]="2">
+                                  <span>
+                                    <select
+                                      class="mt-4"
+                                      class="rounded-pill"
+                                      style="padding: 8px 20px"
+                                      (change)="clickCash(clickoncash.value)"
+                                      #clickoncash
+                                    >
+                                      <option
+                                        *ngFor="let dt of payType"
+                                        [value]="dt.id"
+                                        [selected]="dt.id == 2"
+                                      >
+                                        {{ dt.pay }}
+                                      </option>
+                                    </select>
+                                  </span>
+                                  &nbsp;
+                                  <span
+                                    *ngIf="!submitStatus"
+                                    class="btn btn-success rounded-pill"
+                                    (click)="
+                                      confirmationBox(dt.id, dt.month, dt.uuid)
+                                    "
+                                    >Pay Till {{ dt.month }}
+                                  </span>
+                                  <span
+                                    *ngIf="submitStatus"
+                                    class="btn btn-secondaryrounded-pill"
+                                    >Pay Till {{ dt.month }}
+                                  </span>
+                                </td>
+                                <td></td>
+                              </tr>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                        <ng-template #pay>
+                          <tr>
+                            <td [attr.colspan]="2">All Month Fees Paid</td>
+                          </tr>
+                        </ng-template>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Print View -->
+<app-receipt-print></app-receipt-print>
+
+<!-- payment List  -->
+
+<app-payment-details></app-payment-details>
+
+<app-concession-box></app-concession-box>
+<app-transport-box></app-transport-box>

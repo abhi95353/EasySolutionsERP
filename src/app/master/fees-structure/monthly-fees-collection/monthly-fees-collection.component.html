@@ -1,0 +1,843 @@
+<div class="row" *ngIf="this.viewStatus">
+  <div class="col-12">
+    <form
+      [formGroup]="feesCollectionForm"
+      (ngSubmit)="confirmationBox()"
+      ngNativeValidate
+    >
+      <table
+        class="table table-sm"
+        style="background-color: antiquewhite; border: 1px solid black"
+      >
+        <tr>
+          <td [colSpan]="6" class="text-center py-2">
+            <span style="font-size: 20px; font-weight: 500">{{
+              schoolName
+            }}</span>
+          </td>
+        </tr>
+        <tr style="border: 1px solid black"> 
+          <td [colSpan]="6" class="py-1">
+            <ng-container formArrayName="fees">
+              <ng-container *ngFor="let item of fees.controls; let i = index">
+                <ng-container *ngIf="item.value.month == monthId">
+                  <ng-container [formGroupName]="i">
+                    <div style="display: flex; justify-content: space-between" class="pay">
+                      <span
+                        class="py-1 px-2"
+                        style="
+                          background-color: rgb(255, 197, 110);
+                          font-weight: 600;
+                          border: 1px solid rgb(255, 197, 110);
+                        "
+                        >
+                        <span *ngIf="!is_mannul">Date: {{ item.value.date | date :'mediumDate' }}</span>
+                        <!-- <input
+                          type="date"
+                          formControlName="date"
+                          title="date"
+                          style="background-color: transparent"
+                          *ngIf="is_mannul"
+                          #date
+                          (change)="inputDate(date.value)"
+                        /> -->
+
+                        <div style="display: flex;justify-content: space-between;text-align: center;" *ngIf="is_mannul">
+                        <label >
+                        Date:&nbsp;
+                        </label>
+                          <input (input)="changeDate()" type="number" placeholder="Date" [(ngModel)]="day"  autofocus  [ngModelOptions]="{ standalone: true }"> <b style="font-size: 24px;">&nbsp;/&nbsp;</b>
+                          <input (input)="changeDate()" type="number" placeholder="Month" [(ngModel)]="mnth"  [ngModelOptions]="{ standalone: true }"> <b style="font-size: 24px;">&nbsp;/&nbsp;</b>
+                          <input (input)="changeDate()" type="number" value="2023" placeholder="Year" [(ngModel)]="year"  [ngModelOptions]="{ standalone: true }"> 
+                          &nbsp;
+                          <span>{{currentDate}}</span>
+                        </div>
+                      </span>
+
+                      <span
+                        class="py-1 px-2"
+                        *ngIf="is_mannul"
+                        style="
+                          background-color: rgb(255, 197, 110);
+                          font-weight: 600;
+                          border: 1px solid rgb(255, 197, 110);
+                        "
+                        >Receipt:
+
+                        <input
+                          type="number"
+                          title="Receipt"
+                          formControlName="slip_no"
+                        
+                        />
+                      </span>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+
+        <tr class="py-2">
+          <td [colSpan]="2">
+            <b>Name:</b>{{ studentData.student.name }}<b></b>
+          </td>
+          <td [colSpan]="2"><b>A/C:</b>{{ studentData.student.account }}</td>
+          <td [colSpan]="2">
+            <b>Std:</b>{{ studentData.student.standard.notation }} ({{
+              studentData.student.division.notation
+            }})
+          </td>
+        </tr>
+
+        <tr class="py-2">
+          <td [colSpan]="2">
+            <b>Father Name:</b>{{ studentData.student.f_name }} <b></b>
+          </td>
+          <td [colSpan]="2"><b>Session:</b>{{ studentData.student.academic_session.session }}</td>
+        </tr>
+
+        <tr style="border: 1px solid black">
+          <td style="border: 1px solid black">
+            <label for="monthId">Month:</label>
+            <select
+              id="monthId"
+              [(ngModel)]="monthId"
+              [ngModelOptions]="{ standalone: true }"
+            >
+              <option value="{{ dt }}" *ngFor="let dt of monthList">
+                {{ dt }}
+              </option>
+            </select>
+          </td>
+          <td style="border: 1px solid black; text-align: center">
+            <b style="display: flex">
+              <div class="cat crime">
+                <label for="auto">
+                  <input
+                    type="checkbox"
+                    id="auto"
+                    value="0"
+                    style="cursor: pointer"
+                    (change)="entryType($event, auto.value)"
+                    [checked]="!is_mannul"
+                    #auto
+                  /><span>AUTO</span>
+                </label>
+              </div>
+              <div>/</div>
+              <div class="cat crime">
+                <label for="mauual">
+                  <input
+                    type="checkbox"
+                    id="mauual"
+                    value="1"
+                    (change)="entryType($event, mannul.value)"
+                    style="cursor: pointer"
+                    [checked]="is_mannul"
+                    #mannul
+                  /><span>MANUAL</span>
+                </label>
+              </div>
+            </b>
+          </td>
+
+          <td style="border: 1px solid black; text-align: center">
+            <b style="display: flex">
+              <div class="cat crime">
+                <label for="old_admission" data-bs-toggle="modal" data-bs-target="#old_new">
+                  <input
+                    type="checkbox"
+                    id="old_admission"
+                    value="1"
+                    style="cursor: pointer"
+                    (change)="addType($event, old.value)"
+                    [checked]="is_old"
+                    #old
+                  /><span>OLD</span>
+                </label>
+              </div>
+              <div>/</div>
+              <div class="cat crime">
+                <label for="new_admission" data-bs-toggle="modal" data-bs-target="#old_new">
+                  <input
+                    type="checkbox"
+                    id="new_admission"
+                    value="0"
+                    (change)="addType($event, new.value)"
+                    style="cursor: pointer"
+                    [checked]="!is_old"
+                    #new
+                  /><span>NEW</span>
+                </label>
+              </div>
+
+            
+            </b>
+          </td>
+          <td [colSpan]="3">
+            <ng-container *ngIf="studentData.preBal != null">
+              <b class="text-danger">Student have pre due of {{studentData.preBal.due}}/-</b>
+            </ng-container>
+          </td>
+        </tr>
+        <tr>
+          <td [colSpan]="7">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td [colSpan]="7" formArrayName="fees">
+            <ng-container *ngFor="let item of fees.controls; let i = index">
+              <ng-container *ngIf="item.value.month == monthId">
+                <table
+                  class="table table-sm feesList pay"
+                  style="background-color: rgba(86, 238, 111, 0.479)"
+                  [formGroupName]="i"
+                >
+                  <tr style="border: 1px solid black">
+                    <th>Particulars</th>
+                    <th style="text-align: right">Fee</th>
+                    <th style="text-align: right">Pre</th>
+                    <th style="text-align: right">Amount</th>
+                    <th style="text-align: right" *ngIf="!is_staff" >Discount</th>
+                    <th style="text-align: right">Payable</th>
+                    <th style="text-align: right">Deposit</th>
+                    <th style="text-align: right">Outstanding</th>
+                  </tr>
+
+                  <tr *ngIf="item.value.reg_pay != 0 && item.value.reg_status != 4">
+                    <th>Registration Fee</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.reg_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.reg_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.reg_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="reg{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="reg_less"
+                        [max]="item.value.reg_pay"
+                        (input)="
+                          getLessFees(
+                            item.value.reg_pay,
+                            reg_less.value,
+                            i,
+                            'registration'
+                          )
+                        "
+                        #reg_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.reg_pay - item.value.reg_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="reg_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="reg_paid"
+                        #reg_paid
+                        (input)="
+                        getPaidFees(
+                            item.value.reg_payable,
+                            reg_paid.value,
+                            i,
+                            'registration'
+                          )
+                        "
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.reg_payable - item.value.reg_paid }}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="item.value.adm_pay != 0 && item.value.adm_status != 4">
+                    <th>Admission Fee</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.adm_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.adm_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.adm_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="adm{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="adm_less"
+                        (input)="
+                          getLessFees(
+                            item.value.adm_pay,
+                            adm_less.value,
+                            i,
+                            'admission'
+                          )
+                        "
+                        #adm_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.adm_pay - item.value.adm_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="adm_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="adm_paid"
+                        #adm_paid
+                        (input)="
+                        getPaidFees(
+                            item.value.adm_payable,
+                            adm_paid.value,
+                            i,
+                            'admission'
+                          )
+                        "
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.adm_payable - item.value.adm_paid }}
+                    </td>
+                  </tr>
+
+
+
+                  <tr *ngIf="item.value.bal_pay != 0 && item.value.bal_status != 4">
+                    <th>Old Balance</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.bal_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.bal_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.bal_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="bal{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="bal_less"
+                        (input)="
+                          getLessFees(
+                            item.value.bal_pay,
+                            bal_less.value,
+                            i,
+                            'due'
+                          )
+                        "
+                        #bal_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.bal_pay - item.value.bal_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="bal_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="bal_paid"
+                        #bal_paid
+                        (input)="
+                        getPaidFees(
+                            item.value.bal_payable,
+                            bal_paid.value,
+                            i,
+                            'due'
+                          )
+                        "
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.bal_payable - item.value.bal_paid }}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="item.value.tut_pay != 0 && item.value.tut_status != 4">
+                    <th>Monthly Fee 
+                      <sup class="text-white p-1 m-1 bg-dark" *ngIf="item.value.conc_3c">
+                        Third Child 
+                      </sup>
+                      <sup class="text-white p-1 m-1 bg-dark" *ngIf="item.value.conc_ew">
+                        Staff 
+                      </sup>
+                      <sup class="text-white p-1 m-1 bg-dark" *ngIf="item.value.conc_fl">
+                        Fatherless 
+                      </sup>
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tut_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tut_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.tut_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="monthly{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="tut_less"
+                        (input)="
+                          getLessFees(
+                            item.value.tut_pay,
+                            tut_less.value,
+                            i,
+                            'monthly'
+                          )
+                        "
+                        #tut_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.tut_pay - item.value.tut_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="monthly_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="tut_paid"
+                        #tut_paid
+                        (input)="
+                        getPaidFees(
+                            item.value.tut_payable,
+                            tut_paid.value,
+                            i,
+                            'monthly'
+                          )
+                        "
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.tut_payable - item.value.tut_paid }}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="item.value.exam_pay != 0 && item.value.exam_status != 4">
+
+                    <th>Exam Fee</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.exam_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.exam_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.exam_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="exam{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="exam_less"
+                        (input)="
+                          getLessFees(
+                            item.value.exam_pay,
+                            exam_less.value,
+                            i,
+                            'exam'
+                          )
+                        "
+                        
+                        #exam_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.exam_pay - item.value.exam_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="exam_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="exam_paid"
+                        (input)="
+                        getPaidFees(
+                            item.value.exam_payable,
+                            exam_paid.value,
+                            i, 
+                            'exam'
+                          )
+                        "
+                        #exam_paid
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.exam_payable - item.value.exam_paid }}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="item.value.conv_pay != 0 && item.value.conv_status != 4">
+                    <th>Transport Fee</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.conv_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.conv_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.conv_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="conv{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="conv_less"
+                        (input)="
+                          getLessFees(
+                            item.value.conv_pay,
+                            conv_less.value,
+                            i,
+                            'transport'
+                          )
+                        "
+                        #conv_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.conv_pay - item.value.conv_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="conv_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="conv_paid"
+                        (input)="
+                        getPaidFees(
+                            item.value.conv_payable,
+                            conv_paid.value,
+                            i,
+                            'transport'
+                          )
+                        "
+                        #conv_paid
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.conv_payable - item.value.conv_paid }}
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="item.value.lmf_pay != 0 && item.value.lmf_status != 4">
+                    <th>Late Fine</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.lmf_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.lmf_pre }}
+                    </th>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.lmf_pay }}
+                    </td>
+                    <td style="text-align: right" *ngIf="!is_staff">
+                      &#8377;<input
+                        id="lmf{{ i }}"
+                        type="number"
+                        title="Less"
+                        formControlName="lmf_less"
+                        (input)="
+                          getLessFees(
+                            item.value.lmf_pay,
+                            lmf_less.value,
+                            i,
+                            'lmf'
+                          )
+                        "
+                        #lmf_less
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.lmf_pay - item.value.lmf_less }}
+                    </td>
+                    
+                    <td style="text-align: right">
+                      &#8377;<input
+                        id="conv_paid{{ i }}"
+                        type="number"
+                        title="deposit"
+                        formControlName="lmf_paid"
+                        (input)="  getPaidFees(
+                          item.value.lmf_payable,
+                          lmf_paid.value,
+                          i,
+                          'lmf'
+                        )
+                      "
+                      #lmf_paid
+
+                      />
+                    </td>
+                    <td style="text-align: right">
+                      &#8377;{{ item.value.lmf_payable - item.value.lmf_paid }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <b style="text-decoration: underline;color:blue;cursor: pointer;" (click)="
+                        concessionBox(
+                          item.value,
+                          true,
+                          'concessions'
+                        )
+                      ">Mng. Concession</b>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <b style="text-decoration: underline;color:blue;cursor: pointer;" (click)="setTransport(item.value)">Mng. Transport</b>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td [colSpan]="7">&nbsp;</td>
+                  </tr>
+
+                  <tr style="border: 1px solid black">
+                    <th>Grand Total</th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_fee }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_pre }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_pay }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_less }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_payable }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_paid }}
+                    </th>
+                    <th style="text-align: right">
+                      &#8377;{{ item.value.tot_outstanding }}
+                    </th>
+                  </tr>
+
+                  <tr style="border: 1px solid black">
+                    <td
+                      [colSpan]="7"
+                      class="py-1"
+                      style="text-align: right; box-sizing: border-box"
+                    >
+                      <span class="py-1" style="font-weight: 600;">Amount: {{ item.value.inFigure }} Rupees Only</span>
+                    </td>
+                  </tr>
+
+                  <tr class="my-2 py-2">
+                    <td class="my-2 py-2" [attr.colspan]="4">
+                      <input type="text" formControlName="tot_note" placeholder="Type Comments Here" class="form-control" style="border:0; border-bottom: 1px solid black;" >
+                    </td>
+                    
+                    <td class="my-2 py-2" [attr.colspan]="3" style="text-align: right;">
+                      <span>
+                        <select
+                          class="mt-4"
+                          class="rounded-pill"
+                          style="padding: 8px 20px"
+                          (change)="clickCash(clickoncash.value)"
+                          id="pay_type"
+                          #clickoncash
+                        >
+                          <option
+                            *ngFor="let dt of payType"
+                            [value]="dt.id"
+                            [selected]="dt.id == 2"
+                          >
+                            {{ dt.pay }}
+                          </option>
+                        </select> 
+                      </span>
+                      &nbsp;
+                      <input type="submit"
+                        *ngIf="!submitStatus && ( this.paymentType != 1 && this.paymentType != 3)"
+                        class="payButton rounded-pill"
+                        value="Pay Now"
+                        >
+                        &nbsp;
+                          <!-- Button trigger modal -->
+                          <button type="button"  class="payButton rounded-pill"  data-bs-toggle="modal" data-bs-target="#exampleModal" *ngIf="this.paymentType == 1 || this.paymentType == 3">
+                            <i class="fa fa-phone text-primary" *ngIf="this.paymentType == 1" ></i>&nbsp;<span class="text-primary" *ngIf="this.paymentType == 1">Create Payment Link</span>
+                            <i class="fa fa-phone text-primary" *ngIf="this.paymentType == 3" ></i>&nbsp;<span class="text-primary"*ngIf="this.paymentType == 3">Cheque Payment</span>
+                          </button>
+                      <span
+                        *ngIf="submitStatus && ( this.paymentType != 1 && this.paymentType != 3)" style="display: inline-block;"
+                        class="payButton-active rounded-pill"
+                        >Pay Now
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+                
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Payment Link</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="this.paymentType == 1">
+          <label>Mobile Number</label>
+          <input
+          type="number"
+          placeholder="No need to add prefix +91"
+          [(ngModel)]="mobileNo" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+        <div *ngIf="this.paymentType == 1">
+          <label>Email ID</label>
+          <input type="email" [(ngModel)]="emailId" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>Date:</label>
+          <input type="date" [(ngModel)]="date" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>A/C No:</label>
+          <input type="number" [(ngModel)]="cheque_account_no" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>Bank:</label>
+          <input type="text" [(ngModel)]="cheque_bank" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>Cheque No:</label>
+          <input type="text" [(ngModel)]="cheque_no" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>IFS Code:</label>
+          <input type="text" [(ngModel)]="cheque_ifs_code" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>Name:</label>
+          <input type="text" [(ngModel)]="cheque_payer" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+        <div *ngIf="this.paymentType == 3">
+          <label>Amount:</label>
+          <input type="text" [(ngModel)]="cheque_amount" [ngModelOptions]="{standalone: true}"
+          class="form-control"
+        />
+        </div>
+
+
+      </div>
+      <div class="modal-footer" *ngIf="this.paymentType == 1">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="payWithRazor()" >Send Payment Link</button>
+      </div>
+      <div class="modal-footer" *ngIf="this.paymentType == 3">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="payChequePayment()" >Make Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+
+
+<!-- <button type="button" class="btn btn-primary" >
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="old_new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select Session</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label>
+          Session:
+        </label>
+        <select class="form-control" [(ngModel)]="sessionId" >
+          <option *ngFor="let dt of sessionList" value="{{dt.id}}">{{dt.session}}</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateOld()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Print View -->
+<app-receipt-print></app-receipt-print>
+
+<!-- payment List  --> 
+
+<app-payment-details></app-payment-details>
+
+<app-concession-box></app-concession-box>
+<app-transport-box></app-transport-box>

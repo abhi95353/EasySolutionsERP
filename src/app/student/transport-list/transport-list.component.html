@@ -1,0 +1,128 @@
+<div class="row px-1">
+    <div class="col-8 col-lg-10">
+      <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Students&nbsp;Transport&nbsp;Report
+      </h3>
+    </div>
+  
+    <div
+      class="col-4 col-lg-2"
+      style="text-align: right"
+      *ngIf="this.school_code != 'Select School'"
+    >
+  
+    </div>
+    <hr class="p-0 m-0" />
+    <br /> 
+
+    <div class="col-12 p-4" style="background-color: white;">
+      <h5>Filter:</h5>
+     <div class="row">
+      <div class="col-4">
+          <label for="class">Class:</label>
+          <select [(ngModel)]="standard_id" id="class" class="form-control" (change)="showStudentTransportList()">
+              <option *ngFor="let dt of classList;let i = index" value="{{dt.id}}">{{dt.notation}}</option>
+          </select>
+      </div>
+   
+      <div class="col-4">
+          <button (click)="showStudentTransportList()" class="btn btn-success mt-4">Apply Filter</button>
+      </div>
+     </div>
+  </div>
+  
+    <div
+      class="col-12 col-lg-12"
+      *ngIf="this.school_code != 'Select School'; else notFound"
+    >
+      <div class="col-12 my-2 tabs">
+        <div class="row px-1">
+          <div class="col-12 col-lg-6 my-2">
+               
+            <button class="btn btn-sm btn-warning" (click)="downloadCSV()">Export Excel</button>&nbsp;
+            
+
+        </div>
+          <div class="col-12 col-lg-4">
+            <div style="display: flex; justify-content: end">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Search By Name"
+                [(ngModel)]="searchText"
+              />
+              <i
+                class="fa fa-search fa-lg"
+                style="
+                  background-color: lightseagreen;
+                  color: white;
+                  padding: 0px 10px;
+                  margin-left: -10px;
+                  border-radius: 5px;
+                  padding-top: 12px;
+                "
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px">
+          <table
+            class="table table-striped table-hover table-bordered border-success"
+            id="htmlData"
+          >
+            <thead class="bg-success text-white">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Account&nbsp;No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Class/Sec</th>
+                <th scope="col">Route&nbsp;Details</th>
+                <th scope="col" [colSpan]="12">Month/Fee</th> 
+              
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="studentData.length != 0 ; else noDataFound" >
+              <tr *ngFor="let data of studentData | filter:searchText; let i = index;">
+                <th scope="row">{{ i + 1 }}</th>
+                <th>{{ data.account }}</th>
+                <td>{{ data.name }}</td>
+                <td>{{ data.standard.notation }}/ {{data.division.notation}}</td> 
+                <td><span *ngIf="data.student_transport_routes[0].transport_route != null">{{data.student_transport_routes[0].transport_route.tr_name}}</span></td> 
+                <td>
+                           <div style="display: flex; flex-direction: row; flex-wrap: wrap; width: 80%;">
+                            <span *ngFor="let item of data.student_transport_routes"  >
+                              <span class="underline" [ngClass]="item.fee > 0 ? 'text-primary' : 'text-danger'" >{{item.month}}</span>
+                          </span>
+                           </div>
+                </td>
+                 
+              </tr>
+            </ng-container>
+              <ng-template #noDataFound>
+                <tr>
+                  <td [colSpan]="6" style="text-align: center; color: red;">No Data Found</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #notFound>
+      <div class="row my-2 px-2">
+        <div
+          class="col-12 tabs"
+          style="position: relative; display: flex; align-items: baseline"
+        >
+          <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+          >&nbsp;&nbsp;&nbsp;
+          <h5 class="text-danger">
+            No school Selected. Please Select the school
+          </h5>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  

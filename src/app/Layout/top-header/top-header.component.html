@@ -1,0 +1,14 @@
+<div style="position: fixed; bottom: 20px; right: 20px;" *ngIf="this.iconStatus">
+    <i class="fa fa-bell fa-2x px-3 py-3" style="border-radius: 100%;">
+        <span class="position-absolute top-2 start-10 translate-middle badge rounded-pill bg-danger"
+            style="font-size: 12px;">
+            99+
+            <span class="visually-hidden">unread messages</span>
+        </span>
+    </i>
+</div>
+
+
+<div style="position: fixed; bottom: 80px; right: 20px;" *ngIf="this.iconStatus">
+    <i class="fa fa-times" (click)="icon(false)"></i>
+</div>

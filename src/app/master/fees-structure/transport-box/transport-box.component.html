@@ -1,0 +1,110 @@
+<div class="box" id="concessions" *ngIf="this.visibility">
+  <div class="container">
+    <div class="row">
+      <div class="col-10">
+        <h5>Transport List</h5>
+      </div>
+      <div class="col-2" style="text-align: right">
+        <span>
+          <i
+            class="fa fa-times d-block"
+            style="cursor: pointer"
+            (click)="onClickServiceBox(false)"
+          ></i>
+        </span>
+      </div>
+    </div>
+    <hr class="mt-2 p-0" />
+    <div class="row">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Transport&nbsp;Name</th>
+              <th>No</th>
+              <th>Desc.</th>
+              <th>Note</th>
+              <th>Fee</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dt of routeData.data">
+              <td>{{ dt.tr_name }}</td>
+              <td>{{ dt.tr_no }}</td>
+              <td><span [innerHtml]="dt.tr_desc"></span></td>
+              <td>{{ dt.note }}</td>
+              <td>{{ dt.fee }}</td>
+              <td>
+                <input
+                  type="radio"
+                  name="sets"
+                  (change)="onClickCheckBox(dt.id, dt.uuid)"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td [attr.colspan]="5">Clear Route</td>
+              <td>
+                <input
+                  type="radio"
+                  name="sets"
+                  (change)="onClickCheckBox(null, null)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Month</th>
+              <th>Transport&nbsp;Name</th> 
+              <th>
+                <div>
+                  <label for="">Select All</label>
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckChecked"
+                    [checked]="trueAll" 
+                    (change)="submitAllData($event)"
+                  />&nbsp;&nbsp;<span *ngIf="allLoadingStatus" class="text-danger">Please Wait</span>
+                </div>
+              </th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of studentData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ data.month }}</td>
+              <td>
+                <span *ngIf="data.transport_route != null">{{
+                  data.transport_route.tr_name
+                }}</span> 
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckChecked"
+                    [checked]="data.conv_fee > 0"
+                    [disabled]="data.deleted_at != null"
+                    (change)="submitData(data.id, data.uuid, $event , true)"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

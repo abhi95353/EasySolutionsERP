@@ -1,0 +1,45 @@
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+        <h3 style="letter-spacing: 0.9px; text-transform: uppercase;">Fees Structure</h3>
+    </div>
+    <div class="col-6 col-lg-2" style="text-align: right;">
+        <!-- <span class="mt-1 btn btn-success btn-sm rounded-pill"  >ADD&nbsp;&nbsp;<i class="fa fa-plus-square"></i></span> -->
+    </div>
+    <hr class="p-0 m-0">
+    <br> 
+
+    <div class="col-12 col-lg-12 col-xxl-12" *ngIf="this.school_code != 'Select School'; else notFound">
+        <div class="row my-2 g-4">
+            <div class="col-4" *ngFor="let data of classList; let i = index;">
+                <div class="tabs">
+                    <h5>{{data.class}}</h5>
+                    <span style="color: grey;">{{data.div_count}} Sections</span>
+                    <br>
+                    <button class="btn btn-success" (click)="onClickFeesBox(data.id,data.uuid, true , data.class ,  'add')">ADD <i
+                            class="fa fa-plus-square"></i></button>
+                    &nbsp;
+                    <button class="btn btn-success" (click)="onClickFeesBox(data.id,data.uuid, true , data.class , 'update')">Update <i
+                            class="fa fa-edit"></i></button>
+
+                </div>
+            </div>
+        </div>
+    </div> 
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+          <div
+            class="col-12 tabs"
+            style="position: relative; display: flex; align-items: baseline"
+          >
+            <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+            >&nbsp;&nbsp;&nbsp;
+            <h5 class="text-danger">
+              No school Selected. Please Select the school
+            </h5>
+          </div>
+        </div>
+      </ng-template>
+</div>
+
+
+<app-create-fees-structure></app-create-fees-structure>

@@ -1,0 +1,42 @@
+.bgs {
+    background-color: lightseagreen;
+    color:white;
+    border-color: lightseagreen;
+  }
+  .box{
+    position: fixed;
+    top: -2000px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 5px;
+    transition: all 0.4s;
+    z-index: 11;height: 94%; width: 50%; overflow-y: scroll;
+    }
+    .top-10{
+    top: 10px;
+    }
+
+  .tabs{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    }
+  ul li a{
+      color: black;
+  }
+  th{
+      font-weight: 500;
+  }
+  
+  tr{
+      border-left: 1px solid green;
+      border-right: 1px solid green;
+  } 
+
+  td{
+      border: 0;
+  }
+  .fa{
+      cursor: pointer;
+  }

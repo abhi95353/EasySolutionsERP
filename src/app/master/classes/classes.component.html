@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-lg-10 col-8">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Manage Classes</h3>
+    </div>
+    <div class="col-4 col-lg-2" style="text-align: right;">
+        <span *ngIf="this.school_code != 'Select School'" class="mt-lg-1 btn btn-success btn-sm rounded-pill"
+            (click)="onClickClassesBox(true , 'add' , null , null)">Class&nbsp;&nbsp;<i class="fa fa-plus-square"></i></span>
+    </div>
+    <hr class="p-0 m-0">
+
+    <br>
+
+
+    <div class="col-12 my-2 tabs" *ngIf="this.school_code != 'Select School' ; else notFound">
+
+        <div class="row px-1">
+            <div class="col-12 col-lg-8 my-2"> 
+                <!-- <button class="btn btn-sm btn-warning" (click)="downloadCSV()">Excel</button>&nbsp; -->
+            </div>
+            <div class="col-12 col-lg-4">
+                <div style="display: flex;justify-content: end;">
+                    <input type="search" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+                    <i class="fa fa-search fa-lg"
+                        style="background-color: lightseagreen;color: white;padding: 0px 10px;margin-left: -10px;border-radius: 5px;padding-top: 12px;"></i>
+                </div>
+            </div>
+        </div> 
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table  table-hover table-bordered" id="htmlData">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Classes</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of classes | filter:searchText; let i = index">
+                        <ng-container *ngIf="data.div_count != null">
+                            <td scope="row">{{data.id}}</td>
+                            <td>{{data.class}} <span *ngIf="data.employee != null">({{data.employee.name}})</span></td>
+                            <td><span *ngFor="let dt of data.divisions">
+                                    <span
+                                        class="btn btn-{{dt.color | lowercase}} rounded-pill mx-1 btn-sm">{{dt.section}} - ( {{dt.notation}} ) 
+                                        <ng-container *ngFor="let emp of data.division_standards">
+                                            <ng-container *ngIf="emp.id == dt.pivot.id">
+                                                <span *ngIf="emp.employee != null">({{emp.employee.name}})</span>
+                                            </ng-container>
+                                        </ng-container>
+                                        &nbsp;&nbsp;<i class="fa fa-times" style="cursor: pointer;" (click)="deleteSection(dt.pivot.id , dt.pivot.uuid)"></i></span>
+                                    </span>
+                            </td>
+                            <td>
+                                &nbsp; <i class="fa fa-eye text-danger" (click)="onClickAssignCo(data.id , data.uuid)"></i> &nbsp;
+                                <i class="fa fa-edit text-danger" (click)="onClickClassesBox(true , 'edit' ,data.id, data.uuid)"
+                                    style="cursor: pointer;"></i> &nbsp; <i class="fa fa-trash text-danger" (click)="deleteClass(data.id , data.uuid)"></i>
+                                </td>
+                        </ng-container>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ng-template #notFound>
+    <div class="row my-2 px-2">
+        <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+            <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                class="text-danger">No school Selected. Please Select the school</h5>
+        </div>
+    </div>
+</ng-template>
+
+<app-create-classes></app-create-classes>
+<app-manage-coordinator></app-manage-coordinator>

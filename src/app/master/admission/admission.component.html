@@ -1,0 +1,1057 @@
+<div class="row px-1">
+  <div class="col-8 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Admission Form
+    </h3>
+  </div>
+  <div
+    class="col-4 col-lg-2"
+    style="text-align: right"
+    *ngIf="this.school_code != 'Select School'"
+  >
+    <span
+      class="mt-lg-1 btn btn-success btn-sm rounded-pill"
+      [routerLink]="['../student-admission-list']"
+      >View List&nbsp;<i class="fa fa-eye"></i
+    ></span>
+  </div>
+  <hr class="p-0 m-0" />
+  <br />
+
+  <div
+    class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+    *ngIf="this.school_code != 'Select School'; else notFound"
+  >
+    <div class="row">
+      <div class="col-12 p-3 mb-2 tabs">
+        <p style="letter-spacing: 0.9px; text-transform: uppercase">
+          Instructions
+        </p>
+        <ul>
+          <li>Fill in the online registration form.</li>
+          <li>Submit the details and pay the registration fee online.</li>
+          <li>
+            You will receive an acknowledgement having registration number and
+            online payment details.
+          </li>
+        </ul>
+        <div class="d-none d-lg-block">
+          <div class="process-wrap {{ this.step }}">
+            <div class="process-main">
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-1"></div>
+                  <span class="process-label">Student's Details</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-2"></div>
+                  <span class="process-label">Upload Documents</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-3"></div>
+                  <span class="process-label">Acknowledgement</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-4"></div>
+                  <span class="process-label">Finished</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <!-- ngNativeValidate -->
+    <form
+      [formGroup]="applicationForm"
+      (ngSubmit)="submit()"
+      *ngIf="this.step == 'active-step1'"
+      ngNativeValidate
+    >
+      <div class="row my-2 g-4 tabs">
+        <!-- <hr class="p-0 m-0" style="border: 1px dotted grey;">
+<p class="p-0 m-0">Student's Details</p> -->
+        <p class="m-0 pb-0" style="font-size: 16px">Student's Details</p>
+        <hr class="mt-0 mb-2 pt-0" style="border: 1px dotted grey" />
+
+        <div class="col-12 col-lg-12 col-xl-4">
+          <div class="inputBox">
+            <select
+              (change)="showAdmType(sat.value)"
+              #sat
+            >
+              <option value="DA">Direct Admission</option>
+              <option value="TR">Through Registration</option>
+            </select>
+            <label
+              >Admission Type</label
+            >
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              placeholder="Admission Number"
+              formControlName="admission_no"
+              required
+              
+            />
+            <label>Admission Number</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="date"
+              title="Admission Date"
+              formControlName="admission_date"
+              max="{{ today | date: 'yyyy-MM-dd' }}"
+            />
+            <label>Date Of Admission</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-12 col-xl-6" *ngIf="is_direct != 'DA'">
+          <div class="inputBox">
+            <select
+              (change)="showSelectiveStudent(rs.value)"
+              #rs
+            >
+              <option>Select Student</option>
+              <option *ngFor="let data of studentList" value="{{ data | json }}">
+                {{ data.name }} / {{ data.f_name }}
+              </option>
+            </select>
+            <label
+              >Registerd Student {{ this.applicationForm.value.reg_no }}</label
+            >
+          </div> 
+        </div>
+        <div class="offset-lg-3 m-0"></div>
+
+        <div class="col-12 col-lg-12 col-xl-6">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="cred"
+              pattern="[97865]{1}[0-9]{9}"
+              maxlength="10"
+              minlength="10"
+              required
+              placeholder="Mobile Number"
+            />
+            <label>Mobile Number <sup class="text-danger bold">*</sup></label>
+          </div>
+          <span class="text-danger">
+            (Note: This mobile number will be used for Parents login. Multiple children
+            can be login with same mobile number)
+          </span>
+        </div>
+        <div class="offset-3 m-0"></div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              placeholder="Student's Name"
+              formControlName="name"
+              pattern="[a-zA-Z._'\s]+"
+              minlength="3"
+              maxlength="30"
+              required
+              
+            />
+            <label>Student's Name</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="date"
+              title="Date of Birth"
+              formControlName="dob"
+              required
+              
+              max="{{ today | date: 'yyyy-MM-dd' }}"
+            />
+            <label>Date Of Birth <sup class="text-danger">*</sup></label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4 pt-2">
+          <label>Gender</label>&nbsp;&nbsp;&nbsp;
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="gender"
+              id="inlineRadio1"
+              value="M"
+              formControlName="gender"
+              required
+              
+            />
+            <label class="form-check-label" for="inlineRadio1">M</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="gender"
+              id="inlineRadio2"
+              value="F"
+              formControlName="gender"
+              required
+              
+            />
+            <label class="form-check-label" for="inlineRadio2">F</label>
+          </div>
+          <div
+            *ngIf="
+              applicationForm.controls['gender'].invalid &&
+              (applicationForm.controls['gender'].dirty ||
+                applicationForm.controls['gender'].touched)
+            "
+            class="text-danger p-0 m-0"
+            style="font-size: 12px; position: absolute"
+          >
+            Hint: Input Field Required
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              formControlName="mobile_no"
+              pattern="[97865]{1}[0-9]{9}"
+              maxlength="10"
+              minlength="10"
+              required
+              placeholder="Student Mobile Number"
+              
+            />
+            <label>Student's Mobile No <sup class="text-danger">*</sup></label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="email"
+              placeholder="Student's Mail Id"
+              title="Student's Mail Id"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              formControlName="email_id"
+              
+            />
+            <label>Student's E-Mail Id</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              placeholder="Student's AAdhar"
+              title="Student's AAdhar"
+              formControlName="aadhar_no"
+              pattern="[0-9]{12}"
+              maxlength="12"
+              
+            />
+            <label>Student's Aadhar</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <select formControlName="category" required >
+              <option value="">Select Category</option>
+              <option value="General">GENERAL</option>
+              <option value="BC-A">BC-A</option>
+              <option value="BC-B">BC-B</option>
+              <option value="SC">SC</option>
+            </select>
+            <label>Category</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Medium of Instruction"
+              title="Medium of Instruction"
+              formControlName="instruction_medium"
+              required
+            />
+            <label>Medium of Instruction</label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Mother Tongue"
+              title="Mother Tongue"
+              formControlName="mother_tongue"
+              required
+            />
+            <label>Mother Tongue</label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="number"
+              class="form-control"
+              formControlName="p_income"
+              required
+            />
+            <label>Income <sup class="text-danger">*</sup></label>
+          </div>
+          <!-- 
+<label>Whether belongs to BPL </label>
+
+<select class="form-control" placeholder="Whether belongs to BPL"
+title="Whether belongs to BPL" formControlName="is_bpl" required>
+<option value="0">No</option>
+<option value="1">Yes</option>
+</select> -->
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <select formControlName="disability" required>
+              <option [value]="'No'">NO</option>
+              <option [value]="'Yes'">YES</option>
+            </select>
+
+            <label>Type of Disability (If any)</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Birth Certificate Number"
+              formControlName="birth_cert_no"
+              required
+            />
+            <label>Birth Certificate No</label>
+          </div>
+        </div>
+
+        <!-- <div class="col-12 col-lg-4 col-xl-4">
+<div class="inputBox"></div>
+
+<label>Student Nationality</label>
+<input type="text" class="form-control" placeholder="Country" title="Country" 
+value="Indian" required>
+</div> -->
+<p class="m-0 pb-0 pt-4" style="font-size: 16px">Apply For</p> 
+<hr class="mt-0 mb-1 pt-0" style="border: 1px dotted grey" />
+
+<div class="col-12 col-lg-4 col-xl-4 inputBox">
+  <div class="inputBox">
+    <select formControlName="app_standard_id" required>
+      <option value="">N/A</option>
+      <option
+        *ngFor="let data of classList"
+        value="{{ data.id }}"
+      >
+        {{ data.class }}
+      </option>
+    </select>
+    <label
+      >Apply For (Class)<sup class="text-danger">*</sup></label
+    >
+  </div>
+</div>
+
+<div class="col-12 col-lg-4 col-xl-4 inputBox">
+  <div class="inputBox">
+    <select formControlName="pre_standard_id" required>
+      <option value="">N/A</option>
+      <option
+        *ngFor="let data of classList"
+        value="{{ data.id }}"
+      >
+        {{ data.class }}
+      </option>
+    </select>
+    <label
+      >Previous Class<sup class="text-danger">*</sup></label
+    >
+  </div>
+</div>
+<div class="col-12 col-lg-4 col-xl-4 inputBox">
+  <div class="inputBox">
+    <select formControlName="academic_session_id" required>
+      <option value="">Select Session</option>
+      <option *ngFor="let data of sessionList" value="{{data.id}}">{{data.session}}</option>
+    </select>
+    <label
+      >Select Session<sup class="text-danger">*</sup></label
+    >
+  </div>
+</div> 
+<div class="offset-lg-3"></div>
+<p class="m-0 pb-0" style="font-size: 16px">Service's Details</p>
+<hr class="mt-0 mb-2 pt-0" style="border: 1px dotted grey" />
+
+<div class="col-12 col-lg-12 col-xl-4">
+  <div class="inputBox">
+    <select
+      required
+      formControlName="is_transport"
+      #services
+      required
+      (change)="routeBus(busService.value)"
+      #busService
+    >
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </select>
+    <label
+      >Is Transport</label
+    >
+  </div>
+</div>
+
+
+        <div class="offset-lg-3"></div>
+        <p class="m-0 pb-0" style="font-size: 16px">Parents' Details</p>
+        <hr class="p-0 m-0" style="border: 1px dotted grey" />
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Father's Name"
+              title="Father's Name"
+              formControlName="f_name"
+              required
+              pattern="[a-zA-Z._'\s]+"
+              minlength="3"
+              maxlength="30"
+              
+            />
+            <label>Father's Name</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Father's occupation"
+              title="Father's occupation"
+              formControlName="f_occupation"
+              
+            />
+            <label>Father's occupation</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="date"
+              class="form-control"
+              title="Date of Birth"
+              formControlName="f_dob"
+            />
+            <label>Father DOB</label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Mobile Number"
+              formControlName="f_mobile_no"
+              pattern="[97865]{1}[0-9]{9}"
+              maxlength="10"
+              minlength="10"
+              required
+              
+            />
+            <label>Father's Mobile No</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="mail"
+              class="form-control"
+              placeholder="Father's Mail-ID"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              formControlName="f_email"
+              
+            />
+
+            <label>Father's E-Mail-ID</label>
+          </div>
+        </div>
+
+        <div class="offset-3 m-0"></div>
+
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Mother's Name"
+              title="Mother's Name"
+              formControlName="m_name"
+              required
+              pattern="[a-zA-Z._'\s]+"
+              minlength="3"
+              maxlength="30"
+              
+            />
+            <label>Mother's Name</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Mother's occupation"
+              title="Mother's occupation"
+              
+              formControlName="m_occupation"
+            />
+            <label>Mother's occupation</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="date"
+              class="form-control"
+              title="Date of Birth"
+              formControlName="m_dob"
+            />
+            <label>Mother DOB</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Mobile Number"
+              formControlName="m_mobile_no"
+              pattern="[97865]{1}[0-9]{9}"
+              maxlength="10"
+              minlength="10"
+              
+            />
+            <label>Mother's Mobile No</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="inputBox">
+            <input
+              type="mail"
+              class="form-control"
+              placeholder="Mother's Mail-ID"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              formControlName="m_email"
+              
+            />
+
+            <label>Mother's E-Mail-ID</label>
+          </div>
+        </div>
+        <div class="offset-3 m-0"></div>
+
+        <div class="col-12 col-lg-4">
+          <div class="inputBox">
+            <select formControlName="is_ew" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+            <label>Staff's Ward ?</label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="inputBox">
+            <select formControlName="is_3c" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+            <label>Third Child ?</label>
+          </div>
+        </div>
+        <div class="col-12 col-lg-9 col-xl-9 inputBox">
+          <div class="inputBox">
+            <input
+              type="text"
+              formControlName="location"
+              required
+              value=""
+              placeholder="Address"
+              
+            />
+            <label
+              >Correspondence Address<sup class="text-danger">*</sup></label
+            >
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-3 col-xl-3 inputBox">
+          <div class="inputBox">
+            <input
+              type="text"
+              formControlName="pincode"
+              placeholder="Pincode"
+              maxlength="6"
+              pattern="[0-9]{3,6}"
+              required
+              value=""
+              
+            />
+            <label>Pincode<sup class="text-danger">*</sup></label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4 inputBox">
+          <div class="inputBox">
+            <select
+              formControlName="state_id"
+              (change)="showCity(state.value)"
+              #state
+              class="form-control"
+              required
+              
+            >
+              <option value="">Select State</option>
+              <option *ngFor="let dt of stateList" value="{{ dt.id }}">
+                {{ dt.state }}
+              </option>
+            </select>
+            <label>State<sup class="text-danger">*</sup></label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4 inputBox">
+          <div class="inputBox">
+            <select
+              formControlName="city_id"
+              class="form-control"
+              required
+              
+            >
+              <option value="">Select City</option>
+              <option *ngFor="let dt of cityList" value="{{ dt.id }}">
+                {{ dt.city }}
+              </option>
+            </select>
+            <label>City<sup class="text-danger">*</sup></label>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4 col-xl-4 inputBox">
+          <div class="inputBox">
+            <input type="text"  value="India" />
+            <label>Country<sup class="text-danger">*</sup></label>
+          </div>
+        </div>
+        <div class="col-12 mb-4">
+          <input
+            type="submit"
+            class="btn btn-md btn-success rounded-pill"
+            [disabled]="submitStatus"
+            value="Submit"
+          />&nbsp;<i
+            class="fas fa-spinner fa-pulse text-success fa-lg"
+            *ngIf="submitStatus"
+          ></i>
+          <span
+            class="btn btn-danger btn-md my-1 rounded-pill"
+            (click)="goToHome()"
+            >Reset</span
+          >
+        </div>
+      </div>
+    </form>
+
+    <!-- Second Step -->
+
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step3'">
+      <div class="col-12">
+        <div class="row g-2">
+          <div class="col-12">
+            <div
+              style="border: 1px solid black; border-radius: 5px; padding: 20px"
+            >
+              <b style="font-size: 21px"> Acknowledgement </b>
+              <!-- <p style="letter-spacing: 0.9px; text-transform: uppercase">
+                Services
+              </p> -->
+              <ul>
+                <!-- <li>
+                  Transport
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="transportServiceStatue"
+                   
+                  />
+                </li> -->
+                <li >You application has been submitted. Please press next and download pdf</li>
+              </ul>
+              <div
+                class="row gy-4"
+                *ngIf="transportServiceStatue"
+                ngNativeValidate
+              >
+                <div class="col-6">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      value="{{ studentList.name }}"
+                    />
+                    <label for="">Student Name</label>
+                  </div>
+                </div>
+                <!-- <div class="col-4">
+                  <div class="inputBox">
+                    <input type="text" value="studentList." />
+                    <label for="">Class Name</label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="inputBox">
+                    <input type="name" />
+                    <label for="">Section</label>
+                  </div>
+                </div> -->
+                <div class="col-6">
+                  <div class="inputBox">
+                    <input type="text" value="{{ studentList.f_name }}" />
+                    <label for="">Father Name</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="inputBox">
+                    <input type="text" value="{{ studentList.f_occupation }}" />
+                    <label for="">Father Occupation</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="inputBox">
+                    <input type="text" value="{{ studentList.m_name }}" />
+                    <label for="">Mother Name</label>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="inputBox">
+                    <input type="text" value="{{ studentList.m_occupation }}" />
+                    <label for="">Mother Occupation</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="inputBox">
+                    <input type="text" value="{{ studentList.location }}" />
+                    <label for="">Address</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <b style="font-size: 21px"> Mode Of Transport </b>
+                  <p>
+                    Please tick the appropriate and fill in the information
+                    where required
+                  </p>
+                  <form
+                    [formGroup]="serviceForm"
+                    (ngSubmit)="services()"
+                    ngNativeValidate
+                  >
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="inputBox">
+                          <select formControlName="transport_name" required>
+                            <option value="Car">Car</option>
+                            <option value="School Bus">School Bus</option>
+                            <option value="Private Bus">Private Bus/Van</option>
+                            <option value="Auto Rickshaw">Auto Rickshaw</option>
+                            <option value="Two Wheler">Two heler</option>
+                            <option value="Any Other">Any Other</option>
+                          </select>
+                          <label for="">Select Vahicle</label>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="inputBox">
+                          <input
+                            type="text"
+                            formControlName="transport_no"
+                            required
+                          />
+                          <label for="">Vehicle Number</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <input
+                          type="submit"
+                          [disabled]="submitStatus"
+                          class="btn btn-sm btn-success"
+                          *ngIf="transportServiceStatue"
+                          value="Submit"
+                        />
+                        &nbsp;<i
+                          class="fas fa-spinner fa-pulse text-success fa-lg"
+                          *ngIf="submitStatus"
+                        ></i
+                        >&nbsp;
+                        <span
+                          *ngIf="transportServiceStatue"
+                          class="btn btn-primary btn-sm my-1"
+                          (click)="goToHome()"
+                          >Reset</span
+                        >
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <span
+                *ngIf="!transportServiceStatue"
+                class="btn btn-primary btn-sm my-1"
+                (click)="services()"
+                >Next</span
+              >&nbsp;
+              <span
+                *ngIf="!transportServiceStatue"
+                class="btn btn-primary btn-sm my-1"
+                (click)="goToHome()"
+                >Reset</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third Step -->
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step2'">
+      <div class="col-12">
+        <div class="row g-2">
+          <div class="col-12">
+            <div
+              style="border: 1px solid black; border-radius: 5px; padding: 20px"
+            >
+              <p
+                class="mb-0 pb-0"
+                style="letter-spacing: 0.9px; text-transform: uppercase"
+              >
+                Upload Document 
+              </p>
+
+              <hr class="p-0 m-0 mb-4" style="border: 1px dotted grey" />
+              <div class="row g-2 my-4">
+                <div class="col-12 col-lg-4 col-xl-4">
+                  <img
+                    src="https://traditionalyoga.co.in/wp-content/uploads/2020/08/pp-size.jpeg"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.passportPhoto == undefined"
+                  />
+                  <img
+                    [src]="this.passportPhoto"
+                    alt="Student" 
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.passportPhoto != undefined"
+                  /><br />
+                  <label for="">Passport Size Photo </label><br />
+                  <input 
+                    class=""
+                    type="file"
+                    style="color: rgba(0, 0, 0, 0); border: 0"
+                    (change)="onFileChange($event, 'passphoto')"
+                    accept="image/*"
+
+                  />
+                </div>
+
+                <div class="col-12 col-lg-4 col-xl-4">
+                  <img
+                    src="https://traditionalyoga.co.in/wp-content/uploads/2020/08/pp-size.jpeg"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.birthCert == undefined"
+                  />
+                  <img
+                    [src]="this.birthCert"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.birthCert != undefined"
+                  /><br />
+                  <label for="">Birth Certificate</label><br />
+                  <input
+                    type="file"
+                    style="color: rgba(0, 0, 0, 0); border: 0"
+                    (change)="onFileChange($event, 'birthCert')"
+                    accept="image/*"
+                  />
+                </div>
+              </div>
+              <button
+                class="btn btn-sm btn-success"
+                [disabled]="submitStatus"
+                (click)="submitDoc()"
+              >
+                Upload</button
+              >&nbsp; <span class="btn btn-sm btn-primary" (click)="onClickBack('active-step1')">Back</span> &nbsp;<i
+                class="fas fa-spinner fa-pulse text-success fa-lg"
+                *ngIf="submitStatus"
+              ></i>
+              <span class="btn btn-danger btn-sm my-1" 
+              (click)="onclickReset('student_admission_data_image')"
+
+                >Reset</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fourth Step -->
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step4'">
+      <div class="col-12">
+        <div class="row g-2">
+          <div class="col-12">
+            <div
+              style="
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 20px;
+                text-align: center;
+              "
+            >
+              <p style="letter-spacing: 0.9px; text-transform: uppercase"></p>
+              <ul style="list-style-type: none">
+                <li>
+                  Dear Student your online admission form is Submitted
+                  successfully on date. Your Reference number is
+                  {{ this.addmission_id }}. Please remember your reference
+                  number for further process.
+                </li>
+                <li class="text-danger">
+                  Don't Close the browser before downloading PDF.
+                </li>
+                <!-- <li><span class="btn btn-success btn-sm" [routerLink]="['../download-form-admission']">DownLoad</span></li> -->
+                <li>
+                  <span class="btn btn-primary btn-sm my-1" (click)="goToHome()"
+                    >Go to Home</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div> 
+  </ng-template>
+</div>
+
+
+
+<!-- <div class="demo">
+  <google-pay-button environment="TEST"  [paymentRequest]="paymentRequest"
+     (loadpaymentdata)="onLoadPaymentData($event)"></google-pay-button>
+</div> -->
+
+
+
+
+
+<!-- Transport Services -->
+
+
+<div *ngIf="serviceBoxStatus"
+    style="position: fixed;top: 0;left: 0;width:100%;height: 100%;background-color:rgba(0,0,0, 0.5);z-index: 10;">
+</div>
+
+ 
+
+<!-- Add Box -->
+<div class="box" style="z-index: 11;" [ngClass]="this.serviceBoxStatus? 'top-10' : ''">
+    <div>
+        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
+            <h3 style="letter-spacing: 0.9px; text-transform: uppercase; ">Transport&nbsp;Route&nbsp;List</h3>
+            <span class="btn btn-sm rounded-pill" (click)="onClickServiceBox(false)"><i
+                    class="fa fa-times"></i></span>
+        </div> 
+        <hr class="p-0 m-0"> 
+        <br>
+        <div style="display: flex; justify-content: space-between;">
+         
+          <table class="table table-sm table-striped table-hover mx-4">
+            <thead>
+              <tr>
+                <th>Transport&nbsp;Name</th>
+                <th>No</th>
+                <th>Desc.</th>
+                <th>Note</th>
+                <th>Fee</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dt of routeData.data">
+                <td>{{dt.tr_name}}</td>
+                <td>{{dt.tr_no}}</td>
+                <td>{{dt.tr_desc}}</td>
+                <td>{{dt.note}}</td>
+                <td>{{dt.fee}}</td>
+                <td><input type="radio" name="sets" (change)="onClickCheckBox(dt.id , dt.uuid)"></td>
+              </tr>
+              <tr>
+                <td [attr.colspan]="5">Clear Route</td>
+                <td><input type="radio" name="sets" (change)="onClickCheckBox(null , null)"></td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        </div>
+    </div>
+</div>
+
+

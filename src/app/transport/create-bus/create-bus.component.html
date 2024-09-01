@@ -1,0 +1,149 @@
+<div class="row px-1">
+    <div class="col-8 col-lg-10">
+      <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+        {{action}}&nbsp;Bus & Assign Driver
+      </h3>
+    </div>
+  
+    <div
+      class="col-4 col-lg-2"
+      style="text-align: right"
+      *ngIf="this.school_code != 'Select School'"
+    >
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+  
+    <div
+      class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+      *ngIf="this.school_code != 'Select School'; else notFound"
+    >
+      <form [formGroup]="busForm" (ngSubmit)="assignBus()" ngNativeValidate>
+          <div class="row">
+              <div class="col-12 p-3 mb-2 tabs">
+                  <h5>Form</h5>
+                  <br>
+                 <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <select formControlName="employee_id" #driver>
+                                <option value="" selected>Select Driver</option>
+                                <option *ngFor="let item of driverList.data" [value]="item.id">{{item.name}} / {{item.account}}</option>
+                            </select>
+                            <label>Driver List</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="reg_no" required>
+                            <label>Bus&nbsp;Number</label>
+                        </div>
+                     </div>    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <select formControlName="transport_route_id" #route>
+                                <option value="" selected>Select Route</option>
+                                <option *ngFor="let item of routeData.data" [value]="item.id">{{item.tr_name}} /{{item.tr_no}} </option>
+                            </select>
+                            <label>Route Number</label>
+                        </div>
+                     </div>
+    
+                     
+                 </div>
+               <br>
+              <div class="col-12 col-md-4">
+                  <input type="submit" value="Submit" class="btn btn-sm btn-success"  [disabled]="loadingStatus">
+                  &nbsp;<i class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="loadingStatus"></i>
+              </div>
+              
+              </div>
+              
+            </div>
+      </form>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="row">
+    
+      <div
+        class="col-4 col-lg-2"
+        style="text-align: right"
+        *ngIf="this.school_code != 'Select School'"
+      >
+       
+      </div>
+      <br />
+    
+      <div
+        class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+        *ngIf="this.school_code != 'Select School'; else notFound"
+      >
+      <div class="col-12 my-2 tabs">
+          <div class="row">
+              <div class="col-12 col-lg-8 my-2">
+                <span style="font-size: 18px;">Manage</span>
+              </div>
+              <div class="col-12 col-lg-4">
+                  <div style="display: flex;justify-content: end;">
+                      <input type="search" class="form-control" placeholder="Search" >
+                      <i class="fa fa-search fa-lg" style="background-color: lightseagreen;color: white;padding: 0px 10px;margin-left: -10px;border-radius: 5px;padding-top: 12px;"></i>
+                  </div>
+              </div>
+          </div>
+          <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+              <table class="table table-striped table-hover table-bordered border-success" id="htmlData">
+                  <thead class="bg-success text-white">
+                      <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Bus&nbsp;Number</th>
+                          <th scope="col">Driver&nbsp;Name</th>
+                          <th scope="col">Route&nbsp;No</th>
+                          <th scope="col">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data of dataList.data;let i = index">
+                          <th scope="row">{{i + 1}}</th>
+                          <td>{{data.reg_no}}</td>
+                          <th><span *ngIf="data.employee != null">{{data.employee.name}}</span></th>
+                          <td>{{data.transport_route.tr_no}} / {{data.transport_route.tr_name}}</td>
+                          <td>
+                              <i class="fa fa-edit" style="cursor: pointer;"  [routerLink]="[
+                              '/manage-bus-driver',
+                              { action: 'update', data: data | json }
+                            ]"></i>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      </div>
+    
+    
+  
+    <ng-template #notFound>
+      <div class="row my-2 px-2">
+        <div
+          class="col-12 tabs"
+          style="position: relative; display: flex; align-items: baseline"
+        >
+          <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+          >&nbsp;&nbsp;&nbsp;
+          <h5 class="text-danger">
+            No school Selected. Please Select the school
+          </h5>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  

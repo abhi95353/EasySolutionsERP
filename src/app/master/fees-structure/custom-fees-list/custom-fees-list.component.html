@@ -1,0 +1,117 @@
+<div class="row">
+    <div class="col-lg-10 col-8">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Custom Fees List</h3>
+    </div>
+    <div class="col-4 col-lg-2" style="text-align: right;" *ngIf="this.school_code != 'Select School'">
+        <span class="mt-lg-1 btn btn-success btn-sm rounded-pill"
+            [routerLink]="['../custom-fees' , {action:'add' , id:null}]">Add&nbsp;&nbsp;<i
+                class="fa fa-plus-square"></i></span>
+    </div>
+    <hr class="p-0 m-0">
+
+    <br>
+
+ 
+    <div class="col-12 my-2 tabs" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row px-1">
+            <div class="col-12 col-lg-8 my-2">
+                <button class="btn btn-sm btn-warning" (click)="downloadCSV()">Excel</button>&nbsp;
+            </div>
+            <div class="col-12 col-lg-4">
+                <div style="display: flex;justify-content: end;">
+                    <input type="search" class="form-control" placeholder="Ex: Name, Code" title="Ex: Name, Code"
+                        [(ngModel)]="searchText">
+                    <i class="fa fa-search fa-lg"
+                        style="background-color: lightseagreen;color: white;padding: 0px 10px;margin-left: -10px;border-radius: 5px;padding-top: 12px;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-sm  table-hover table-bordered" >
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Fees</th>
+                        <th scope="col">Due&nbsp;Date</th>
+                        <th scope="col">Student&nbsp;Count</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of customFeesList | filter:searchText;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.fee}}</td>
+                        <td>{{data.due_date}}</td>
+                        <td>{{data.custom_fee_collect.length}}</td>
+                        <td><i class="fa fa-eye text-danger" (click)="showDetails(data.custom_fee_collect)"></i></td>
+                    </tr>
+                </tbody> 
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div *ngIf="regBoxStatus"
+    style="position: fixed;top: 0;left: 0;width:100%;height: 100%;;background-color:rgba(0,0,0, 0.5);z-index: 10;">
+</div> -->
+
+
+
+<!-- Add Box -->
+<div class="box" [ngClass]="this.regBoxStatus? 'top-10' : ''">
+    <div>
+        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
+            <h4 class="px-3" style="letter-spacing: 0.9px; text-transform: uppercase; " *ngIf="regBoxStatus"> 
+         <!-- &nbsp;&nbsp; <i class="fa fa-download" style="font-size: 16px; cursor: pointer;" (click)="openPDF()">Download</i> -->
+        </h4>
+            <span class="btn btn-sm rounded-pill" (click)="onClickRegBox(false)"><i
+                    class="fa fa-times"></i></span>
+        </div>
+        <hr class="p-0 m-0">
+        <div style="display: flex; justify-content: space-between;" class="px-4">
+            <table class="table table-striped" *ngIf="regBoxStatus" id="htmlData">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Account No</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of studentList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.name}}</td>
+                    <td>{{data.account}}</td>
+                    <td><i class="fa fa-trash" (click)="deleteStudentActivityPro(data.id , data.uuid)"></i></td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+
+        </div>
+    </div>
+</div>

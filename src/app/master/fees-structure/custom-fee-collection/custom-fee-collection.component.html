@@ -1,0 +1,312 @@
+<div class="row px-1" *ngIf="feesBox" >
+  <div
+    class="col-12 my-2"
+  >
+    <div class="row">
+      <div
+        class="col-12 col-lg-12 col-xl-12 tabs"      >
+        <div class="row gy-4">
+          <div class="col-6">
+            <div>
+              <h5>Custom&nbsp;Fees</h5>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="table-responsive">
+              <table class="table table-sm" style="border: 5px double black">
+                <tr style="background-color: wheat">
+                  <td>
+                    <span
+                      >Name:&nbsp;<b>{{ studentProfiledata.name }}</b></span
+                    >
+                  </td>
+                  <td>
+                    <span
+                      >A/c&nbsp;No:&nbsp;<b>{{
+                        studentProfiledata.account
+                      }}</b></span
+                    >
+                  </td>
+                  <td [attr.colspan]="2">
+                    <span
+                      >Father&nbsp;Name:&nbsp;<b>{{
+                        studentProfiledata.f_name
+                      }}</b></span
+                    >
+                  </td>
+                </tr>
+                <tr style="background-color: wheat">
+                  <td>
+                    <label>Custom&nbsp;Fee</label>:
+                    <select
+                      (change)="onSelectMonth(fee_month.value)"
+                      [(ngModel)]="monthId"
+                      #fee_month
+                    >
+                      <option value="{{ dt.id }}" *ngFor="let dt of monthList">
+                        {{ dt.month }}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <span
+                      >Date:&nbsp;<b>{{ today | date:"medium" }}</b></span
+                    >
+                  </td>
+                  <td [attr.colspan]="2">
+                    <span
+                      >Session:&nbsp;<b>{{
+                        studentProfiledata.session
+                      }}</b></span
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td [attr.colspan]="4">
+                    <table class="table table-sm">
+                      <thead>
+                        <tr>
+                          <th>Particulars</th>
+                          <th>Fee</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngIf="studentData.length > 0; else pay">
+                          <ng-container *ngFor="let dt of studentData">
+                            <ng-container *ngIf="dt.id == monthId">
+                              <tr>
+                                <td>Custom Fee Name</td>
+                                <td>{{ dt.custom_fee.name }}</td>
+                              </tr>
+                              <tr>
+                                <td>Due Date</td>
+                                <td>{{ dt.custom_fee.due_date }}</td>
+                              </tr>
+                              <tr>
+                                <td>Fees</td>
+                                <td>{{ dt.due }}</td>
+                              </tr>
+                              <tr style="background-color: white">
+                                <td [attr.colspan]="2">
+                                  <!-- <span
+                                    class="btn btn-warning btn-md rounded-pill"
+                                    [routerLink]="['/../manage-student-fee' , {id:'admin'}]"
+                                    >Manage Facility</span
+                                  >&nbsp; -->
+                                  <span>
+                                    <select
+                                      class="mt-4"
+                                      class="rounded-pill"
+                                      style="padding: 8px 20px"
+                                      (change)="clickCash(clickoncash.value)"
+                                      #clickoncash
+                                    >
+                                      <option value="cash">Cash</option>
+                                      <option value="online">Online</option>
+                                    </select>
+                                  </span>
+                                  &nbsp;
+                                  <span
+                                    class="btn btn-success rounded-pill"
+                                    (click)="onClickPay(dt.id, dt.uuid)"
+                                    >Collect : {{ dt.due }} /-Rs</span
+                                  >
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                        <ng-template #pay>
+                          <tr>
+                            <td [attr.colspan]="2">All Month Fees Paid</td>
+                          </tr>
+                        </ng-template>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #notFound>
+  <div class="row my-2 px-2">
+    <div
+      class="col-12 tabs"
+      style="position: relative; display: flex; align-items: baseline"
+    >
+      <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+      >&nbsp;&nbsp;&nbsp;
+      <h5 class="text-danger">
+        No school Selected. Please Select the school
+      </h5>
+    </div>
+  </div>
+</ng-template>
+
+<!-- printer -->
+<div
+  style="
+    border: 5px double black;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: white;
+    height: 94%;
+    overflow-y: scroll;
+  "
+  *ngIf="printStatus"
+>
+  <ng-container *ngFor="let data of print_data">
+    <ng-container *ngFor="let dt of data.details">
+      <table class="table table-sm" id="htmlData">
+        <tr>
+          <td [attr.colspan]="4" style="text-align: center">
+            <span style="font-weight: bold; font-size: 20px">{{
+              schoolData.name
+            }}</span
+            ><br />
+            <span style="color: grey">{{ schoolData.location }}</span
+            ><br />
+            <span style="color: grey"
+              >A Co-Educational English Medium School, Affiliated to
+              {{ schoolData.affiliation }} , New Delhi</span
+            ><br />
+            <span style="color: grey"
+              >{{ schoolData.contact_no }} , {{ schoolData.contact_mail }}</span
+            ><br />
+            <span style="color: grey"
+              >Affiliation No: {{ schoolData.affiliation_no }}</span
+            ><br />
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span
+              >Name:&nbsp;<b>{{ studentPrintData.name }}</b></span
+            >
+          </td>
+          <td>
+            <span
+              >A/c&nbsp;No:&nbsp;<b>{{ studentPrintData.account }}</b></span
+            >
+          </td>
+          <td>
+            <span
+              >Class:&nbsp;<b>{{ studentPrintData.standard.class }}</b></span
+            >
+          </td>
+
+          <td>
+            <span
+              >Receipt&nbsp;No:&nbsp;<b>{{ data.receipt_no }}</b></span
+            >
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <label>Facility Name</label>:
+            {{ dt.custom_facility }}
+          </td>
+          <td>
+            <span
+              >Date:&nbsp;<b>{{ data.date_time | date: "dd/MM/YYYY" }}</b></span
+            >
+          </td>
+          <td>
+            <span
+              >Session:&nbsp;<b>{{
+                studentPrintData.academic_session.session
+              }}</b></span
+            >
+          </td>
+          <td>
+            <span
+              >Father&nbsp;Name:&nbsp;<b>{{
+                studentPrintData.parental.f_name
+              }}</b></span
+            >
+          </td>
+        </tr>
+
+        <tr>
+          <td [attr.colspan]="4">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Particulars</th>
+                  <th>Fee</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Custom Facility Name</td>
+                  <td>{{ dt.custom_facility }}</td>
+                </tr>
+
+                <tr>
+                  <td>
+                    <b>Fee</b>
+                  </td>
+                  <td>
+                    <ng-container>
+                      <b>{{ dt.fee }}</b>
+                    </ng-container>
+                  </td>
+                </tr>
+                <tr>
+                  <td [attr.colspan]="4">
+                    <span style="font-size: 24px"
+                      >Status: PAID ({{ data.pay_type.pay }})
+                    </span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td [attr.colspan]="4">
+                    <span style="font-size: 12px"
+                      >* This is computer generated invoice no signature
+                      required</span
+                    >
+                  </td>
+                </tr>
+
+                <ng-template #pay>
+                  <tr>
+                    <td [attr.colspan]="2">All Month Fees Paid</td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </ng-container>
+  </ng-container>
+
+  <span (click)="openPDF()" class="btn btn-success my-2 mx-2">
+    <i class="fa fa-download"></i> Download</span
+  >&nbsp;&nbsp;
+  <span (click)="close()" class="btn btn-danger">Close</span>
+</div>
+
+<!-- <div class="py-2 px-4" style="position: fixed;top: 50%;left: 50%;width: 40%;transform: translate(-50% , -50%);background-color: lightcyan;border-radius: 5px;">
+  <h4>Payable Amount:</h4>
+  <select class="form-control" >
+    <option value="cash">Cash</option>
+    <option value="online">Online</option>
+  </select>
+  <span class="btn btn-success my-2">Pay Now</span>&nbsp;&nbsp;&nbsp;
+  <span class="btn btn-danger my-2">Close</span>
+</div> -->
+
+<!-- <button class="btn btn-lg btn-danger" (click)="payFees()">Pay Now</button> -->

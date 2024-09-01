@@ -1,0 +1,499 @@
+<ng-container *ngIf="viewDashBoard; else notFound">
+  <div class="row">
+    <div class="col-12">
+      <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Dashboard
+      </h3>
+    </div>
+    <hr class="p-0 m-0" />
+  </div>
+  <br />
+  <div class="row g-4" *ngIf="!isStaff">
+    <div class="col-12 col-xl-6 col-xxl-3">
+      <div class="card" style="max-width: 100%">
+        <span
+          class="fa-text"
+          style="display: block; font-size: 40px; color: lightseagreen"
+        >
+          <span #animatedDigit1>{{ registrationCount }} </span>
+          <i class="fas fa-long-arrow-alt-up fa-sm text-success"></i>
+          <i class="fas fa-long-arrow-alt-down fa-sm text-danger"></i>
+          <span
+            style="
+              color: black;
+              display: block;
+              font-size: 18px;
+              letter-spacing: 0.9px;
+              text-transform: uppercase;
+            "
+          >
+            Registration</span
+          >
+        </span>
+        <img src="assets/image/icons/analysis.png" alt="icon" />
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-6 col-xxl-3">
+      <div class="card" style="max-width: 100%">
+        <span
+          class="fa-text"
+          style="display: block; font-size: 40px; color: lightseagreen"
+        >
+          <span #animatedDigit2>{{ admissionCount }} </span>
+          <i class="fas fa-long-arrow-alt-up fa-sm text-success"></i>
+          <i class="fas fa-long-arrow-alt-down fa-sm text-danger"></i>
+          <span
+            style="
+              color: black;
+              display: block;
+              font-size: 18px;
+              letter-spacing: 0.9px;
+              text-transform: uppercase;
+            "
+          >
+            Admission</span
+          >
+        </span>
+        <img src="assets/image/icons/analysis.png" alt="icon" />
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-6 col-xxl-3">
+      <div class="card" style="max-width: 100%">
+        <span
+          class="fa-text"
+          style="display: block; font-size: 40px; color: lightseagreen"
+        >
+          <span #animatedDigit4>{{ studentCount }} </span>
+          <i class="fas fa-long-arrow-alt-up fa-sm text-success"></i>
+          <i class="fas fa-long-arrow-alt-down fa-sm text-danger"></i>
+          <span
+            style="
+              color: black;
+              display: block;
+              font-size: 18px;
+              letter-spacing: 0.9px;
+              text-transform: uppercase;
+            "
+          >
+            Student
+          </span>
+        </span>
+        <img src="assets/image/icons/analysis.png" alt="icon" />
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-6 col-xxl-3">
+      <div class="card" style="max-width: 100%" (click)="onClickFeesCollectionBox(true)">
+        <span
+          class="fa-text"
+          style="display: block; font-size: 40px; color: lightseagreen"
+        >
+          <span #animatedDigit3>{{ dailyFeesCount }} </span>
+          <i class="fas fa-long-arrow-alt-up fa-sm text-success"></i>
+          <i class="fas fa-long-arrow-alt-down fa-sm text-danger"></i>
+          <span
+            style="
+              color: black;
+              display: block;
+              font-size: 18px;
+              letter-spacing: 0.9px;
+              text-transform: uppercase;
+            "
+          >
+            Collection</span
+          >
+        </span>
+        <img src="assets/image/icons/analysis.png" alt="icon" />
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+  <div class="row g-4" *ngIf="isStaff">
+    <div class="col-12 col-xl-6 col-xxl-3">
+      <div class="card" style="max-width: 100%">
+        <span
+          class="fa-text"
+          style="display: block; font-size: 40px; color: lightseagreen"
+        >
+       <button class="btn btn-lg btn-success" [routerLink]="['/fees-collect']" routerLinkActive="active" >CollectFees</button>
+       
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-6 col-xxl-3">
+      <div class="card" style="max-width: 100%">
+        <span
+          class="fa-text"
+          style="display: block; font-size: 40px; color: lightseagreen"
+        >
+       <button class="btn btn-lg btn-success" [routerLink]="['/attandance']" routerLinkActive="active" >Attendance</button>
+       
+        </span>
+      </div>
+    </div>
+
+ 
+
+
+
+  </div>
+
+  <!-- <hr> -->
+
+  <div class="row mt-1 g-4 mx-1" style="border-radius: 5px" *ngIf="!isStaff">
+    <div class="charts" style="display: flex; justify-content: space-around;">
+      <h5 style="text-transform: uppercase; letter-spacing: 0.9px">
+        <div class="form-check form-switch" style="display: flex; align-items: center; justify-content:flex-start ;">
+          <input class="form-check-input" type="checkbox"  [checked]="this.portalData.attendance" (change)="updatePortal(this.portalData.id , this.portalData.uuid , this.portalData.attendance , 'attendance')" id="addtendance">&nbsp;&nbsp;
+          <label class="form-check-label pt-2" for="addtendance">Attendance&nbsp;Portal</label>
+        </div>
+      </h5>
+      <h5 style="text-transform: uppercase; letter-spacing: 0.9px">
+        <div class="form-check form-switch" style="display: flex; align-items: center; justify-content:flex-start ;">
+          <input class="form-check-input" type="checkbox"  [checked]="this.portalData.text_message" (change)="updatePortal(this.portalData.id , this.portalData.uuid , this.portalData.text_message  , 'text_message')" id="sms">&nbsp;&nbsp;
+          <label class="form-check-label pt-2" for="sms">SMS&nbsp;Portal</label>
+        </div>
+      </h5>
+
+      <h5 style="text-transform: uppercase; letter-spacing: 0.9px">
+        <div class="form-check form-switch" style="display: flex; align-items: center; justify-content:flex-start ;">
+          <input class="form-check-input" type="checkbox"  [checked]="this.portalData.fee_collection" (change)="updatePortal(this.portalData.id , this.portalData.uuid , this.portalData.fee_collection  , 'fee_collection')" id="collection">&nbsp;&nbsp;
+          <label class="form-check-label pt-2" for="collection">Fee&nbsp;Collection</label>
+        </div>
+      </h5>
+
+
+      <h5 style="text-transform: uppercase; letter-spacing: 0.9px">
+        <div class="form-check form-switch" style="display: flex; align-items: center; justify-content:flex-start ;">
+          <input class="form-check-input" type="checkbox"  [checked]="this.portalData.fee_submission" (change)="updatePortal(this.portalData.id , this.portalData.uuid , this.portalData.fee_submission  , 'fee_submission')" id="collect">&nbsp;&nbsp;
+          <label class="form-check-label pt-2" for="collect">Fee&nbsp;Submission</label>
+        </div>
+      </h5>
+    </div>
+  </div>
+
+
+  <div class="row mt-1 g-4 mx-1" style="border-radius: 5px" *ngIf="!isStaff">
+    <div class="charts">
+      <h5 style="text-transform: uppercase; letter-spacing: 0.9px">
+        <div style="width: 30%;">
+          <label class="pt-2" for="collect" style="font-size: 16px;">Apply Fines</label>
+          <select class="form-select" aria-label="Default select example" #month >
+            <option value="apr">April</option>
+            <option value="may">May</option>
+            <option value="jun">June</option>
+            <option value="jul">July</option>
+            <option value="aug">August</option>
+            <option value="sep">Seotember</option>
+            <option value="oct">November</option>
+            <option value="nov">December</option>
+            <option value="jan">January</option>
+            <option value="feb">February</option>
+            <option value="mar">March</option>
+          </select>
+        </div>
+        <br>
+
+        <button type="button" class="btn btn-success btn-sm" (click)="applyFine(month.value)"> Apply Fine</button>
+
+
+      </h5>
+    </div>
+  </div>
+
+
+  <div class="row mt-1 g-4 mx-1 gx-1" style="border-radius: 5px" *ngIf="!isStaff">
+    <div class="col-12 col-lg-12 charts side-charts">
+      <div class="row mb-4">
+        <div class="col-4">
+          <h5 style="display: flex; justify-content: space-between;">Daily&nbsp;Collection
+          
+         </h5> 
+        </div>
+        <div class="col-4">
+            <div style="display: flex;justify-content: end;">
+              <input type="search" class="form-control" placeholder="Search" [(ngModel)]="searchText">
+            
+          </div>
+      
+        </div>
+        <div class="col-4 mt-1" style="text-align: right;">
+          <span>
+            <a class="btn btn-sm btn-success" [routerLink]="['/fees-collect']" routerLinkActive="active">Collect Fee</a></span>
+        </div>
+      </div>
+      <ul class="nav nav-tabs my-2">
+        <li class="nav-item" style="cursor: pointer;">
+          <a class="nav-link text-muted" id="online" (click)="reportType('online')">Online</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer;">
+          <a class="nav-link text-muted pointer" id="cash" (click)="reportType('cash')">Cash</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer;">
+          <a class="nav-link text-muted pointer" id="cheque" (click)="reportType('cheque')">Cheque</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer;">
+          <a class="nav-link text-muted pointer" id="upi" (click)="reportType('upi')">UPI</a>
+        </li>
+        
+      </ul>
+      <!-- <app-line-chart></app-line-chart> -->
+      <table class="table table-striped table-hover table-bordered border-success table-responsive table-sm table-report" id="htmlData">
+        <thead class="bg-success text-white">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Receipt&nbsp;No</th>
+              <th scope="col">Date</th>
+              <th scope="col">Account</th>
+              <th scope="col">Name</th>
+              <th scope="col">Class/Section</th>
+              <th scope="col" style="white-space: nowrap;">Monthly Fee</th>
+              <th scope="col">Conveyance</th>
+                        <th scope="col">Admission</th>
+                        <th scope="col">Registration</th>
+                        <th scope="col">Misc.</th>
+
+              <!-- <th scope="col">Remarks</th> -->
+              <th scope="col">Pay&nbsp;Type</th>
+              <th scope="col">Amount</th>
+            </tr>
+        </thead> 
+        <tbody>
+          <ng-container *ngIf="loadingStatus; else loading">
+              <tr>
+                  <td [attr.colspan]="12" style="text-align: center; font-size: 24px; color: red;"><i class="fa fa-spinner fa-pulse"></i></td>
+              </tr>
+          </ng-container>
+          <ng-template #loading>
+              <ng-container *ngFor="let dt of reportList  | filter:searchText;let i = index;let l = last">
+                  <tr>
+                      <td>{{i+1}}</td>
+                      <td>{{dt.receipt_no}}</td>
+                      <td style="white-space: nowrap;">{{dt.date}}</td>
+                      <td>{{dt.student.account}}</td>
+                      <td style="white-space: nowrap;">{{dt.student.name}}</td>
+                      <td style="white-space: nowrap;">{{dt.student.standard.notation}}/{{dt.student.division.notation}}</td>
+                      <td style="text-align: right;">{{dt.tut_paid}}</td>
+                      <td style="text-align: right;">{{dt.conv_paid}}</td>
+                      <td style="text-align: right;">{{dt.adm_paid}}</td>
+                      <td style="text-align: right;">{{dt.reg_paid}}</td>
+                      <td style="text-align: right;">{{dt.lmf_paid}}</td>
+                      <td style="text-align: right;"><b>{{dt.pay_type.pay}}</b></td>
+                      <td style="text-align: right;">{{dt.tot_paid}}</td>
+                      
+                  </tr>
+                  <tr *ngIf="l">
+                      
+                      <td [attr.colspan]="12" style="text-align: right;font-size: 20px;">Total Amount : </td>
+                      <td style="text-align: right; font-size: 20px;" ><b>{{totalAmount}}</b></td>
+                  </tr>
+              </ng-container>
+          </ng-template>
+          
+          
+      </tbody>
+    </table>
+    </div>
+
+  
+
+    <div class="col-12 col-lg-8 charts">
+      <!-- <app-pie-chart></app-pie-chart> -->
+      <!-- <app-doughnut-chart></app-doughnut-chart> -->
+      <app-bar-chart></app-bar-chart>
+    </div>
+    <div class="col-12 col-lg-4 charts border-left-remove side-charts">
+      <div style="display: flex; justify-content: space-between;">
+        <h5>Upcoming Student Birthday </h5> <div><i class="fa fa-whatsapp text-success" aria-hidden="true" style="cursor: pointer;"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-comments-o fa-lg" style="cursor: pointer; color: blue;" aria-hidden="true"></i></div>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <th>Name</th>
+          <th>Mobile&nbsp;No</th>
+          <th>Birthday&nbsp;Date</th>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="studentBirthday.length > 0; else noDataFound">
+            <tr *ngFor="let dt of studentBirthday; let i = index">
+              <td>{{ dt.name }}</td>
+              <td>{{ dt.mobile_no }}</td>
+              <td>{{ dt.dob }}</td>
+            </tr>
+          </ng-container>
+          <ng-template #noDataFound>
+            <p>No Data Found</p>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-lg-8 charts">
+      <h5>Timeline</h5>
+      <table class="table">
+        <thead>
+          <th>#</th>
+          <th>Data</th>
+          <th>Head</th>
+          <th>Body</th>
+          <th>By</th>
+          <th>Image</th>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="timelineData.length > 0; else noDataFound">
+            <tr *ngFor="let dt of timelineData; let i = index">
+              <td>{{i+2}}</td>
+              <td>{{ dt.date }} / {{dt.time}}</td>
+              <td>{{ dt.head }}</td>
+              <td>
+                {{
+                  readMore && viewId == dt.id
+                    ? dt.body
+                    : (dt.body | slice: 0:20)
+                }}
+                <span *ngIf="!readMore && viewId == dt.id">...</span>
+                <a
+                  href="javascript:;"
+                  *ngIf="!readMore && (viewId == dt.id || viewId == null)"
+                  (click)="readMoreFun(true, dt.id)"
+                  >[Read More]</a
+                >
+                <a
+                href="javascript:;"
+                *ngIf="readMore && (viewId == dt.id || viewId == null)"
+                (click)="readMoreFun(false, dt.id)"
+                >[Read Less]</a
+              >
+              </td>
+              <td>{{ dt.noticable.name }}</td>
+              <td style="max-width: 100px;"><a href="{{this.baseUrl}}../..{{ dt.image }}" target="_blank"><img src="{{this.baseUrl}}../..{{ dt.image }}" style="max-width: 100%;"></a></td>
+            </tr>
+          </ng-container>
+          <ng-template #noDataFound>
+            <p>No Data Found</p>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-lg-4 charts border-left-remove side-charts">
+      <div style="display: flex; justify-content: space-between;">
+        <h5>Previous&nbsp;Balance </h5> <div><i class="fa fa-whatsapp text-success" aria-hidden="true" style="cursor: pointer;"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-comments-o fa-lg" style="cursor: pointer; color: blue;" aria-hidden="true"></i></div>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <th>Name</th>
+          <th>Class</th>
+          <th>Balance/Due</th>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="dueData.length > 0; else noDataFound">
+            <tr *ngFor="let dt of dueData; let i = index">
+              <td>{{ dt.name }}</td>
+              <td>{{ dt.class }}</td>
+              <td>{{ dt.previous_balance.pre_bal }} / {{dt.previous_balance.due}}</td>
+            </tr>
+          </ng-container>
+          <ng-template #noDataFound>
+            <p>No Data Found</p>
+          </ng-template>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-lg-8 charts">
+      <!-- <app-doughnut-chart></app-doughnut-chart> -->
+    </div>
+    <div class="col-12 col-lg-4 charts border-left-remove side-charts">
+      <div style="display: flex; justify-content: space-between;">
+        <h5>Payment Due List</h5> <div><i class="fa fa-whatsapp text-success" aria-hidden="true" style="cursor: pointer;"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-comments-o fa-lg" style="cursor: pointer; color: blue;" aria-hidden="true"></i></div>
+      </div>
+      <table class="table table-sm">
+        <thead>
+          <th>Name</th>
+          <th>Class</th>
+          <th>Due&nbsp;Month</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dt of studentDue; let i = index">
+            <td>{{ dt.name }}</td>
+            <td>{{ dt.class }}</td>
+            <td>{{ dt.fee_collects_count }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #notFound>
+  <div class="row my-2 px-2">
+    <div
+      class="col-12 tabs"
+      style="position: relative; display: flex; align-items: baseline"
+    >
+      <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+      >&nbsp;&nbsp;&nbsp;
+      <h5 class="text-danger">No school Selected. Please Select the school</h5>
+    </div>
+  </div>
+</ng-template>
+
+<div
+  style="
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 80%;
+    background-color: whitesmoke;
+    -webkit-box-shadow: 10px 10px 64px -18px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 64px -18px rgba(0, 0, 0, 0.75);
+    box-shadow: 10px 10px 64px -18px rgba(0, 0, 0, 0.75);
+    transform: translate(-50%, -50%);
+  "
+  *ngIf="dailyFeeListBox"
+>
+  <div
+    style="
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to right, #3fada8, #808080);
+      background-color: #808080;
+    "
+  >
+    <div style="display: flex; justify-content: space-between">
+      <h5 class="pt-2 px-2" style="color: white">Today Fees Collection</h5>
+      <div
+        class="px-2 pt-1"
+        style="color: white; align-items: center; font-size: 20px;cursor: pointer;"
+        (click)="onClickFeesCollectionBox(false)"
+      >
+        X
+      </div>
+    </div>
+  </div>
+  <table class="table mx-4">
+    <thead>
+      <tr>
+        <td>#</td>
+        <td>A/c Number</td>
+        <td>Name</td>
+        <td>Amount</td>
+        <td>Pay&nbsp;Type</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of dailyFeeList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ data.account }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.amount }}</td>
+        <td>{{ data.receiptable_type | slice:11 }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

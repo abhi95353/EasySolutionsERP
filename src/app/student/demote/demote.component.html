@@ -1,0 +1,187 @@
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+        <h3 style="letter-spacing: 0.9px; text-transform: uppercase;">Demote Students</h3>
+    </div>
+ 
+    <hr class="p-0 m-0">
+    <br> 
+
+    <div class="col-12 my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-4 tabs" style="border-right: 12px solid whitesmoke;">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div>
+                            <h5>Search Students</h5> 
+                        </div>
+                    </div> 
+                    <div class="col-12"> 
+                        <div class="inputBox">
+                            <select class="form-control"  required (change)="onSelectClass($event)">
+                                <option value="">N/A</option>
+                                <option *ngFor="let data of classList" value="{{data | json}}">{{data.class}}</option>
+                            </select>
+                            <label>Class</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="inputBox">
+                            <select (change)="searchStudent(section.value)" #section>
+                                <ng-container *ngFor="let data of sectionList">
+                                  <option value="">Select Section</option>  
+                                <option *ngFor="let item of data.divisions" [value]="item.pivot.id">{{item.section}} ({{item.notation}})</option>
+
+                                </ng-container>
+                            </select>
+                            <label>Section List</label>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12" style="text-align: right;">
+                        <span class="btn btn-sm btn-success">Search</span>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-8 tabs" style="border-left: 12px solid whitesmoke; height: 500px;overflow-y: scroll;">
+                <div class="row gy-4">
+                    <div class="col-12">
+                        <div>
+                            <h5>Students List</h5>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-12">
+                        <div class="inputBox" style="display: flex;">
+                            <input
+                            type="text"
+                            [(ngModel)]="searchText"
+                            #searchInput
+                          /> 
+                          <label>Search</label>
+                          </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive" style="border-radius: 5px;" >
+                            <table class="table  table-hover table-bordered" id="htmlData">
+                                <thead class="bg-success text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <!-- <th scope="col">Classes</th>
+                                        <th scope="col">Section</th> -->
+                                        <th scope="col">Account No</th>
+                                        <th scope="col">Student Name</th>
+                                        <th><input type="checkbox" [(ngModel)]="allCheckMarked" (click)=" onClickAll($event)"></th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngIf="this.studentData.length > 0; else notDataFound">
+                                        <tr *ngFor="let dt of studentData|  filter:searchText; let i = index"> 
+                                            <td>{{i+1}}</td>
+                                            <td>{{dt.account}}</td>
+                                            <td>{{dt.name}}</td>
+                                            <td><input type="checkbox" [checked]="dt.checked" (change)="addStudent(dt.id, dt.name,dt.uuid, $event)"></td>
+                                        </tr>
+                                    </ng-container>
+
+
+                                    <ng-template #notDataFound>
+                                        <tr>
+                                            <td [attr.colspan]="4" class="text-danger">No Data Available</td>
+                                        </tr>
+                                    </ng-template>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col-12 col-lg-4">
+                <div class="tabs">
+                   <form [formGroup]="promoteForm" (ngSubmit)="submit()" ngNativeValidate>
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <h5>Assign Section & Class</h5>
+                        </div>
+                        <div class="col-12"> 
+                            <div class="inputBox">
+                                <select class="form-control"  required (change)="onSelectClass($event , 'assign')">
+                                    <option value="">N/A</option>
+                                    <ng-container *ngFor="let data of classList"  >
+                                    <option *ngIf="cid > data.id" value="{{data | json}}">{{data.class}}</option>
+                                </ng-container>
+                                </select>
+                                <label>Class</label>
+                            </div>
+                        </div>
+                     <div class="col-12">
+                         <div class="inputBox">
+                             <select formControlName="grade_id" required>
+                                 <ng-container *ngFor="let data of sectionListAssign">
+                                   <option value="">Select Section</option>  
+                                 <option *ngFor="let item of data.divisions" [value]="item.pivot.id">{{item.section}} ({{item.notation}})</option>
+
+                                 </ng-container>
+                             </select>
+                             <label>Section List</label>
+                         </div>
+                     </div> 
+                     <div class="col-12">
+                        <input
+                        type="submit"
+                        [disabled]="submitStatus"
+                        class="btn btn-sm btn-success"
+                        value="Submit"
+                      >
+                        &nbsp;<i
+                        class="fas fa-spinner fa-pulse text-success fa-lg"
+                        *ngIf="submitStatus"
+                      ></i
+                      >
+                     </div>
+                    </div>
+                   </form>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-8">
+                <div class="col-12 tabs">
+                    <div class="col-12">
+                        <h5>Selected Student List</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+                            <table class="table  table-hover table-bordered" id="htmlData">
+                                <thead class="bg-success text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngIf="this.studentList.length !=0">
+                                        <tr *ngFor="let dt of studentList.value;let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{dt.name}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+
+</div>

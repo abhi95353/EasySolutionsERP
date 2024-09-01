@@ -1,0 +1,182 @@
+<ng-container  *ngIf="this.school_code != 'Select School'; else notFound">
+<div class="row px-1">
+  <div class="col-6 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Fees Collect
+    </h3>
+  </div>
+  <div class="col-6 col-lg-2" style="text-align: right">
+    <span
+      class="mt-1 btn btn-success btn-sm rounded-pill"
+      (click)="openList()"
+      >Payment Link List&nbsp;&nbsp;<i class="fa fa-list"></i
+    ></span>
+  </div>
+  <hr style="padding: 0; margin: 0" class="p-0 m-0" />
+  <br />
+
+  <div
+    class="col-12 my-2"  
+    
+  >
+    <div class="row">
+      <div
+        class="col-12 col-lg-6 col-xl-4 tabs" 
+        style="border-right: 12px solid whitesmoke"
+      >
+        <div class="row g-4">
+          <div class="col-12">
+            <div>
+              <h5>Search Students</h5>
+            </div>
+          </div>
+          <div class="col-12">
+            <div style="position: relative;">
+            <div class="inputBox" style="display: flex;">
+              <input
+              type="text"
+              (focus)="focusIn()"
+              (focusout)="onFocusOut()"
+              [(ngModel)]="searchText"
+              #searchInput
+            /> 
+            <label>Search</label>
+            </div>
+              <div 
+              *ngIf="this.hintBox"
+                style="
+                  position: absolute;
+                  margin: auto;
+                  width: 100%;
+                  height: 400px;
+                  background-color: whitesmoke;
+                  -webkit-box-shadow: 10px 10px 86px -19px rgba(0, 0, 0, 0.75);
+                  -moz-box-shadow: 10px 10px 86px -19px rgba(0, 0, 0, 0.75);
+                  box-shadow: 10px 10px 86px -19px rgba(0, 0, 0, 0.75);
+                  overflow-y: scroll;
+                  z-index: 10;
+                " 
+              >
+              <div style="position: sticky;top: 0;background-color: antiquewhite;z-index: 10;">
+                <div style="display: flex; justify-content: space-between;padding: 10px;">
+                  <p style="padding: 0;margin: 0;">Student List</p>
+                  <i class="fa fa-times" style="padding-top: 4px;" (click)="onFocusOut()"></i>
+                </div>
+              </div>
+                <ng-container *ngFor="let dt of studentDataList |  filter:searchText ">
+                  <p
+                    arrow-div
+                    class="text-center hint-text p-0 m-0 py-2" style="display: block;"
+                    (click)="onChangeBox(dt.account)" id="seracr-box"
+                  >
+                 <span for="seracr-box">   {{ dt.name }} / {{ dt.account }} /
+                  {{ dt.parental.f_name }} / {{ dt.standard.class }} /</span>
+                    <span *ngIf="dt.division != null">{{
+                      dt.division.section
+                    }}</span>
+                    <span
+                      *ngIf="dt.division == null"
+                      style="font-size: 12px; color: red"
+                      >Not Assigned</span
+                    >
+                  </p>
+                  <hr class="m-0 p-0" />
+                </ng-container>
+              </div>
+            </div>
+          </div> 
+          <div class="col-12" style="text-align: right">
+            <i class="fa fa-spinner fa-spin fa-lg" *ngIf="this.cs.feesSearchStatus"></i>
+            &nbsp;
+            <span class="btn btn-sm btn-success" (click)="searchByAdmission()"
+              >Show Fee Details</span
+            >
+          </div>
+
+
+          <app-reciept-list></app-reciept-list>
+        </div>
+      </div>
+
+
+
+
+      <div
+        class="col-12 col-lg-6 col-xl-8 tabs"
+        style="border-left: 12px solid whitesmoke"
+      >
+        <div class="row gy-4" *ngIf="true">
+          <div class="col-12">
+            <div>
+              <h5>
+                Fees&nbsp;Collection
+              </h5>
+            </div>
+            <div >
+              <form >
+                <div style="display: flex; justify-content: space-between;">
+                  <!-- <div class="form-check">
+                    <input class="form-check-input" type="radio" name="fee-type" id="AF" (change)="feeOption('AF')" >
+                    <label class="form-check-label" for="AF">
+                      Admission Fee
+                    </label>
+                  </div> -->
+    
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="fee-type" id="PB" (change)="feeOption('PB')">
+                    <label class="form-check-label" for="PB" >
+                      Previous Balance
+                    </label> 
+                  </div>
+     
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="fee-type" id="MF"  (change)="feeOption('MF')" checked>
+                    <label class="form-check-label" for="MF">
+                      Monthly Fee
+                    </label>
+                  </div>
+    
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="fee-type" id="CF" (change)="feeOption('CF')" >
+                    <label class="form-check-label" for="CF">
+                     Custom Fee
+                    </label>
+                  </div>
+                </div>
+                
+              </form>
+            
+            </div>
+          </div>
+
+          <div class="col-12">
+            <!-- <app-monthly-fee></app-monthly-fee> -->
+            <app-monthly-fees-collection></app-monthly-fees-collection>
+            <app-admission-fee-collect></app-admission-fee-collect>
+            <app-previous-due-collect></app-previous-due-collect>
+            <app-custom-fee-collection></app-custom-fee-collection>
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-payment-details></app-payment-details>
+</ng-container>
+<ng-template #notFound>
+  <div class="row my-2 px-2">
+    <div
+      class="col-12 tabs"
+      style="position: relative; display: flex; align-items: baseline"
+    >
+      <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+      >&nbsp;&nbsp;&nbsp;
+      <h5 class="text-danger">
+        No school Selected. Please Select the school
+      </h5>
+    </div>
+  </div>
+</ng-template>
+

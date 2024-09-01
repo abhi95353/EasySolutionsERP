@@ -1,0 +1,167 @@
+<div class="row px-1">
+    <div class="col-8 col-lg-10">
+      <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Create&nbsp;Staff
+      </h3>
+    </div>
+  
+    <div
+      class="col-4 col-lg-2"
+      style="text-align: right" 
+      *ngIf="this.school_code != 'Select School'"
+    >
+      <span
+        class="mt-lg-1 btn btn-success btn-sm rounded-pill"
+        [routerLink]="['/manage-staff', { action: 'add', id: null }]"
+        >View List&nbsp;<i class="fa fa-eye"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+  
+    <div
+      class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+      *ngIf="this.school_code != 'Select School'; else notFound"
+    >
+      <form [formGroup]="staffForm" (ngSubmit)="createSubject()" ngNativeValidate>
+          <div class="row">
+              <div class="col-12 p-3 mb-2 tabs">
+                  <h5>Staff&nbsp;Form</h5>
+                  <br>
+                 <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="name" required pattern="[a-zA-Z0-9\s]+">
+                            <label>Name</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="adhaar_no" required pattern="[0-9]+" maxlength="12" minlength="12">
+                            <label>Adhaar&nbsp;No</label>
+                        </div>
+                     </div>
+     
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="account"  pattern="[0-9]+" maxlength="12" minlength="6">
+                            <label>Account</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="password">
+                            <label>Password</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="date" formControlName="dob">
+                            <label>DOB</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="blood_group">
+                            <label>Blood&nbsp;Group</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="mobile_no" required pattern="[0-9]+" maxlength="10" minlength="10">
+                            <label>Mobile&nbsp;No</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="location">
+                            <label>Location</label>
+                        </div>
+                     </div>
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="pincode">
+                            <label>Pincode</label>
+                        </div>
+                     </div>
+    
+    
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <select formControlName="state_id" (change)="showCity(state_id.value)" #state_id>
+                                <option value="">Select State</option>
+                                <option *ngFor="let item of stateList" [value]="item.id">{{item.state}}</option>
+                            </select>
+                            <label>State</label>
+                        </div>
+                     </div>
+
+                     <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                             <select formControlName="city_id">
+                                <option value="">Select City</option>
+                                <option *ngFor="let item of cityList" [value]="item.id">{{item.city}}</option>
+                            </select>
+                            <label>City</label>
+                        </div>
+                     </div>
+    
+                    
+                     
+                     <!-- <div class="col-12 col-md-6">
+                        <div class="inputBox">
+                            <input type="text" formControlName="salary">
+                            <label>Salary</label>
+                        </div>
+                     </div> -->
+    
+                     <div class="col-12 col-md-6">
+                      <div class="inputBox">
+                        <select formControlName="academic_session_id" required>
+                          <option value="">Select Session</option>
+                          <option *ngFor="let data of sessionList" value="{{data.id}}">{{data.session}}</option>
+                        </select>
+                        <label
+                          >Select Session<sup class="text-danger">*</sup></label
+                        >
+                      </div>
+                     </div>
+                 </div>
+
+
+               <br>
+  
+              <div class="col-12 col-md-4">
+                  <input type="submit" value="Create" class="btn btn-sm btn-success"  [disabled]="loadingStatus">
+                  &nbsp;<i class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="loadingStatus"></i>
+              </div>
+              
+              </div>
+              
+            </div>
+      </form>
+    </div>
+  
+    <ng-template #notFound>
+      <div class="row my-2 px-2">
+        <div
+          class="col-12 tabs"
+          style="position: relative; display: flex; align-items: baseline"
+        >
+          <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+          >&nbsp;&nbsp;&nbsp;
+          <h5 class="text-danger">
+            No school Selected. Please Select the school
+          </h5>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  

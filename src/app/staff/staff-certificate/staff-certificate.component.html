@@ -1,0 +1,214 @@
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+        <h3 style="letter-spacing: 0.9px; text-transform: uppercase;">Staff Certificate</h3>
+    </div>
+    <!-- <div class="col-6 col-lg-2" style="text-align: right;">
+        <span class="mt-1 btn btn-success btn-sm rounded-pill" [routerLink]="['../student-section-list']"  >List&nbsp;&nbsp;<i class="fa fa-list"></i></span>
+    </div> -->
+    <hr class="p-0 m-0">
+    <br> 
+
+    <div class="col-12 my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row">
+            <div class="col-lg-8 col-12 tabs" style="border-right: 12px solid whitesmoke;">
+                <div class="row">
+                    <div class="col-12">
+                        <div>
+                            <h5>Staff&nbsp;Certificate</h5>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="inputBox mt-4 mb-0">
+                            <select [(ngModel)]="certificateType" >
+                              <option value="relieving-certificate">Relieving&nbsp;Letter</option>
+                              <option value="attendance-certificate">Attendance&nbsp;Certificate</option>
+                              <option value="practical_examination">Practical&nbsp;Examination</option>
+                            </select>
+                            <label>Certificate Type</label>
+                        </div>
+                    </div>
+                    <ng-container>
+                        <div class="row g-4">
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'practical_examination'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="subject">
+                                    <label>Subject</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'practical_examination'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="letter_no">
+                                    <label>Letter Number</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="studentName">
+                                    <label>Name</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="WIN">
+                                    <label>Working in since ______</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="T_STM">
+                                    <label>TGT(Subject Taught & Medium)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="T_TE">
+                                    <label>TGT(Total Experience) in yr</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="P_STM">
+                                    <label>PGT(Subject Taught & Medium)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="P_TE">
+                                    <label>PGT(Total Experience) in yr</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="APSR">
+                                    <label>As per school record</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'attendance-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="EN">
+                                    <label>Examine&nbsp;No</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'attendance-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="FD">
+                                    <label>From Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'attendance-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="TD">
+                                    <label>To Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'attendance-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="subject">
+                                    <label>Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'attendance-certificate'" >
+                                <div class="inputBox" >
+                                    <input type="text" [(ngModel)]="FSSC">
+                                    <label>For__________Senior School Certificate</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'practical_examination'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="examiner_no">
+                                    <label>Examiner No</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'practical_examination'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="designation">
+                                    <label>Designation</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'practical_examination'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="sub_code">
+                                    <label>Subject Code</label>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'practical_examination'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="class">
+                                    <label>For Class</label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="OD">
+                                    <label>On Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-12" *ngIf="certificateType == 'relieving-certificate'">
+                                <div class="inputBox">
+                                    <input type="text" [(ngModel)]="AECD">
+                                    <label>Allotted Evaluation Centre on date</label>
+                                </div>
+                            </div>
+
+
+                        
+
+
+                            <div class="col-12"  *ngIf="certificateType != 'teacher'">
+                                <span class="btn btn-sm btn-success" (click)="onClickPdf(certificateType , 'manual' , true)">Download</span>
+                            </div>
+                        </div>
+                    </ng-container>                   
+                </div>  
+            </div>
+        </div>
+ 
+        <div class="row my-2">
+            <div class="col-12 tabs">
+               <app-no-due-certificate></app-no-due-certificate>
+            </div>
+                </div>
+   
+    </div>
+
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+<div *ngIf="classesBoxStatus"
+    style="position: fixed;top: 0;left: 0;width:100%;height: 100%;background-color:rgba(0,0,0, 0.5);z-index: 10;">
+</div>
+
+ 
+
+<!-- Add Box -->
+<div class="box" style="z-index: 11;" [ngClass]="this.classesBoxStatus? 'top-10' : ''">
+    <div>
+        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
+            <h4 style="letter-spacing: 0.9px; text-transform: uppercase; ">{{title}} Classes</h4>
+            <span class="btn btn-sm rounded-pill" (click)="onClickClassesBox(false , 'add' , null)"><i
+                    class="fa fa-times"></i></span>
+        </div>
+        <hr class="p-0 m-0"> 
+        <br>
+        <div style="display: flex; justify-content: space-between;">
+            <form [formGroup]="classForm" (ngSubmit)="addSubmit()" ngNativeValidate>
+                <div class="row g-4 px-4">
+                    <!-- <div class="col-12 col-lg-12 col-xl-12">
+                        <label>School List</label><sup class="text-danger">*</sup>
+                        <input type="text" formControlName="school_code" required readonly class="form-control">
+                    </div> -->
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <label>Class Name</label><sup class="text-danger">*</sup>
+                        <input type="text" class="form-control" placeholder="Class Name" title="Class Name" autofocus
+                            formControlName="class" required>
+                    </div>
+                    <hr class="p-0 m-0" style="color: white;">
+                    <div class="col-12 col-lg-12 col-xl-12">
+                        <label>Number Of section</label><sup class="text-danger">*</sup>
+                        <input type="number" class="form-control" title="Number" placeholder="Number Of Section" min="1" max="26"
+                            formControlName="div_count" required>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <input type="submit" class="btn btn-md btn-success rounded-pill" [disabled]="submitStatus" value="Submit">&nbsp;<i
+                        class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="submitStatus"></i>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+

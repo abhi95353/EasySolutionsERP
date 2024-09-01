@@ -1,0 +1,658 @@
+<div class="row px-1">
+  <div class="col-lg-10 col-8">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Registration Form
+    </h3>
+  </div>
+  <div class="col-4 col-lg-2" style="text-align: right;" *ngIf="this.school_code != 'Select School'">
+    <span
+      class="mt-lg-1 btn btn-success btn-sm rounded-pill"
+      *ngIf="this.school_code != 'Select School'"
+      [routerLink]="['../student-registration-list']"
+      >View List&nbsp;<i class="fa fa-eye"></i
+    ></span>
+  </div>
+  <hr class="p-0 m-0" />
+  <br />
+  <div
+    class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+    *ngIf="this.school_code != 'Select School'; else notFound"
+  >
+    <div class="row">
+      <div class="col-12 p-3 mb-2 tabs">
+        <p style="letter-spacing: 0.9px; text-transform: uppercase">
+          Instructions
+        </p>
+        <ul>
+          <li>Fill in the online registration form.</li>
+          <li>Submit the details and pay the registration fee online.</li>
+          <li>
+            You will receive an acknowledgement having registration number and
+            online payment details.
+          </li>
+        </ul>
+        <div class="d-none d-lg-block">
+          <div class="process-wrap {{ this.step }}">
+            <div class="process-main">
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-1"></div>
+                  <span class="process-label">Student's Details</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-2"></div>
+                  <span class="process-label">Upload Document</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-3"></div>
+                  <span class="process-label">Pay Now</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="process-step-cont">
+                  <div class="process-step step-4"></div>
+                  <span class="process-label">Finished</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step1'">
+      <div class="col-12">
+        <div class="row g-2">
+          <form
+            [formGroup]="registrationForm"
+            (ngSubmit)="submit()"
+            ngNativeValidate
+          >
+            <div class="col-12 mb-4">
+              <div class="row g-4">
+                <p class="m-0 pb-0 pt-4" style="font-size: 16px">
+                  Student's Details
+                </p>
+                <hr class="mt-0 mb-1 pt-0" style="border: 1px dotted grey" />
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      required
+                      formControlName="name"
+                      placeholder="Student Name"
+                      pattern="[a-zA-Z._'\s]+"
+                      minlength="3"
+                      maxlength="30"
+                    />
+                    <label
+                      >Student's Name<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="date"
+                      class="form-control"
+                      formControlName="dob"
+                      required
+                      placeholder="dd-MM-YYYY"
+                      (focusout)="dobValidity('dob' , dob.value)"
+                      #dob
+                    
+                    />
+                    <label>Date Of Birth<sup class="text-danger">*</sup>
+                </label>
+                  </div>
+                </div>
+                <div
+                  class="col-12 col-lg-4 col-xl-4 mt-4 pt-1"
+                  style="display: flex; justify-content: center"
+                >
+                  <label>Gender</label>&nbsp;&nbsp;&nbsp;
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gender"
+                      id="inlineRadio1"
+                      value="M"
+                      formControlName="gender"
+                      required
+                    />
+                    <label class="form-check-label" for="inlineRadio1">M</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="gender"
+                      id="inlineRadio2"
+                      value="F"
+                      formControlName="gender"
+                      required
+                    />
+                    <label class="form-check-label" for="inlineRadio2">F</label>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="number"
+                      formControlName="mobile_no"
+                      pattern="[0-9]{10}"
+                      maxlength="10"
+                      placeholder="Mobile Number"
+                      minlength="10"
+                      required
+                    />
+                    <label>Mobile Number<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="email"
+                      formControlName="email_id"
+                      required
+                      placeholder="Student E-Mail ID"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      value=""
+                    />
+                    <label>E-Mail Id<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="aadhar_no"
+                      pattern="[0-9]{12}"
+                      placeholder="Student Aadhar No"
+                      maxlength="12"
+                      minlength="12"
+                       
+                    />
+                    <label
+                      >Student's Aadhar<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div>
+      
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <select formControlName="category" required>
+                      <option value="">Select Category</option>
+                      <option value="General">GENERAL</option>
+                      <option value="BC-A">BC-A</option>
+                      <option value="BC-B">BC-B</option>
+                      <option value="SC">SC</option>
+                    </select>
+                    <label
+                      >Select Category<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div> 
+
+                <p class="m-0 pb-0 pt-4" style="font-size: 16px">Apply For</p> 
+                <hr class="mt-0 mb-1 pt-0" style="border: 1px dotted grey" />
+
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <select formControlName="app_standard_id" required>
+                      <option value="">N/A</option>
+                      <option
+                        *ngFor="let data of classList"
+                        value="{{ data.id }}"
+                      >
+                        {{ data.class }}
+                      </option> 
+                    </select>
+                    <label
+                      >Apply For (Class)<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <select formControlName="pre_standard_id" required>
+                      <option value="">N/A</option>
+                      <option
+                        *ngFor="let data of classList"
+                        value="{{ data.id }}"
+                      >
+                        {{ data.class }}
+                      </option>
+                    </select>
+                    <label
+                      >Previous Class<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <select formControlName="academic_session_id" required>
+                      <option value="">Select Session</option>
+                      <option *ngFor="let data of sessionList" value="{{data.id}}">{{data.session}}</option>
+                    </select>
+                    <label
+                      >Select Session<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div>
+
+                <p class="m-0 pb-0 pt-4" style="font-size: 16px">
+                  Parents' Details
+                </p>
+                <hr class="mt-0 mb-1 pt-0" style="border: 1px dotted grey" />
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="f_name"
+                      required
+                      pattern="[a-zA-Z._'\s]+"
+                      minlength="3"
+                      maxlength="30"
+                      placeholder="Father Name"
+                      
+                    />
+                    <label>Father's Name<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="f_occupation"
+                      required
+                      placeholder="Father Occupation"
+                      
+                    />
+                    <label
+                      >Father's occupation<sup class="text-danger"
+                        >*</sup
+                      ></label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="f_mobile_no"
+                      required
+                      pattern="[0-9]{10}"
+                      maxlength="10"
+                      minlength="10"
+                      placeholder="Father Mobile No"
+
+                    />
+                    <label
+                      >Father's Mobile Number<sup class="text-danger"
+                        >*</sup
+                      ></label
+                    >
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="m_name"
+                      required
+                      pattern="[a-zA-Z._'\s]+"
+                      minlength="3"
+                      maxlength="30"
+                      placeholder="Mother Name"
+                      
+                    />
+                    <label>Mother's Name<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="m_occupation"
+                      required
+                      placeholder="Mother Occupation"
+                      
+                    /> 
+                    <label
+                      >Mother's occupation<sup class="text-danger"
+                        >*</sup
+                      ></label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="m_mobile_no"
+                      required
+                      pattern="[0-9]{10}"
+                      maxlength="10"
+                      minlength="10"
+                      placeholder="Mother Mobile Number"
+
+                    />
+                    <label
+                      >Mother's Mobile Number<sup class="text-danger"
+                        >*</sup
+                      ></label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-lg-12 col-xl-12 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="email"
+                      formControlName="f_email"
+                      required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      placeholder="Parent Email-ID"
+                      
+                    />
+                    <label
+                      >Parents' E-Mail Id<sup class="text-danger">*</sup></label
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-lg-9 col-xl-9 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="location"
+                      required
+                      placeholder="Address"
+                      
+                    />
+                    <label>Address<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-3 col-xl-3 inputBox">
+                  <div class="inputBox">
+                    <input
+                      type="text"
+                      formControlName="pincode"
+                      maxlength="6"
+                      pattern="[0-9]{3,6}"
+                      required
+                      placeholder="Pincode"
+                      
+                    />
+                    <label>Pincode<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <select
+                      formControlName="state_id"
+                      (change)="showCity(state.value)"
+                      #state
+                      class="form-control"
+                      required
+                    >
+                      <option value="">Select State</option>
+                      <option *ngFor="let dt of stateList" value="{{ dt.id }}">
+                        {{ dt.state }}
+                      </option>
+                    </select>
+                    <label>State<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <select
+                      formControlName="city_id"
+                      class="form-control"
+                      required
+                    >
+                      <option value="">Select City</option>
+                      <option *ngFor="let dt of cityList" value="{{ dt.id }}">
+                        {{ dt.city }}
+                      </option>
+                    </select>
+                    <label>City<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-4 col-xl-4 inputBox">
+                  <div class="inputBox">
+                    <input type="text" readonly value="India" />
+                    <label>Country<sup class="text-danger">*</sup></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 mt-3">
+                <input
+                  type="submit"
+                  class="btn btn-md btn-success rounded-pill"
+                  [disabled]="submitStatus"
+                  value="Submit"
+                />&nbsp;<input
+                type="reset"
+                class="btn btn-md btn-primary rounded-pill"
+                value="Reset"
+                (click)="onclickReset('student_data')"
+              />&nbsp;<i
+                  class="fas fa-spinner fa-pulse text-success fa-lg"
+                  *ngIf="submitStatus"
+                ></i>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Second Step -->
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step2'">
+      <div class="col-12">
+        <div class="row g-2">
+          <div class="col-12">
+            <div
+              style="border: 1px solid black; border-radius: 5px; padding: 20px"
+            >
+              <p
+                class="mb-0 pb-0"
+                style="letter-spacing: 0.9px; text-transform: uppercase"
+              >
+                Upload Document
+              </p>
+
+              <ul>
+                <li>PDF file is not accepted</li>
+              </ul>
+
+              <div class="row g-2 my-4">
+                <div class="col-12 col-lg-3 col-xl-3">
+                  <img
+                    src="assets/image/profile/pp-size.jpeg"
+                    alt="Student"
+                    style="width: 180px; height: 180px;"
+                    *ngIf="this.AddCert == undefined"
+                  />
+                  <img
+                    [src]="this.AddCert"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.AddCert != undefined"
+                  /><br /> 
+                  <label for="">Aadhar Card</label><br />
+                  <input
+                    class=""
+                    type="file"
+                    style="color: rgba(0, 0, 0, 0); border: 0"
+                    (change)="onFileChange($event, 'addCert')"
+                    accept="image/*"
+                  />
+                </div>
+
+           
+                <div class="col-12 col-lg-3 col-xl-3">
+                  <img
+                    src="assets/image/profile/pp-size.jpeg"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.transferCert == undefined"
+                  />
+                  <img
+                    [src]="this.transferCert"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.transferCert != undefined"
+                  /><br />
+                  <label for="">Transfer Certificate</label>
+                  <input
+                    class=""
+                    type="file"
+                    accept="image/*"
+                    style="color: rgba(0, 0, 0, 0); border: 0"
+                    (change)="onFileChange($event, 'TransferCert')"
+                  />
+                </div>
+                <div class="col-12 col-lg-3 col-xl-3">
+                  <img
+                    src="assets/image/profile/pp-size.jpeg"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.lastClassMarksheet == undefined"
+                  />
+                  <img
+                    [src]="this.lastClassMarksheet"
+                    alt="Student"
+                    style="width: 180px; height: 180px"
+                    *ngIf="this.lastClassMarksheet != undefined"
+                  /><br />
+                  <label for="">Last Class Marksheat</label>
+                  <input
+                    class=""
+                    type="file"
+                    (change)="onFileChange($event, 'lastClassMarsheet')"
+                    accept="image/*"
+                    style="color: rgba(0, 0, 0, 0); border: 0"
+                  />
+                </div>
+              </div>
+              <span class="btn btn-sm btn-success" (click)="submitDoc()"
+                >Upload</span
+              >&nbsp;
+              <span class="btn btn-sm btn-primary" (click)="goback('active-step1')"
+                >Back</span
+              >&nbsp;
+              <span class="btn btn-sm btn-warning" (click)="pressSkipDoc()"
+                >Skip</span
+              >&nbsp;
+              <span class="btn btn-sm btn-danger" (click)="onclickReset('student_data_image')">Clear</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    
+    <!-- Third Step -->
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step3'">
+      <div class="col-12">
+        <div class="row g-2">
+          <div class="col-12">
+            <div 
+              style="border: 1px solid black; border-radius: 5px; padding: 20px"
+            >
+              <p style="letter-spacing: 0.9px; text-transform: uppercase" *ngIf="!paymentStatus">
+                Payment Instruction
+              </p>
+              <ul *ngIf="!paymentStatus">
+                <li>Fill in the online registration form.</li>
+                <li>Submit the details and pay the registration fee online.</li>
+                <li>
+                  You will receive an acknowledgement having registration number
+                  and online payment details.
+                </li>
+              </ul>
+              <h5 class="text-danger">Amount: <i class="fa fa-inr" aria-hidden="true"></i> {{regAmount}}/-</h5>
+              <button
+                [disabled]="submitStatus"
+                class="btn btn-sm btn-success"
+                (click)="payNow()"
+              >
+              <span *ngIf="!paymentStatus">Pay Now</span> <span *ngIf="paymentStatus">Continue</span></button
+              >&nbsp;<span class="btn btn-sm btn-primary" (click)="goback('active-step2')" >Back</span>&nbsp;<i
+                class="fas fa-spinner fa-pulse text-success fa-lg"
+                *ngIf="submitStatus"
+              ></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fourth Step -->
+    <div class="row my-2 tabs" *ngIf="this.step == 'active-step4'">
+      <div class="col-12">
+        <div class="row g-2">
+          <div class="col-12">
+            <div
+              style="
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 20px;
+                text-align: center;
+              "
+            >
+              <p style="letter-spacing: 0.9px; text-transform: uppercase"></p>
+              <ul style="list-style-type: none">
+                <li>
+                  Dear Student your online admission form is Submitted
+                  successfully on date. Your Reference number is
+                  <b>{{ this.registration_id }}</b>. Please remember your reference
+                  number for further process.
+                </li>
+                <li class="text-danger">
+                  PDF have been downloaded. In case pdf not downloaded don't close the browser before taking Screenshot.
+                </li>
+                <!-- <li><span class="btn btn-success btn-sm" (click)="downLoadPdf()">DownLoad</span></li> -->
+                <li>
+                  <span class="btn btn-primary btn-sm my-1" (click)="goToHome()">Go to Home</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+
+<app-download-registration></app-download-registration>

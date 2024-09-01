@@ -1,0 +1,675 @@
+<!-- printer -->
+<div *ngIf="printStatus" >
+    <div
+      style="
+        border: 5px double black;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        background-color: white;
+        height: 100%;
+        overflow-y: scroll;
+        z-index: 11;
+      "
+      
+      id="print-section-cash-receipt"
+    >
+
+    <!-- <ng-container *ngIf="printingType == 'Thermal'"></ng-container>
+    <ng-container *ngIf="printingType == 'A4'"></ng-container> -->
+      <ng-container *ngFor="let data of print_data">
+          <div style="gap:10px; display: flex; justify-content: flex-start;" [ngStyle]="{'flex-direction': printingType ? 'column' : 'row'}" id="htmlData" >
+            <table  style="width:49%" class="table table-sm">
+              <tr style="background-color: rgba(0, 0, 0, 0.15) ;" >
+                <td [attr.colspan]="2" style="text-align: center">
+                  <span style="font-weight: bold; font-size: 16px">{{
+                    schoolData.name
+                  }}</span
+                  ><br />
+                  <span style="color: grey">{{ schoolData.location }}</span
+                  ><br />
+                </td>
+                
+              </tr>
+    
+    
+               <tr>
+                <td [colSpan]="2" style="text-align: center;padding: 10px 8px ;">
+                  <span
+                    style="
+                      padding: 8px 10px;
+                      color: black;
+                    "
+                    >[Fee Receipt]</span
+                  >
+                </td>
+              </tr>
+              <!-- <br /> -->
+               <tr>           
+                <td>
+                  <span
+                    >Date:&nbsp;<b>{{
+                      data.date
+                    }}</b></span
+                  >
+                </td>
+                <td style="text-align: right;">
+                  <span style="text-align: right;"
+                    >Receipt No:&nbsp;<b> {{ data.receipt_no }}</b></span
+                  >
+                </td>
+              </tr> 
+
+              <tr
+                class="m-1 p-1"
+                style="border-top: 1px solid black; border-bottom: 1px solid black"
+              >
+                <td>
+                  <span
+                    >Name:&nbsp;<b >{{ studentPrintData.student.name }}</b></span
+                  >
+                </td>
+                <td style="text-align: right;">
+                  <span
+                    >A/c&nbsp;No:&nbsp;<b>{{ studentPrintData.student.account }}</b></span
+                  >
+                </td>
+              </tr>
+
+
+            
+    
+              <tr style="border-top: 1px solid black">
+                <td>
+                  <span
+                    >Father&nbsp;Name:&nbsp;<b>{{
+                      studentPrintData.student.f_name
+                    }}</b></span
+                  >
+                </td>
+                <td style="text-align: right;">
+                  <span
+                    >Session:&nbsp;<b>{{
+                      studentPrintData.student.academic_session.session
+                    }}</b></span
+                  >
+                </td>
+              </tr> 
+              <tr>
+                <td>
+                  <span
+                    >Class:&nbsp;<b>
+                      {{ studentPrintData.student.standard.class }}
+                    </b></span
+                  >
+                </td>
+            
+                <td *ngIf="typeReceipt == 'fee'" style="text-align: right;">
+                  <label>Month</label>:
+                  <b style="text-transform: capitalize"> {{ data.month }}</b>
+                </td>
+
+                <td *ngIf="typeReceipt == 'previous_balance'" style="text-align: right;">
+                    <label>Fee-Type</label>:
+                    <b style="text-transform: capitalize"> Previous Due</b>
+                </td>
+              </tr>
+    
+              <tr>
+                <td [colSpan]="2">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr
+                        style="
+                          border-top: 1px solid black;
+                          border-bottom: 1px solid black;
+                        "
+                      >
+                        <th>Particulars</th>
+                        <th style="text-align: right;">Discount</th>
+                        <th style="text-align: right;">Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngIf="typeReceipt == 'fee'">
+                      <tr *ngIf="data.reg_paid != 0 || data.reg_less != 0 ">
+                        <td><label>Registration Fee</label></td>
+                        <td style="text-align: right;"><b>{{data.reg_less}}</b></td>
+                        <td style="text-align: right;"><b>{{data.reg_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.adm_paid != 0 || data.adm_less != 0 ">
+                        <td><label>Admission Fee</label></td>
+                        <td style="text-align: right;"><b>{{data.adm_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.adm_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.tut_paid != 0 || data.tut_less != 0">
+                        <td><label>Monthly Fee ({{ data.tut_mon }})</label></td>
+                        <td style="text-align: right;"><b>{{data.tut_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.tut_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conv_paid != 0 || data.conv_less != 0">
+                        <td><label>Conveyance Fee ({{ data.conv_mon }})</label></td>
+                        <td style="text-align: right;"><b>{{data.conv_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.conv_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.lmf_paid != 0 || data.lmf_less">
+                        <td><label >Misc.</label></td>
+                        <td style="text-align: right;"><b>{{data.lmf_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.lmf_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conc_3c != 0">
+                        <td><label>Third Child Concession</label></td>
+                        <td style="text-align: right;"><b>0</b></td>
+
+                        <td style="text-align: right;"><b>- {{data.conc_3c}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conc_ew != 0">
+                        <td><label>Staff Concession</label></td>
+                        <td style="text-align: right;"><b>0</b></td>
+
+                        <td style="text-align: right;"><b>- {{data.conc_ew}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conc_fl != 0">
+                        <td><label>Fatherless Concession</label></td>
+                        <td style="text-align: right;"><b>0</b></td>
+
+                        <td style="text-align: right;"><b>- {{data.conc_fl}}</b></td>
+                      </tr>
+
+                      
+                      <tr *ngIf="data.tot_less != 0">
+                        <td><label>Total Amount</label></td>
+                        <td colspan="2" style="text-align: right;"><b>{{data.tot_pay}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.tot_less != 0">
+                        <td><label>Total Discount</label></td>
+                        <td colspan="2" style="text-align: right;color:red"><b>- {{data.tot_less}}</b></td>
+                      </tr>
+
+                      <tr style="border: 2px solid black;border-left: 0;border-right: 0;">
+                        <td><label>Paid</label></td>
+                        <td colspan="2" style="text-align: right;"><b>&#8377; {{data.tot_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.tot_due != 0">
+                        <td><label>Outstanding Amount</label></td>
+                        <td colspan="2" style="text-align: right;"><b>&#8377; {{data.tot_due}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="studentPrintData.preBal != null && studentPrintData.preBal.due != 0.00 ">
+                        <td><label>Previous Year Balance</label></td>
+                        <td colspan="2" style="text-align: right;"><b> &#8377;{{studentPrintData.preBal.due}}</b></td>
+                      </tr>
+
+                    </ng-container>
+
+
+                    <ng-container *ngIf="typeReceipt == 'previous_balance'">
+                      <tr *ngIf="data.conc_fl != 0">
+                        <td><label>Previous Due</label></td>
+                        <td colspan="2" style="text-align: right;"><b>{{data.details[0].paid}}</b></td>
+                      </tr>
+
+
+                      <tr style="border: 2px solid black;border-left: 0;border-right: 0;">
+                        <td><label>Paid</label></td>
+                        <td colspan="2" style="text-align: right;"><b>&#8377; {{data.details[0].paid}}</b></td>
+                      </tr>
+
+                      
+                      <tr *ngIf="data.details[0].due != 0">
+                        <td><label>Outstanding Amount</label></td>
+                        <td colspan="2" style="text-align: right;"><b>{{data.details[0].due}}</b></td>
+                      </tr>
+
+                    </ng-container>
+
+                    <!-- <tr>
+                      <td>Payment Through</td>
+                      <td>{{data.pay_type.pay}}</td>
+                    </tr> -->
+
+                    <tr *ngIf="data.cheque_payment != null">
+                      <td>
+                        Payment Details (Cheque)
+                      </td>
+                      <td colspan="2" style="text-align: right;">
+                        <span><b>A/C: </b>{{data.cheque_payment.cheque_details.account_no}} / {{data.cheque_payment.cheque_details.cheque_no}}</span>
+                      </td>
+                    </tr>
+                   
+    
+                      <tr>
+                        <td [attr.colspan]="2">
+                        
+                          <span style="font-size: 10px"
+                          >* This receipt is system generated.Hence no signature required. <br>
+                          * Cheque subject to realization & all figures in Rupees.<br>
+                          * Fee Once paid will not be refunded.<br>
+                          * Kindly preserve the slip.<br>
+                          * Fee must be deposited on 5th, 10th, 15th, 20th of every month.</span
+                        >
+                        </td>
+                      </tr>
+    
+                      <ng-template #pay>
+                        <tr>
+                          <td [attr.colspan]="1">All Month Fees Paid</td>
+                        </tr>
+                      </ng-template>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+
+              <tr style="background-color: red;padding: 0;margin: 0;" >
+                <td [colSpan]="2" style="background-color: aquamarine;margin: 0;padding: 0;">
+                  
+                </td>
+              </tr>
+            </table>
+
+            <hr style="border: 1px solid black;" />  
+            <table style="width:0.1%;border: 1px dotted black;">
+              <tr>
+                <td></td>
+              </tr>
+            </table>   
+          
+
+            <table  style="width:49%;" class="table table-sm">
+              <tr style="background-color: rgba(0, 0, 0, 0.15) ;" >
+                <td [attr.colspan]="2" style="text-align: center">
+                  <span style="font-weight: bold; font-size: 16px">{{
+                    schoolData.name
+                  }}</span
+                  ><br />
+                  <span style="color: grey">{{ schoolData.location }}</span
+                  ><br />
+                </td>
+                
+              </tr>
+    
+    
+               <tr>
+                <td [colSpan]="2" style="text-align: center;padding: 10px 8px ;">
+                  <span
+                    style="
+                      padding: 8px 10px;
+                      color: black;
+                    "
+                    >[Student Copy]</span
+                  >
+                </td>
+              </tr>
+              <!-- <br /> -->
+               <tr>           
+                <td>
+                  <span
+                    >Date:&nbsp;<b>{{
+                      data.date
+                    }}</b></span
+                  >
+                </td>
+                <td style="text-align: right;">
+                  <span style="text-align: right;"
+                    >Receipt No:&nbsp;<b> {{ data.receipt_no }}</b></span
+                  >
+                </td>
+              </tr> 
+
+              <tr
+                class="m-1 p-1"
+                style="border-top: 1px solid black; border-bottom: 1px solid black"
+              >
+                <td>
+                  <span
+                    >Name:&nbsp;<b >{{ studentPrintData.student.name }}</b></span
+                  >
+                </td>
+                <td style="text-align: right;">
+                  <span
+                    >A/c&nbsp;No:&nbsp;<b>{{ studentPrintData.student.account }}</b></span
+                  >
+                </td>
+              </tr>
+
+
+            
+    
+              <tr style="border-top: 1px solid black">
+                <td>
+                  <span
+                    >Father&nbsp;Name:&nbsp;<b>{{
+                      studentPrintData.student.f_name
+                    }}</b></span
+                  >
+                </td>
+                <td style="text-align: right;">
+                  <span
+                    >Session:&nbsp;<b>{{
+                      studentPrintData.student.academic_session.session
+                    }}</b></span
+                  >
+                </td>
+              </tr> 
+              <tr>
+                <td>
+                  <span
+                    >Class:&nbsp;<b>
+                      {{ studentPrintData.student.standard.class }}
+                    </b></span
+                  >
+                </td>
+            
+                <td *ngIf="typeReceipt == 'fee'" style="text-align: right;">
+                  <label>Month</label>:
+                  <b style="text-transform: capitalize"> {{ data.month }}</b>
+                </td>
+
+                <td *ngIf="typeReceipt == 'previous_balance'" style="text-align: right;">
+                    <label>Fee-Type</label>:
+                    <b style="text-transform: capitalize"> Previous Due</b>
+                </td>
+              </tr>
+    
+              <tr>
+                <td [colSpan]="2">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr
+                        style="
+                          border-top: 1px solid black;
+                          border-bottom: 1px solid black;
+                        "
+                      >
+                        <th>Particulars</th>
+                        <th style="text-align: right;">Discount</th>
+                        <th style="text-align: right;">Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngIf="typeReceipt == 'fee'">
+                      <tr *ngIf="data.reg_paid != 0">
+                        <td><label>Registration Fee</label></td>
+                        <td style="text-align: right;"><b>{{data.reg_less}}</b></td>
+                        <td style="text-align: right;"><b>{{data.reg_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.adm_paid != 0">
+                        <td><label>Admission Fee</label></td>
+                        <td style="text-align: right;"><b>{{data.adm_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.adm_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.tut_paid != 0">
+                        <td><label>Monthly Fee ({{ data.tut_mon }})</label></td>
+                        <td style="text-align: right;"><b>{{data.tut_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.tut_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conv_paid != 0">
+                        <td><label>Conveyance Fee ({{ data.conv_mon }})</label></td>
+                        <td style="text-align: right;"><b>{{data.conv_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.conv_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.lmf_paid != 0 || data.lmf_less">
+                        <td><label >Misc.</label></td>
+                        <td style="text-align: right;"><b>{{data.lmf_less}}</b></td>
+
+                        <td style="text-align: right;"><b>{{data.lmf_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conc_3c != 0">
+                        <td><label>Third Child Concession</label></td>
+                        <td style="text-align: right;"><b>0</b></td>
+
+                        <td style="text-align: right;"><b>- {{data.conc_3c}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conc_ew != 0">
+                        <td><label>Staff Concession</label></td>
+                        <td style="text-align: right;"><b>0</b></td>
+
+                        <td style="text-align: right;"><b>- {{data.conc_ew}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.conc_fl != 0">
+                        <td><label>Fatherless Concession</label></td>
+                        <td style="text-align: right;"><b>0</b></td>
+
+                        <td style="text-align: right;"><b>- {{data.conc_fl}}</b></td>
+                      </tr>
+
+                      
+                      <tr *ngIf="data.tot_less != 0">
+                        <td><label>Total Amount</label></td>
+                        <td colspan="2" style="text-align: right;"><b>{{data.tot_pay}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.tot_less != 0">
+                        <td><label>Total Discount</label></td>
+                        <td colspan="2" style="text-align: right;color:red"><b>- {{data.tot_less}}</b></td>
+                      </tr>
+
+                      <tr style="border: 2px solid black;border-left: 0;border-right: 0;">
+                        <td><label>Paid</label></td>
+                        <td colspan="2" style="text-align: right;"><b>&#8377; {{data.tot_paid}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="data.tot_due != 0">
+                        <td><label>Outstanding Amount</label></td>
+                        <td colspan="2" style="text-align: right;"><b>&#8377; {{data.tot_due}}</b></td>
+                      </tr>
+
+                      <tr *ngIf="studentPrintData.preBal != null && studentPrintData.preBal.due != 0.00 ">
+                        <td><label>Previous Year Balance</label></td>
+                        <td colspan="2" style="text-align: right;"><b> &#8377;{{studentPrintData.preBal.due}}</b></td>
+                      </tr>
+
+                    </ng-container>
+
+
+                    <ng-container *ngIf="typeReceipt == 'previous_balance'">
+                      <tr *ngIf="data.conc_fl != 0">
+                        <td><label>Previous Due</label></td>
+                        <td colspan="2" style="text-align: right;"><b>{{data.details[0].paid}}</b></td>
+                      </tr>
+
+
+                      <tr style="border: 2px solid black;border-left: 0;border-right: 0;">
+                        <td><label>Paid</label></td>
+                        <td colspan="2" style="text-align: right;"><b>&#8377; {{data.details[0].paid}}</b></td>
+                      </tr>
+
+                      
+                      <tr *ngIf="data.details[0].due != 0">
+                        <td><label>Outstanding Amount</label></td>
+                        <td colspan="2" style="text-align: right;"><b>{{data.details[0].due}}</b></td>
+                      </tr>
+
+                    </ng-container>
+
+                    <!-- <tr>
+                      <td>Payment Through</td>
+                      <td>{{data.pay_type.pay}}</td>
+                    </tr> -->
+
+                    <tr *ngIf="data.cheque_payment != null">
+                      <td>
+                        Payment Details (Cheque)
+                      </td>
+                      <td colspan="2" style="text-align: right;">
+                        <span><b>A/C: </b>{{data.cheque_payment.cheque_details.account_no}} / {{data.cheque_payment.cheque_details.cheque_no}}</span>
+                      </td>
+                    </tr>
+                   
+    
+                      <tr>
+                        <td [attr.colspan]="2">
+                        
+                          <span style="font-size: 10px"
+                          >* This receipt is system generated.Hence no signature required. <br>
+                          * Cheque subject to realization & all figures in Rupees.<br>
+                          * Fee Once paid will not be refunded.<br>
+                          * Kindly preserve the slip.<br>
+                          * Fee must be deposited on 5th, 10th, 15th, 20th of every month.</span
+                        >
+                        </td>
+                      </tr>
+    
+                      <ng-template #pay>
+                        <tr>
+                          <td [attr.colspan]="1">All Month Fees Paid</td>
+                        </tr>
+                      </ng-template>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+
+              <tr style="background-color: red;padding: 0;margin: 0;" >
+                <td [colSpan]="2" style="background-color: aquamarine;margin: 0;padding: 0;">
+                  
+                </td>
+              </tr>
+            </table>
+          
+          </div>
+      </ng-container>
+    </div>
+
+    <div style="
+    position: fixed;
+    top: 96%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    background-color: white;
+    overflow-y: scroll;
+    z-index: 11;">
+    <button class="fa fa-print btn btn-info my-2 mx-2" printSectionId="print-section-cash-receipt" [useExistingCss]="true" printTitle="Fee-receipt"  ngxPrint>print</button
+      >&nbsp;&nbsp;
+    <!-- <span (click)="openPDF()" class="btn btn-success my-2 mx-2">
+      <i class="fa fa-download"></i> Download</span
+    >&nbsp;&nbsp; -->
+    <span (click)="close()" class="btn btn-danger">Close</span>
+    </div>
+      
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    <div
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: whitesmoke;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+      "
+      *ngIf="printStatusOnly"
+    >
+      <div
+        style="
+          position: absolute;
+          width: 50%;
+          left: 50%;
+          top: 10px;
+          transform: translateX(-50%);
+        "
+        id="print-section"
+      >
+        <div style="border: 1px solid black; padding: 8px 8px">
+          <div>
+            <h3 style="text-align: center">Deposit&nbsp;Slip</h3>
+          </div>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <span><b>Deposit To:</b> {{ printValue.school_name }}</span>
+            </div>
+            <div>
+              <span><b>Deposit By:</b> {{ printValue.payer }}</span>
+            </div>
+          </div>
+          <ng-container>
+            <div>
+              <span><b>Bank&nbsp;Name&nbsp;:</b> {{ printValue.cheque_details.bank }}</span>
+            </div>
+            <div>
+              <span><b>IFS&nbsp;Code:</b> {{ printValue.cheque_details.ifsc_code }}</span>
+            </div>
+            <div>
+              <span><b>Cheque&nbsp;No:</b> {{ printValue.cheque_details.cheque_no }}</span>
+            </div>
+            <div>
+              <span><b>Date:</b> {{ printValue.cheque_details.date }}</span>
+            </div>
+          </ng-container>
+          <div>
+            <b>Status:</b> {{ printValue.cheque_payment_status.date }}
+            <div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  padding: 8px 8px;
+                "
+              >
+                <div>
+                  <span>Remarks</span>
+                </div>
+                <div>
+                  <span>Signature:</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div
+        style="
+          position: absolute;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          left: 50%;
+        "
+      >
+        <button printSectionId="print-section" ngxPrint>print</button
+        >&nbsp;&nbsp;&nbsp;
+        <button (click)="printPage(null, false)">Cancel</button>
+      </div>
+    </div>
+    

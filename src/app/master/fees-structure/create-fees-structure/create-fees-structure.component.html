@@ -1,0 +1,146 @@
+<div *ngIf="feesBoxStatus"
+    style="position: fixed;top: 0;left: 0;width:100%;height: 100%;background-color:rgba(0,0,0, 0.5);z-index: 10;"></div>
+<div class="box" style="z-index: 11;" [ngClass]="this.feesBoxStatus? 'top-10' : ''">
+    <div>
+        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
+            <h4 style="letter-spacing: 0.9px; text-transform: uppercase; ">{{layout}} Fees For: {{title}} &nbsp;&nbsp;
+            <select (change)="onSetsession(sessions.value)" #sessions>
+                <option value="undefined">Select Session</option>
+                <option *ngFor="let dt of sessionList" value="{{dt.id}}">{{dt.session}}</option>
+            </select>
+        </h4>
+            <span class="btn btn-sm rounded-pill" (click)="onClickClassesBoxClose(false)"><i
+                    class="fa fa-times"></i></span> 
+        </div>
+        <hr class="p-0 m-0">
+        <br>
+        <div class="row g-4 px-4">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <form [formGroup]="feesStructureForm" (ngSubmit)="addSubmit()">
+
+                        <table class="table table-striped border-success">
+                            <thead class="bg-success text-white">
+                                <tr>
+                                    <th>Facility&nbsp;Name</th>
+                                    <th>April</th>
+                                    <th>May</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sep</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dec</th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container formArrayName="std_fclty">
+                                    <ng-container
+                                        *ngFor="let obj of this.std_fclty.controls; let i=index ; let f = first ; let l = last">
+                                        <tr [formGroupName]="i">
+                                            <td>
+                                                <label style="font-size: 12px;">
+                                                    <input type="checkbox" [checked]="obj.value.is_active"
+                                                        (change)="facilityBox(obj.value.is_active , obj.value , i , obj.value.facility_id)">
+                                                    <span style="font-size: 12px;">
+                                                        <i class="fas fa-check"></i>
+                                                        {{obj.value.name}}
+                                                    </span>
+                                                </label>
+                                            </td>
+                                         
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="apr"
+                                                    *ngIf="obj.value.apr_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'apr' , $event , i)">
+                                                <span *ngIf="!obj.value.apr_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="may"
+                                                    *ngIf="obj.value.may_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'may' , $event , i)">
+                                                <span *ngIf="!obj.value.may_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="jun"
+                                                    *ngIf="obj.value.jun_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'jun' , $event , i)">
+                                                <span *ngIf="!obj.value.jun_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="jul"
+                                                    *ngIf="obj.value.jul_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'jul' , $event , i)">
+                                                <span *ngIf="!obj.value.jul_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="aug"
+                                                    *ngIf="obj.value.aug_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'aug' , $event , i)">
+                                                <span *ngIf="!obj.value.aug_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="sep"
+                                                    *ngIf="obj.value.sep_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'sep' , $event , i)">
+                                                <span *ngIf="!obj.value.sep_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="oct"
+                                                    *ngIf="obj.value.oct_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'oct' , $event , i)">
+                                                <span *ngIf="!obj.value.oct_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="nov"
+                                                    *ngIf="obj.value.nov_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'nov' , $event , i)">
+                                                <span *ngIf="!obj.value.nov_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="dec"
+                                                    *ngIf="obj.value.dec_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'dec' , $event , i)">
+                                                <span *ngIf="!obj.value.dec_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="jan"
+                                                    *ngIf="obj.value.jan_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'jan' , $event , i)">
+                                                <span *ngIf="!obj.value.jan_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="feb"
+                                                    *ngIf="obj.value.feb_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'feb' , $event , i)">
+                                                <span *ngIf="!obj.value.feb_active">N/A</span>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" formControlName="mar"
+                                                    *ngIf="obj.value.mar_active" [readonly]="!obj.value.is_active"
+                                                    (change)="updateValue(obj.value.facility_id , 'mar' , $event , i)">
+                                                <span *ngIf="!obj.value.mar_active">N/A</span>
+                                            </td>
+                                        </tr>
+
+
+                                    </ng-container>
+
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <div class="col-12 mb-4">
+                            <input type="submit" class="btn btn-md btn-success rounded-pill" value="Submit"
+                            [disabled]="submitStatus" value="Submit">&nbsp;<i
+                            class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="submitStatus"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

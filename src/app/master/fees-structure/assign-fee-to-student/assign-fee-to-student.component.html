@@ -1,0 +1,49 @@
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+      <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Apply&nbsp;Fees&nbsp;To&nbsp;Student
+      </h3>
+    </div>
+    <div class="col-6 col-lg-2" style="text-align: right">
+      <!-- <span class="mt-1 btn btn-success btn-sm rounded-pill"  >ADD&nbsp;&nbsp;<i class="fa fa-plus-square"></i></span> -->
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+  
+    <div
+      class="col-12 my-2"
+      *ngIf="this.school_code != 'Select School'; else notFound"
+    > 
+      <div class="row">
+        <div
+          class="col-12 col-lg-6 col-xl-4 tabs"
+          style="border-right: 12px solid whitesmoke"
+        >
+        <p>
+          This action will be update all student fees. Be careful before clicking on this button
+        </p>
+          <div class="mt-3" style="text-align: right">
+            <span class="btn btn-sm btn-success w-100" (click)="submit()"
+              >Update Student Fees</span
+            >&nbsp; <i class="fa fa-spinner fa-spin" *ngIf="loaderSubmit"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #notFound>
+      <div class="row my-2 px-2">
+        <div 
+          class="col-12 tabs"
+          style="position: relative; display: flex; align-items: baseline"
+        >
+          <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+          >&nbsp;&nbsp;&nbsp;
+          <h5 class="text-danger">
+            No school Selected. Please Select the school
+          </h5>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  

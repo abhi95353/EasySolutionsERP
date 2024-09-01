@@ -1,0 +1,29 @@
+<div class="row">
+    <!-- <div class="col-12">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Fee Excel Report</h3>
+    </div>
+    <hr class="p-0 m-0">
+
+    <br> -->
+
+    <div class="col-12 tabs my-2" *ngIf="this.school_code != 'Select School' ;">
+        <div class="row py-4" style="background-color: white;">
+            <div class="col-12 mb-4">
+                Dialy&nbsp;Fees&nbsp;Report
+            </div>
+         <div class="col-12 col-lg-4">
+             <div class="inputBox">
+                 <input type="date" [(ngModel)]="startAt">
+                 <label>Date</label>
+             </div>
+         </div>
+  
+         <div class="col-12 my-4">
+             <span class="btn btn-sm btn-success" (click)="feesReport()">Download</span>
+         </div>
+        </div>
+     </div>
+
+ 
+</div>
+

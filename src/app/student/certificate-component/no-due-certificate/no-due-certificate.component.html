@@ -1,0 +1,555 @@
+<div
+  style="height: 1188mm; width: 840mm; background-color: white; margin: auto"
+  id="htmlData"
+  *ngIf="printView"
+>
+  <div
+    class="row"
+    style="border: 1px solid black; margin: 4px"
+    *ngIf="!is_forTeacher"
+  >
+    <div class="col-4 p-4 side-span my-4" style="border-right: 1px solid black">
+      <div class="row g-4">
+        <div class="col-12" style="text-align: left"><span>S.No</span></div>
+        <div class="col-12" style="text-align: left"><span>Date</span></div>
+      </div>
+      <div class="row g-4">
+        <div class="col-12" style="text-align: left">
+          <span>Name : <i>{{ studentData.name }}</i></span>
+        </div>
+        <div class="col-12" style="text-align: left">
+         <span> Address : <i>{{ studentData.location }}</i></span>
+        </div>
+        <div class="col-12" style="text-align: left">
+          <span>Mobile : <i>{{ studentData.mobile_no }}</i></span>
+        </div>
+        <div class="col-12" style="text-align: left">
+          <span>D.O.B : <i>{{ studentData.dob }}</i></span>
+        </div>
+        <div class="col-12" style="text-align: left"><span>Result :</span></div>
+        <br />
+        <br />
+        <br />
+        <div class="col-12" style="text-align: left"><span>Receiver Sign</span></div>
+        <div class="col-12" style="text-align: left"><span>Date</span></div>
+      </div>
+    </div>
+
+    <div class="col-8">
+      <div class="row py-4" style="overflow-x: hidden">
+        <!-- <div class="col-3" style="display: flex;justify-content: center; padding: 12px;">
+                    <img src="https://apis.dev.myeasyerpsolutions.com/{{schoolData.logo}}" alt="LOGO"
+                        style="width: 180px;height: 180px;border-radius:5px">
+                </div> -->
+        <div class="col-12" style="text-align: left">
+          <div style="text-align: center">
+            <h3 style="text-transform: uppercase">{{ schoolData.name }}</h3>
+            <span
+              >(Senior Secondary affiliated with {{ schoolData.affiliation }},
+              Delhi, Vide Regn. No is {{ schoolData.affiliation_no }})</span
+            ><br />
+            <span>{{ schoolData.location }}</span
+            ><br />
+            <span>Tel: {{ schoolData.contact_no }}</span
+            ><br />
+            <span
+              >E-mail: {{ schoolData.contact_mail }}</span><br />
+          </div>
+        </div>
+
+        <div class="col-12 my-5">
+          <ng-container *ngIf="certificateType == 'character'">
+            <div style="width: 90%; margin: auto">
+              <h6
+                style="
+                  text-align: center;
+                  margin: auto;
+                  font-weight: 900;
+                  text-decoration: underline;
+                "
+              >
+                CHARACTER CERTIFICATE
+              </h6>
+            </div>
+            <p class="my-4 px-1" style="text-align: justify;">
+              This is to certify that
+              <b style="text-decoration: underline">{{ studentData.name }}</b>
+
+              (S/o, D/o) Father’s Name
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.parental.f_name }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.father_name }}</b
+              >
+              Was a bonafied student of this school. He/She passed
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.standard.class }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.class }}</b
+              >
+              Held in
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.academic_session.session }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.session }}</b
+              >. During his/her course of stay in the school his/her conduct was
+              found satisfactory.
+            </p>
+          </ng-container>
+
+          <ng-container *ngIf="certificateType == 'no-due'">
+            <div style="width: 90%; margin: auto">
+              <h6
+                style="
+                  text-align: center;
+                  margin: auto;
+                  font-weight: 900;
+                  text-decoration: underline;
+                "
+              >
+                No dues certificate for students.
+              </h6>
+            </div>
+            <p class="my-4 px-1" style="text-align: justify;">
+              To be deposited before Examination in the office of the
+              undersigned by Class Teacher
+              <br />
+              <b style="text-decoration: underline"
+                >Name: {{ studentData.name }}</b
+              >
+              <br />
+              <b *ngIf="entry_type == 'auto'" style="text-decoration: underline"
+                >Class: {{ studentData.standard.class }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >Class: {{ studentData.class }}</b
+              >
+              <br />
+              <b *ngIf="entry_type == 'auto'" style="text-decoration: underline"
+                >Father's Name: {{ studentData.parental.f_name }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >Father's Name: {{ studentData.father_name }}</b
+              >
+              <br />
+              <b *ngIf="entry_type == 'auto'" style="text-decoration: underline"
+                >Account No: {{ studentData.account }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >Account No: {{ studentData.student_accountNo }}</b
+              >
+              <br />
+              This is to certify that no fee dues are left, against the above
+              said student.
+            </p>
+            <div style="text-align: center; font-size: 68px;">
+              Account
+              Clerk&nbsp;&nbsp;&nbsp;&nbsp;Library&nbsp;&nbsp;&nbsp;&nbsp;Class
+              Teacher
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="certificateType == 'bonafide'">
+            <div style="width: 90%; margin: auto">
+              <h6
+                style="
+                  text-align: center;
+                  margin: auto;
+                  font-weight: 900;
+                  text-decoration: underline;
+                "
+              >
+                TO WHOM IT MAY CONCERN
+              </h6>
+            </div>
+            <p class="my-4 px-1" style="text-align: justify;">
+              This is to certify that
+              <b style="text-decoration: underline"
+                >Name: {{ studentData.name }}</b
+              >
+              (S/O D/O) Father's Name
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.parental.f_name }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.father_name }}</b
+              >
+              & Mother’s Name
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.parental.m_name }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.mother_name }}</b
+              >
+              is a bonafide student of this school. He/She reading in class
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.standard.class }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.class }}</b
+              >
+              for academic session
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.academic_session.session }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.session }}</b
+              >. His/Her date of birth is <b>{{ studentData.dob }}</b> as per
+              school record.
+            </p>
+          </ng-container>
+
+          <ng-container *ngIf="certificateType == 'tuition'">
+            <div style="width: 90%; margin: auto">
+              <h6
+                style="
+                  text-align: center;
+                  margin: auto;
+                  font-weight: 900;
+                  text-decoration: underline;
+                "
+              >
+                TO WHOM IT MAY CONCERN
+              </h6>
+            </div>
+            <p class="my-4 px-1" style="text-align: justify;">
+              This is to certify that
+              <b style="text-decoration: underline">{{ studentData.name }}</b>
+              Son of
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.parental.f_name }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.father_name }}</b
+              >
+              is a Bonafide student of this school and studied in
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.standard.class }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.class }}</b
+              >
+              during the financial year
+              <b
+                *ngIf="entry_type == 'auto'"
+                style="text-decoration: underline"
+                >{{ studentData.academic_session.session }}</b
+              >
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.session }}</b
+              >. During the year
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.DTY }}</b
+              >
+              His fee was
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.PMF }}</b
+              >/- Per month and paid an amount of Rs.
+              <b
+                *ngIf="entry_type == 'manual'"
+                style="text-decoration: underline"
+                >{{ studentData.AOP }}</b
+              >
+              for the period April 20__-March 20__.
+            </p>
+          </ng-container>
+          <div class="row my-4">
+            <span class="col-4">Principal</span>
+          </div>
+          <p style="font-size: 12px" *ngIf="certificateType == 'tuition' || certificateType == 'bonafide'">
+            Note: THIS IS NOT DOCUMENTARY PROOF OF EVIDENCE.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teacher -->
+
+  <div
+    class="row"
+    style="border: 1px solid black; margin: 4px"
+    *ngIf="is_forTeacher"
+  >
+    <div class="col-12" *ngIf="certificateType != 'relieving-certificate' && certificateType != 'attendance-certificate'">
+      <div class="row py-4" style="overflow-x: hidden">
+        <div class="col-12" style="text-align: left">
+          <div style="text-align: center">
+            <h3 style="text-transform: uppercase; color: orange">
+              {{ schoolData.name }}
+            </h3>
+            <span style="font-size: 12px"
+              >(Senior Secondary affiliated with {{ schoolData.affiliation }},
+              Delhi, Vide Regn. No is {{ schoolData.affiliation_no }})</span
+            ><br />
+            <span>{{ schoolData.location }}</span
+            ><br />
+            <span>Tel: {{ schoolData.contact_no }}</span
+            ><br />
+            <span
+              >E-mail: {{ schoolData.contact_mail }} , Visit us at:
+              {{ schoolData.website }}</span
+            ><br />
+          </div>
+        </div>
+
+        <div class="col-12 my-4">
+          <ng-container *ngIf="certificateType == 'teacher-copy'">
+            <div style="width: 90%; margin: auto">
+              <span>Teacher Copy</span>
+              <h6
+                style="
+                  text-align: center;
+                  margin: auto;
+                  font-weight: 900;
+                  text-decoration: underline;
+                "
+              >
+                To Whomsoever It May Concern
+              </h6>
+            </div>
+            <p class="my-4 px-1" style="text-align: justify;">
+            This is to certify that Mr./ Ms.
+              <b style="text-decoration: underline">{{ studentData.name }}</b>
+              worked as
+              <b style="text-decoration: underline">{{ studentData.WA }}</b> in
+              School, from
+              <b style="text-decoration: underline">{{ studentData.FD }}</b> to
+              <b style="text-decoration: underline">{{ studentData.TD }}</b
+              >. During her tenure we found her sincere, dedicated and hard
+              working. <br /><br />
+              We wish her success in her future endeavours.<br /><br />
+              Sd/- <br />
+              <span class="my-4">Principal</span> <br />
+              {{ schoolData.name }} <br />
+              {{ schoolData.location }}
+            </p>
+          </ng-container>
+
+          <ng-container *ngIf="certificateType == 'official-copy'">
+            <div style="width: 90%; margin: auto">
+              <span>Official Copy</span>
+              <h6
+                style="
+                  text-align: center;
+                  margin: auto;
+                  font-weight: 900;
+                  text-decoration: underline;
+                "
+              >
+                To Whomsoever It May Concern
+              </h6>
+            </div>
+            <p class="my-4 px-1">
+              This is to certify that Mr./ Ms.
+              <b style="text-decoration: underline">{{ studentData.name }}</b>
+              worked as
+              <b style="text-decoration: underline">{{ studentData.WA }}</b> in
+              School, from
+              <b style="text-decoration: underline">{{ studentData.FD }}</b> to
+              <b style="text-decoration: underline">{{ studentData.TD }}</b
+              >. During her tenure we found her sincere, dedicated and hard
+              working. <br /><br />
+              We wish her success in her future endeavours.<br /><br />
+              Sd/- <br />
+              <span class="my-4">Principal</span>  <br />
+              {{ schoolData.name }} <br />
+              {{ schoolData.location }}
+            </p>
+
+            <div>
+              <h6 style="text-align: center; text-decoration: underline">
+                ACKNOWLEDGEMENT
+              </h6>
+              <p style="text-align: center" ><b>Receipt of Document</b></p>
+             <p> I, Ms <b style="text-decoration: underline">{{ studentData.name }}</b>, declared that I received my experience
+              certificate and all my dues are clear till due date through bank
+              with my consent up to __/__/_____. I acknowledge the receipt of
+              certificate & No objection and all my dues cleared till dated / /
+              from school by myself with thanks. </p><br />
+              ____________ <br />
+              ____________ <br /><br />
+              <p>
+                Approved By <br />
+                Teacher’s Signature 
+              </p>
+              
+              <span style="text-align: right">Dated</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Staff Certificate -->
+  
+  <div
+    class="row"
+    style="padding: 30px;"
+    *ngIf="certificateType == 'relieving-certificate'"
+  >
+    <div class="col-12">
+      <div class="row py-4" style="overflow-x: hidden">
+        <div class="col-12">
+          <h3 style="text-align:center"><b style="text-decoration: underline;">School Letter Head</b></h3>    
+          <h3 style="text-align:center"><b style="text-decoration: underline;">Relieving Certificate</b></h3>    
+        </div>
+        <div class="col-12 my-4">
+            <p class="my-4 px-1" style="text-align: justify;">
+              Mr./Mrs./Ms.
+              <b style="text-decoration: underline">{{ studentData.name }}</b>
+              is working in the school since
+              <b style="text-decoration: underline">{{ studentData.WIN }}</b> .
+              She/He is having experience as per following details:
+              </p>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Designation</th>
+                    <th>Subject Taught & Medium</th>
+                    <th>Total Experience (yr)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>TGT</td>
+                    <td> <b style="text-decoration: underline">{{ studentData.T_STM }}</b></td>
+                    <td> <b style="text-decoration: underline">{{ studentData.T_TE }}</b></td>
+                  </tr>
+                  <tr>
+                    <td>PGT</td>
+                    <td> <b style="text-decoration: underline">{{ studentData.P_STM }}</b></td>
+                    <td> <b style="text-decoration: underline">{{ studentData.P_TE }}</b></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="my-4 px-1" style="text-align: justify;">
+                Her/His qualifications as per school records are 
+              <b style="text-decoration: underline">{{ studentData.APSR }}</b>.
+              She/He has been relieved on dated
+              <b style="text-decoration: underline">{{ studentData.OD }}</b
+              > to report to Chief Nodal Supervisor (CNS) of the allotted Evaluation Centre on dated
+              <b style="text-decoration: underline">{{ studentData.AECD }}</b
+                ><br /><br />
+            </p>
+        </div>
+
+        <div class="col-12" style="text-align: right">
+            <span>Signature Of Principal: .................................................</span> <br><br>
+            <span>Name: .................................................</span> <br> 
+            <span>Stamp:</span> <br> 
+        </div>
+        <div class="col-12">
+          <span>Dated:</span> <br>
+          <span>Place:</span> <br> 
+      </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ************************************************************************************ -->
+
+
+<div
+class="row"
+style="padding: 30px;"
+*ngIf="certificateType == 'attendance-certificate'"
+>
+<div class="col-12">
+  <div class="row py-4" style="overflow-x: hidden">
+    <div class="col-12">
+      <h3 style="text-align:center ;text-decoration: underline;">School Letter Head</h3>    
+      <h3 style="text-align:center ;text-decoration: underline;">Attendance Certificate<br>(Examiner
+        Relleving Certificate) <br>(Para 6.23)</h3>    
+    </div>
+    <div class="col-12 my-4">
+        <p class="my-4 px-1" style="text-align: justify;">
+          Certified that Shri./Smt./Miss
+          <b style="text-decoration: underline">{{ studentData.name }}</b>
+          Examiner No
+          <b style="text-decoration: underline">{{ studentData.EN }}</b>
+          attended the Nodal Evaluation work-shop form 
+          <b style="text-decoration: underline">{{ studentData.FD }}</b> to 
+          <b style="text-decoration: underline">{{ studentData.TD }}</b> 
+          in the 
+          <b style="text-decoration: underline">{{ studentData.subject }}</b> for 
+          <b style="text-decoration: underline">{{ studentData.FSSC }}</b> 
+          Senior School Certificate / Secondary Examination 2019. She / He is directed to report to her /his 
+          school on 
+          <b style="text-decoration: underline">{{ studentData.OD }}</b> 
+          <br>
+          <br>
+          <br>
+          <br>
+          Format given as Annexure XIV in the Guidelines for Spot Evaluation may be treated as cancelled
+          </p>
+    </div>
+
+    <div class="col-12" style="text-align: right">
+        <span>Signature Of Principal: .................................................</span> <br><br>
+        <span>Name: .................................................</span> <br> 
+        <span>Stamp:</span> <br> 
+    </div>
+    <div class="col-12">
+      <span>Date:</span> <br>
+  </div>
+  </div>
+</div>
+</div>
+
+</div>

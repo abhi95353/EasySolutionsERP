@@ -1,0 +1,170 @@
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+        <h3 style="letter-spacing: 0.9px; text-transform: uppercase;">Manage Fine </h3>
+    </div>
+    <div class="col-6 col-lg-2" style="text-align: right;">
+        <!-- <span class="mt-1 btn btn-success btn-sm rounded-pill"  >ADD&nbsp;&nbsp;<i class="fa fa-plus-square"></i></span> -->
+    </div>
+    <hr class="p-0 m-0">
+    <br>
+
+    <div class="col-12 my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-4 tabs" style="border-right: 12px solid whitesmoke;">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div> 
+                            <h5>Search Students</h5>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="inputBox">
+                            <select class="form-control"  required (change)="onSelectClass($event)">
+                                <option value="">N/A</option>
+                                <option *ngFor="let data of classList" value="{{data.id}}">{{data.class}}</option>
+                            </select>
+                            <label>Class</label>
+                        </div>
+                    </div>
+                    <!-- <div class="col-6">
+                        <div class="inputBox">
+                            <select class="form-control"  required>
+                                <option value="">N/A</option>
+                                <option *ngFor="let data of classList" value="{{data.id}}">{{data.class}}</option>
+                            </select>
+                            <label>Section</label>
+                        </div>
+                    </div> -->
+                    <!-- <h5 style="text-align: center;">OR</h5> -->
+                    <!-- <div class="col-12">
+                        <div class="inputBox">
+                            <select class="form-control"  required>
+                                <option value="">N/A</option>
+                                <option *ngFor="let data of classList" value="{{data.id}}">{{data.class}}</option>
+                            </select>
+                            <label>Student List</label>
+                        </div>
+                    </div> -->
+
+                    <div class="col-12" style="text-align: right;">
+                        <span class="btn btn-sm btn-success">Search</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-8 tabs" style="border-left: 12px solid whitesmoke; height: 500px;overflow-y: scroll;">
+                <div class="row gy-4">
+                    <div class="col-12">
+                        <div>
+                            <h5>Students List</h5>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive" style="border-radius: 5px;" >
+                            <table class="table  table-hover table-bordered" id="htmlData">
+                                <thead class="bg-success text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <!-- <th scope="col">Classes</th> --->
+                                        <th scope="col">Admission No</th> 
+                                        <th scope="col">Student Name</th>
+                                        <th>Select <input type="checkbox"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dt of studentData; let i = index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{dt.admission_no}}</td>
+                                        <td>{{dt.name}}</td>
+                                      
+                                        <td><input type="checkbox" (change)="addStudent( dt.id, dt.name, $event)"></td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-4">
+            <div class="col-12 col-lg-4">
+                <div class="tabs">
+                   <form [formGroup]="customFeesForm" (ngSubmit)="submit()" ngNativeValidate>
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <h5>Apply Fine</h5>
+                        </div>
+                     <div class="col-12">
+                         <div class="inputBox">
+                             <input type="text" required formControlName="name">
+                             <!-- <select formControlName="name">
+                                 <option *ngFor="let dt of fineData" value="{{dt.id}}">{{dt.name}}</option>
+                             </select> -->
+                             <label>Name</label>
+                         </div>
+                     </div>
+                     <div class="col-6">
+                         <div class="inputBox">
+                             <input type="text" required formControlName="charges">
+                             <label>Changes</label>
+                         </div>
+                     </div>
+                     <div class="col-12">
+                        <input
+                        type="submit"
+                        [disabled]="submitStatus"
+                        class="btn btn-sm btn-success"
+                        value="Submit"
+                      >
+                        &nbsp;<i
+                        class="fas fa-spinner fa-pulse text-success fa-lg"
+                        *ngIf="submitStatus"
+                      ></i
+                      >
+                     </div>
+                    </div>
+                   </form>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-8">
+                <div class="col-12 tabs">
+                    <div class="col-12">
+                        <h5>Student List</h5>
+                    </div>
+                    <div class="col-12">
+                        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+                            <table class="table  table-hover table-bordered" id="htmlData">
+                                <thead class="bg-success text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngIf="this.studentList.length !=0">
+                                        <tr *ngFor="let dt of studentList.value;let i = index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{dt.name}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+
+</div>

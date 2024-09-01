@@ -1,0 +1,809 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xxl-2 col-lg-2 col-md-12">
+      <div
+        class="side-img side-panel-lg"
+        [ngClass]="slideMenuStatus ? 'left-0' : 'left-1000'"
+      >
+        <div
+          class="side-glass hide-scroll"
+          style="overflow-y: scroll"
+          [style.height.px]="scrHeight"
+        >
+          <h3 class="d-none d-lg-block" style="text-align: center">
+            My Easy ERP
+          </h3>
+          <div class="d-block d-lg-none" style="text-align: right">
+            <span
+              class="mx-2 fa fa-angle-double-left"
+              (click)="slideMenu(false)"
+            ></span>
+          </div>
+          <hr class="p-0 m-0" />
+          <div class="py-3" style="text-align: center">
+            <img
+              src="assets/image/profile/R.jpg"
+              alt="Profile"
+              style="max-width: 25%; border-radius: 100%"
+            /><br />
+            <span>{{panelName}}</span>
+            <span style="display: block; font-size: 12px; color: grey">{{
+              today | date: "medium"
+            }}</span>
+          </div>
+          <hr class="p-0 m-0" />
+
+          <ul style="list-style-type: none">
+            <b
+              class="px-1"
+              style="
+                display: block;
+                text-align: left;
+                color: #20b2aa;
+                font-size: 16px;
+                text-align: center;
+              "
+              >
+              {{this.session_name}}
+              <select class="session" [(ngModel)]="sessionId"  (change)="selectSession()">
+                <option *ngFor="let dt of sessionList" value="{{dt.id}}">{{dt.session}}</option>
+              </select></b
+            >
+            <hr class="p-0 m-0" />
+            <!-- <hr class="p-0 m-0"> -->
+            <li [routerLink]="['/dashboard']" routerLinkActive="active">
+              <i class="fa fa-dashboard fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Dashboard
+            </li>
+            <!-- <hr class="p-0 m-0"> -->
+
+            <!-- <hr class="p-0 m-0"> -->
+            <li (click)="menuBars('Master', true)">
+              <i class="fa fa-archive fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Configuration<span
+                class="fa"
+                [ngClass]="menuBarsMaster ? 'fa-angle-left' : 'fa-angle-down'"
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsMaster ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="[
+                  '/school-registration',
+                  { action: 'add', id: null }
+                ]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa fa-graduation-cap fa-style-float"></i>&nbsp;Add
+                School
+              </li>
+              <li
+                [routerLink]="['/school-list', { action: 'add', id: null }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>&nbsp;&nbsp;Manage
+                School
+              </li>
+
+              <li
+              [routerLink]="['/create-session', { action: 'add', id: null }]"
+              routerLinkActive="active"
+            >
+              <i class="fa fa-list fa-style-float"></i>&nbsp;&nbsp;Academic&nbsp;Session
+            </li>
+
+              <li
+                [routerLink]="['/manage-classes', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i> &nbsp;Manage Class
+              </li>
+
+              <li
+                [routerLink]="['/manageSection-list', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i> &nbsp;Manage Sections
+              </li>
+
+              <li
+                [routerLink]="['/student-registration', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-user fa-style-float"></i
+                >&nbsp;&nbsp;Registration form
+              </li>
+              <li
+                [routerLink]="['/student-registration-list', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>&nbsp;&nbsp;Manage
+                Registration
+              </li>
+
+              <li
+                [routerLink]="['/student-admission', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-user-plus fa-style-float"></i> Admission form
+              </li>
+
+              <li
+                [routerLink]="['/student-admission-list', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>&nbsp;&nbsp;Manage
+                Admission
+              </li>
+
+              <li
+                [routerLink]="['/export-student', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-file-alt fa-style-float"></i>&nbsp;&nbsp;Upload
+                Student
+              </li>
+            </ul>
+            <!-- <hr class="p-0 m-0"> -->
+
+            <li (click)="menuBars('Student', true)">
+              <i class="fa fa-graduation-cap fa-style-float"></i
+              >&nbsp;&nbsp;Student<span
+                class="fa"
+                [ngClass]="menuBarsStudent ? 'fa-angle-left' : 'fa-angle-down'"
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsStudent ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="['/student-data-list', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>
+                &nbsp;&nbsp;Student&nbsp;List
+              </li>
+
+              <li
+                [routerLink]="['/parent-asso-child', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>
+                &nbsp;&nbsp;Parents&nbsp;Association
+              </li>
+
+              <li
+                [routerLink]="['/attandance', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>
+                &nbsp;&nbsp;Student&nbsp;Attandance
+              </li>
+
+
+              <li
+                [routerLink]="['/manage-student-section', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-users fa-style-float"></i>
+                &nbsp;section&nbsp;&&nbsp;Roll&nbsp;No
+              </li> 
+              <li
+                [routerLink]="['/student-id-card', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fas fa-user-circle fa-style-float"></i
+                >&nbsp;&nbsp;Student&nbsp;ID-Card
+              </li>
+              <li
+                routerLinkActive="active"
+                [routerLink]="['/student-certificate', { role: 'admin' }]"
+              >
+                <i class="fa fa-certificate fa-style-float"></i
+                >&nbsp;&nbsp;Certificate
+              </li>
+              <li
+              routerLinkActive="active"
+              [routerLink]="['/student-tc', { role: 'admin' }]"
+            >
+              <i class="fa fa-certificate fa-style-float"></i 
+              >&nbsp;&nbsp;TRANSFER CERTIFICATE
+            </li>
+              <li
+              routerLinkActive="active"
+              [routerLink]="['/student-leave', { role: 'admin' }]"
+            >
+              <i class="fa fa-list fa-style-float"></i
+              >&nbsp;&nbsp;Student&nbsp;Leave 
+            </li>
+
+          
+
+            <li
+            routerLinkActive="active"
+            [routerLink]="['/promote-student', { role: 'admin' }]"
+          >
+            <i class="fa fa-list fa-style-float"></i
+            >&nbsp;&nbsp;Promote&nbsp;Student
+          </li>
+
+          <li
+            routerLinkActive="active"
+            [routerLink]="['/demote-student', { role: 'admin' }]"
+          >
+            <i class="fa fa-list fa-style-float"></i
+            >&nbsp;&nbsp;Demote&nbsp;Student
+          </li>
+
+          <li
+          routerLinkActive="active"
+          [routerLink]="['/fees-carry-forward', { role: 'admin' }]"
+        >
+          <i class="fa fa-list fa-style-float"></i
+          >&nbsp;&nbsp;Fees&nbsp;Carry&nbsp;Forward
+        </li>
+
+            
+            </ul>
+
+            <li (click)="menuBars('Fees', true)">
+              <i class="fa fa-archive fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Fees&nbsp;Master<span
+                class="fa"
+                [ngClass]="menuBarsFees ? 'fa-angle-left' : 'fa-angle-down'"
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsFees ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="['/facilities', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-archive fa-style-float"></i>
+                &nbsp;Facilities
+              </li>
+              <li [routerLink]="['/fee-structure']" routerLinkActive="active">
+                <i class="fa fa-archive fa-style-float"></i> &nbsp;Fees
+                structure
+              </li>
+              <li [routerLink]="['/custom-fees']" routerLinkActive="active">
+                <i class="fa fa-archive fa-style-float"></i> &nbsp;Custom Fees
+              </li>
+
+              <li [routerLink]="['/fees-collect']" routerLinkActive="active">
+                <i class="fa fa-archive fa-style-float"></i> &nbsp;Collect Fees
+              </li>              
+              <li
+                [routerLink]="['/pre-due-list', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>
+                &nbsp;&nbsp;Pre&nbsp;Due&nbsp;List
+              </li>
+
+              <li
+                [routerLink]="['/manage-cheque', { role: 'admin' }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i>
+                &nbsp;&nbsp;Manage&nbsp;Cheque&nbsp;List
+              </li>
+            </ul>
+
+            <li (click)="menuBars('Subject', true)">
+              <i class="fa fa-book fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Subjects<span
+                class="fa"
+                [ngClass]="menuBarsSub ? 'fa-angle-left' : 'fa-angle-down'"
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsSub ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="['/create-subject', { action: 'add', id: null }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa fa-plus fa-style-float"></i
+                >&nbsp;&nbsp;Create&nbsp;Subject
+              </li>
+              <li
+                [routerLink]="['/manage-subject', { action: 'add', id: null }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i
+                >&nbsp;&nbsp;Manage&nbsp;Subject
+              </li>
+            </ul>
+
+            <li (click)="menuBars('Staff', true)">
+              <i class="fa fa-book fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Staff<span
+                class="fa"
+                [ngClass]="menuBarsStaff ? 'fa-angle-left' : 'fa-angle-down'"
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsStaff ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="['/create-staff', { action: 'add', id: null }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa fa-plus fa-style-float"></i
+                >&nbsp;&nbsp;Create&nbsp;Staff
+              </li>
+              <li
+                [routerLink]="['/manage-staff', { action: 'add', id: null }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i
+                >&nbsp;&nbsp;Manage&nbsp;Staff
+              </li>
+              <li
+                [routerLink]="['/staff-certificate', { action: 'add', id: null }]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-certificate fa-style-float"></i
+                >&nbsp;&nbsp;Staff&nbsp;Certificate
+              </li>
+            </ul>
+             
+
+            <li (click)="menuBars('Transport', true)">
+              <i class="fa fa-truck fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Transport<span
+                class="fa"
+                [ngClass]="
+                  menuBarsTransport ? 'fa-angle-left' : 'fa-angle-down'
+                "
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsTransport ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="[
+                  '/create-bus-route',
+                  { action: 'add', id: null }
+                ]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa fa-plus fa-style-float"></i
+                >&nbsp;&nbsp;Create&nbsp;Route
+              </li>
+              <li
+                [routerLink]="[
+                  '/manage-bus-route',
+                  { action: 'add', id: null }
+                ]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i
+                >&nbsp;&nbsp;Manage&nbsp;Route
+              </li>
+
+              <li
+                [routerLink]="[
+                  '/manage-bus-driver',
+                  { action: 'add', id: null }
+                ]"
+                routerLinkActive="active"
+              >
+                <i class="fa fa-list fa-style-float"></i
+                >&nbsp;&nbsp;Manage&nbsp;Buses
+              </li>
+
+
+              <li
+              [routerLink]="[
+                '/bus-meter-reading',
+                { action: 'add', id: null }
+              ]"
+              routerLinkActive="active"
+            >
+              <i class="fa fa-list fa-style-float"></i
+              >&nbsp;&nbsp;Bus&nbsp;Reading
+            </li>
+
+             
+            </ul>
+
+            <li
+              [routerLink]="['/notification-category', { action: 'add', id: null }]"
+              routerLinkActive="active"
+            >
+              <i class="fa fa-clipboard fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Notice Category
+            </li>
+
+            <li
+              [routerLink]="['/manage-notice', { action: 'add', id: null }]"
+              routerLinkActive="active"
+            >
+              <i class="fa fa-clipboard fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Timeline
+            </li>
+
+
+
+            <li
+              [routerLink]="['/send-sms', { action: 'add', id: null }]"
+              routerLinkActive="active"
+            >
+              <i class="fa fa-envelope fa-style-float"></i
+              >&nbsp;&nbsp;&nbsp;Manual SMS
+            </li>
+
+            <li
+            [routerLink]="['/msg-template', { action: 'add', id: null }]"
+            routerLinkActive="active"
+          >
+            <i class="fa fa-envelope fa-style-float"></i
+            >&nbsp;&nbsp;&nbsp;Message Design
+          </li>
+
+          <li
+          [routerLink]="['/manage-download-center', { action: 'add', id: null }]"
+          routerLinkActive="active"
+        >
+          <i class="fa fa-download fa-style-float"></i
+          >&nbsp;&nbsp;&nbsp;Download&nbsp;Center
+        </li>
+
+
+            <li (click)="menuBars('Report', true)">
+              <i class="fa fa-file-alt fa-style-float"></i>&nbsp;&nbsp;&nbsp;
+              Report
+              <span
+                class="fa"
+                [ngClass]="menuBarsReport ? 'fa-angle-left' : 'fa-angle-down'"
+                style="float: right; margin-right: 10px; margin-top: 4px"
+              ></span>
+            </li>
+            <ul
+              class="px-2 sub-list"
+              [ngClass]="menuBarsReport ? ' ' : 'display-none'"
+              style="list-style-type: none"
+            >
+              <li
+                [routerLink]="['/fee-defaulter-list']"
+                routerLinkActive="active"
+              >
+              &nbsp;
+                Fee&nbsp;Defaulter&nbsp;Report
+              </li>
+              <li
+                [routerLink]="['/fee-concession-list']"
+                routerLinkActive="active"
+              >
+                &nbsp;
+                Fee&nbsp;concession&nbsp;Report
+              </li>
+              <li [routerLink]="['/fee-fine-list']" routerLinkActive="active">
+                &nbsp;
+                Fee&nbsp;Fine&nbsp;Report
+              </li>
+              <li [routerLink]="['/fee-report']" routerLinkActive="active">
+                &nbsp; Fees&nbsp;Report
+              </li>
+              <li [routerLink]="['/fee-excel-report']" routerLinkActive="active">
+                &nbsp; Fees&nbsp;Excel&nbsp;Report
+              </li>
+              <li [routerLink]="['/mis-report']" routerLinkActive="active">
+                &nbsp; MIS&nbsp;Report
+              </li>
+              <!-- <li
+              routerLinkActive="active"
+              [routerLink]="['/student-transport-list', { role: 'admin' }]"
+            >
+              &nbsp;Student&nbsp;Transport&nbsp;Report
+            </li> -->
+
+            <li
+              routerLinkActive="active"
+              [routerLink]="['/student-transport-report', { role: 'admin' }]"
+            >
+              &nbsp;Student&nbsp;Transport&nbsp;Report
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLink]="['/student-transport-list', { role: 'admin' }]"
+            >
+              &nbsp;Student&nbsp;Transport&nbsp;List
+            </li>
+            
+         
+            </ul>
+
+            <li (click)="qrBox(true)">
+              &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-share-alt" 
+                >&nbsp;&nbsp;&nbsp;Share&nbsp;Link</i
+              >
+            </li>
+
+          <li (click)="menuBars('Setting', true)">
+            <i class="fa fa-cog fa-style-float"></i
+            >&nbsp;&nbsp;&nbsp;Setting<span
+              class="fa"
+              [ngClass]="
+              menuBarSetting ? 'fa-angle-left' : 'fa-angle-down'
+              "
+              style="float: right; margin-right: 10px; margin-top: 4px"
+            ></span>
+          </li>
+
+          <ul
+          class="px-2 sub-list"
+          [ngClass]="menuBarSetting ? ' ' : 'display-none'"
+          style="list-style-type: none"
+        >
+          <li
+            [routerLink]="[
+              '/change-password',
+              { action: 'add', id: null }
+            ]"
+            routerLinkActive="active"
+          >
+            <i class="fa fa fa-circle fa-style-float"></i
+            >&nbsp;&nbsp;Password
+          </li>
+        </ul>
+          </ul>
+
+          <div
+            style="position: sticky; width: 100%; bottom: 0"
+            [style.top.px]="scrHeight - 35"
+          >
+            <div
+              style="
+                text-align: right;
+                display: flex;
+                justify-content: flex-end;
+              "
+            ></div>
+            <div class="btn-group dropup m-1" style="width: 100%" *ngIf="!deployOnAdmin">
+              <button
+                type="button"
+                class="btn dropdown-toggle btn-sm btn-danger"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span *ngIf="this.school_code == null">Select School</span>
+                <span *ngIf="this.school_code != null">{{ school_code }}</span>
+              </button>
+              <ul class="dropdown-menu -2">
+                <li
+                  class="p-2"
+                  style="font-size: 14px; font-weight: 400"
+                  (click)="
+                    selectSchool(
+                      'Select School',
+                      null,
+                      null,
+                      null,
+                      null,
+                      null,
+                      null
+                    )
+                  "
+                >
+                  Clear Data
+                </li>
+                <hr />
+                <ng-container
+                  *ngIf="schoolData.response != null; else notFound"
+                >
+                  <li
+                    *ngFor="let data of schoolData.response"
+                    class="p-2"
+                    style="font-size: 14px; font-weight: 400"
+                    (click)="
+                      selectSchool(
+                        data.code,
+                        data.name,
+                        data.sub_host,
+                        data.id,
+                        data.uuid,
+                        data.base_url,
+                        data
+                      )
+                    "
+                  >
+                    {{ data.code }} &nbsp;{{ data.name }}
+                  </li>
+                </ng-container>
+                <ng-template #notFound>
+                  <li class="text-danger">{{ schoolData.message }}</li>
+                </ng-template>
+              </ul>
+            </div>
+            <span
+              class="btn btn-sm btn-secondary"
+              style="display: block; width: 100%"
+              (click)="logout()"
+              >Logout</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xxl-10 col-lg-10 col-md-12 mt-1 col-12">
+      <div style="position: absolute; right: 10px">
+        <a
+          (click)="slideMenu(true)"
+          class="d-block d-lg-none"
+          style="color: black"
+          ><i class="fas fa-bars"></i
+        ></a>
+      </div>
+      <div class="mt-5 mt-lg-0 add-margin">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bell Icon -->
+<app-top-header></app-top-header>
+<!-- QR CODE -->
+<div
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  "
+  *ngIf="qrStatus"
+>
+  <div
+    style="
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: whitesmoke;
+    "
+  >
+    <div style="padding: 10px; text-align: center; width: 100%" id="htmlData">
+      <h3>Register Now</h3>
+      <qr-code [value]="qrInfo" [size]="300"></qr-code>
+    </div>
+    <div style="padding: 10px">
+      <span class="btn btn-success" style="padding: 10px" (click)="openPDF()"
+        >Download</span
+      >&nbsp;&nbsp;&nbsp;
+      <span class="btn btn-success" style="padding: 10px" (click)="copy('')"
+        >Copy Link</span
+      >&nbsp;&nbsp;&nbsp;
+      <span class="btn btn-danger" style="padding: 10px" (click)="qrBox(false)"
+        >Close</span
+      >
+    </div>
+  </div>
+</div>
+
+<div
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  "
+  *ngIf="sessionAddStatus"
+>
+  <div
+    style="
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 5px;
+      padding: 20px;
+    "
+  >
+    <form [formGroup]="sessionForm" (ngSubmit)="addSession()" ngNativeValidate>
+      <div
+        style="
+          padding: 10px;
+          text-align: center;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        "
+        id="htmlData"
+      >
+        <h3>Add Session</h3>
+        <div class="inputBox">
+          <input type="text" required formControlName="session" />
+          <label>Session Name</label>
+        </div>
+        <div class="inputBox">
+          <input
+            type="text"
+            min="1900"
+            max="2099"
+            step="1"
+            value="2022"
+            required
+            maxlength="4"
+            minlength="4"
+            formControlName="start_at"
+          />
+          <label>Start</label>
+        </div>
+        <div class="inputBox">
+          <input
+            type="text"
+            min="1900"
+            max="2099"
+            step="1"
+            value="2023"
+            required
+            maxlength="4"
+            minlength="4"
+            formControlName="end_at"
+          />
+          <label>End</label>
+        </div>
+      </div>
+      <div style="padding: 10px">
+        <input
+          type="submit"
+          class="btn btn-success"
+          style="padding: 10px"
+          value="&nbsp;&nbsp;Save&nbsp;&nbsp;"
+        />&nbsp;&nbsp;&nbsp;
+
+        <span
+          class="btn btn-danger"
+          style="padding: 10px"
+          (click)="sessionAddbox(false)"
+          >&nbsp;&nbsp;Close&nbsp;&nbsp;</span
+        >
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div style="position: fixed;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.3);z-index: 4;top:0;left:0;" *ngIf="schoolLoginStatus"></div>
+<div style="position: fixed; right:10px;top: 10px;border-radius: 5px; width: 320px;background-color: white;  -webkit-box-shadow: -25px -1px 44px -30px rgba(0,0,0,0.75);
+-moz-box-shadow: -25px -1px 44px -30px rgba(0,0,0,0.75);
+box-shadow: -25px -1px 44px -30px rgba(0,0,0,0.75);padding: 8px 12px;z-index: 10;" *ngIf="schoolLoginStatus">
+  <span>School Name: <input type="text" value="{{schoolName}}" readonly class="form-control"></span> <br>
+  Password: <input type="password" class="form-control" [(ngModel)]="schollPassword" name="school_password">
+  <br>
+  <span class="btn btn-sm btn-success" (click)="onclickschoollogin()">Login</span> &nbsp;&nbsp;
+  <span class="btn btn-sm btn-danger" (click)="cancel()">Cancel</span>
+</div>

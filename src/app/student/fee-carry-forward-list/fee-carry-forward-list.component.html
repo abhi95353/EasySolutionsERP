@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-10">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">Student Section List</h3>
+    </div>
+    <div class="col-6 col-lg-2" style="text-align: right;" *ngIf="this.school_code != 'Select School'">
+        <span class="mt-1 btn btn-success btn-sm rounded-pill"
+            [routerLink]="['../manage-student-section' , {action:'add' , id:null}]">Add&nbsp;&nbsp;<i
+                class="fa fa-plus-square"></i></span>
+    </div>
+    <hr class="p-0 m-0">
+
+    <br>
+
+    <div class="col-12 my-2 tabs" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row px-1">
+            <div class="col-12 col-lg-8 my-2">
+                <button class="btn btn-sm btn-warning" (click)="downloadCSV()">Excel</button>&nbsp;
+            </div>
+            <div class="col-12 col-lg-4">
+                <div style="display: flex;justify-content: end;">
+                    <input type="search" class="form-control" placeholder="Ex: Name, Code" title="Ex: Name, Code"
+                        [(ngModel)]="searchText">
+                    <i class="fa fa-search fa-lg"
+                        style="background-color: lightseagreen;color: white;padding: 0px 10px;margin-left: -10px;border-radius: 5px;padding-top: 12px;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table table-sm  table-hover table-bordered" >
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Class</th>
+                        <th scope="col">Division</th> 
+                        <th scope="col">Student&nbsp;Count</th>
+                        <th scope="col">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of studentList| filter:searchText; ;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{data.standard.class}}</td> 
+                        <td>{{data.division.section}}</td>
+                        <td>{{data.strength_count}}</td>
+                        <td> 
+                            <i class="fa fa-eye text-danger" (click)="showDetails(data.students)"></i>&nbsp;&nbsp;
+                            <i class="fa fa-cogs text-danger" (click)="assignRoll(data.students)"></i>
+                        </td>
+                    </tr>
+                </tbody> 
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<app-section-list-details></app-section-list-details>
+<app-assign-roll-no></app-assign-roll-no>

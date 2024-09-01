@@ -1,0 +1,262 @@
+<div class="row">
+  <div class="col-10">
+    <h3 style="text-transform: uppercase; letter-spacing: 0.9px">
+      Student Admission List
+    </h3>
+  </div>
+  <div
+    class="col-6 col-lg-2"
+    style="text-align: right"
+    *ngIf="this.school_code != 'Select School'"
+  >
+    <span
+      class="mt-1 btn btn-success btn-sm rounded-pill"
+      [routerLink]="['../student-admission', { action: 'add', id: null }]"
+      >Admission&nbsp;&nbsp;<i class="fa fa-plus-square"></i
+    ></span>
+  </div>
+  <hr class="p-0 m-0" />
+
+  <br /> 
+
+  <div
+    class="col-12 my-2 tabs"
+    *ngIf="this.school_code != 'Select School'; else notFound"
+  >
+    <div class="row px-1">
+      <div class="col-12 col-lg-4 my-2">
+        <button class="btn btn-sm btn-warning" (click)="downloadCSV()">
+          Excel</button
+        >&nbsp;
+        <button class="btn btn-sm btn-danger" (click)="deleteStudent()">
+          Delete</button
+        > 
+      </div>
+      <div class="col-12 col-lg-8">
+        <div style="display: flex; justify-content: end">
+          <!-- <select [(ngModel)]="searchType" (change)="onChangingSearchBy()">
+            <option value="full">Word to word Search</option>
+            <option value="partial">Partial Search</option>
+          </select>&nbsp;
+          <select [(ngModel)]="search_by" (change)="onChangingSearchBy()">
+            <option value="account">Account&nbsp;No</option>
+            <option value="stud_name">Student&nbsp;Name</option>
+            <option value="f_name">Father&nbsp;Name</option>
+            <option value="mobile_no">
+              Student&nbsp;Mobile&nbsp;No
+            </option></select
+          >&nbsp;&nbsp; -->
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Ex: Name, Code"
+            title="Ex: Name, Code"
+            [(ngModel)]="searchText"
+            #searchInput
+          />
+          <i
+            class="fa fa-search fa-lg"
+            style="
+              background-color: lightseagreen;
+              color: white;
+              padding: 0px 10px;
+              margin-left: -10px;
+              border-radius: 5px;
+              padding-top: 12px;
+            "
+          ></i>
+        </div> 
+      </div>
+    </div>
+    <div class="table-responsive mx-1 my-4" style="border-radius: 5px">
+      <table class="table table-sm table-hover table-bordered">
+        <thead class="bg-success text-white">
+          <tr>
+            <th scope="col">#&nbsp;<input type="checkbox" (change)=" onClickAll($event)"></th>
+            <th scope="col">Account&nbsp;No</th>
+            <th scope="col">Admission&nbsp;No</th>
+            <th scope="col">Student&nbsp;Name</th>
+            <th scope="col">Father&nbsp;Name</th>
+            <th scope="col">Mother&nbsp;Name</th>
+            <th scope="col">Gender</th>
+            <th scope="col">DOB</th>
+            <th scope="col">Sibling</th>
+            <th scope="col">Class</th>
+            <th scope="col">Section</th>
+            <th scope="col">Location</th>
+            <th scope="col">Login&nbsp;Mobile&nbsp;No</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="this.studentList != null ; else loading">
+          <ng-container *ngIf="this.studentList.length != 0 ; else nodatafound">
+          <tr *ngFor="let data of studentList | filter:searchText; let i = index">
+            <td>{{ i + 1 }}&nbsp;<input type="checkbox" [checked]="data.checked" (change)="addStudent(data.id, data.uuid, $event)"></td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{ data.account }}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{ data.admission_no }}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{ data.name }}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{ data.f_name }}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{ data.m_name }}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{data.gender}}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{data.dob}}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >-</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{data.class}}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{data.DIV}}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{data.location}}</td>
+            <td (click)="showDetails(data)" style="cursor: pointer;" >{{ data.cred}}</td>
+            <td>
+              <i class="fa fa-eye text-danger" (click)="showDetails(data)"></i
+              >&nbsp;&nbsp;
+              <i 
+                class="fas fa-route"
+                (click)="setTransport(data.id, data.uuid)"
+                style="cursor: pointer" 
+              ></i>
+
+              <!-- <i class="fa fa-edit text-warning" [routerLink]="['../student-registration' , {action:'update' , id:data.id}]"></i>&nbsp;&nbsp; -->
+              <!-- <i class="fa fa-trash text-danger" (click)="deleteRegistration(data.id)"></i> -->
+            </td>
+          </tr>
+        </ng-container>
+          <ng-template #nodatafound>
+            <tr>
+                <td [colSpan]="13" style="text-align: center;"> 
+                    <span class="text-danger" >No Data Found</span>
+                </td>
+            </tr>
+        </ng-template>
+      </ng-container>
+      <ng-template #loading>
+        <tr>
+            <td [colSpan]="13" style="text-align: center;"> 
+                <span class="text-success">Loading.....</span>
+            </td>
+        </tr>
+    </ng-template>
+
+          <tr></tr>
+        </tbody>
+        <!-- <tr >
+                    <td [attr.colspan]="9" style="padding-top:20px;">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item"><a class="page-link" href="#">2</a></li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                          </nav>
+                    </td>
+                </tr> -->
+      </table>
+    </div>
+  </div>
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Transport Services -->
+
+<div
+  *ngIf="serviceBoxStatus"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  "
+></div>
+
+<!-- Add Box -->
+<div
+  class="box"
+  style="z-index: 11"
+  [ngClass]="this.serviceBoxStatus ? 'top-10' : ''"
+>
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+        Transport&nbsp;Route&nbsp;List
+      </h3>
+      <span class="btn btn-sm rounded-pill" (click)="onClickServiceBox(false)"
+        ><i class="fa fa-times"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <br />
+    <div style="display: flex; justify-content: space-between">
+      <table class="table table-sm table-striped table-hover mx-4">
+        <thead>
+          <tr>
+            <th>Transport&nbsp;Name</th>
+            <th>No</th>
+            <th>Desc.</th>
+            <th>Note</th>
+            <th>Fee</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dt of routeData.data">
+            <td>{{ dt.tr_name }}</td>
+            <td>{{ dt.tr_no }}</td>
+            <td><span [innerHtml]="dt.tr_desc"></span></td>
+            <td>{{ dt.note }}</td>
+            <td>{{ dt.fee }}</td>
+            <td>
+              <input
+                type="radio"
+                name="sets"
+                (change)="onClickCheckBox(dt.id, dt.uuid)"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td [attr.colspan]="5">Clear Route</td>
+            <td>
+              <input
+                type="radio"
+                name="sets"
+                (change)="onClickCheckBox(null, null)"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row m-2">
+      <div class="col-12">
+        <div class="inputBox">
+          <input type="month" (change)="applyDate(apply_date.value)" #apply_date />
+          <label for="">Apply&nbsp;From</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="m-4">
+      <span class="btn btn-sm btn-success" *ngIf="!submitStatusTrans" (click)="submitData()">Submit</span>
+      <span class="btn btn-sm btn-success" *ngIf="submitStatusTrans">Submit</span>&nbsp;<i class="fas fa-spinner fa-pulse text-success fa-lg" *ngIf="submitStatusTrans"></i>
+    </div>
+  </div>
+</div>
+ 
+<app-admission-details-list></app-admission-details-list>
+<app-transport-box></app-transport-box>

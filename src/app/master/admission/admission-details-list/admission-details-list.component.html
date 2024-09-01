@@ -1,0 +1,583 @@
+<div
+  *ngIf="regBoxStatus"
+  style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  "
+></div>
+
+<!-- Add Box -->
+<div class="box" [ngClass]="this.regBoxStatus ? 'top-10' : ''">
+  <div>
+    <div class="p-2 pt-3" style="display: flex; justify-content: space-between">
+      <h4
+        class="px-3"
+        style="letter-spacing: 0.9px; text-transform: uppercase"
+        *ngIf="regBoxStatus"
+      >
+        {{ studentData.name }}
+        <!-- &nbsp;&nbsp; <i class="fa fa-download" style="font-size: 16px; cursor: pointer;" (click)="openPDF()">Download</i> -->
+      </h4>
+      <span class="btn btn-sm rounded-pill" (click)="onClickRegBox(false)"
+        ><i class="fa fa-times"></i
+      ></span>
+    </div>
+    <hr class="p-0 m-0" />
+    <div class="px-4">
+      <table
+        class="table table-striped"
+        *ngIf="regBoxStatus && !studentListLayout"
+        id="htmlData"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Keys</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Account No</td>
+            <td>{{ studentData.account }}</td>
+          </tr>
+          <tr>
+            <td>Admission No</td>
+            <td>{{ studentData.student_admission.admission_no }}</td>
+          </tr>
+          <tr>
+            <td>Student Name</td>
+            <td>{{ studentData.name }}</td>
+          </tr>
+          <tr>
+            <td>DOB</td>
+            <td>{{ studentData.dob }}</td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td>{{ studentData.gender }}</td>
+          </tr>
+          <tr>
+            <td>Student Mobile Number</td>
+            <td>{{ studentData.mobile_no }}</td>
+          </tr>
+          <tr>
+            <td>Student Email-ID</td>
+            <td>{{ studentData.email_id }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ studentData.location }}</td>
+          </tr>
+          <tr>
+            <td>Pincode</td>
+            <td>{{ studentData.pincode }}</td>
+          </tr>
+          <tr>
+            <td>City & state</td>
+            <td>
+              <span *ngIf="studentData.city != null">
+                {{ studentData.city.city }} & {{ studentData.state.state }}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>Category</td>
+            <td>{{ studentData.category }}</td>
+          </tr>
+          <tr>
+            <td>Aadhar Number</td>
+            <td>{{ studentData.aadhar_no }}</td>
+          </tr>
+          <tr>
+            <td>Apply For (Class)</td>
+            <td>{{ studentData.standard.class }}</td>
+          </tr>
+          <tr>
+            <td>Father Name</td>
+            <td>{{ studentData.parental.f_name }}</td>
+          </tr>
+          <tr>
+            <td>Father Occupation</td>
+            <td>{{ studentData.parental.f_occupation }}</td>
+          </tr>
+          <tr>
+            <td>Father Mobile Number</td>
+            <td>{{ studentData.parental.f_mobile_no }}</td>
+          </tr>
+          <tr>
+            <td>Father Email-Id</td>
+            <td>{{ studentData.parental.f_email }}</td>
+          </tr>
+          <tr>
+            <td>Father DOB</td>
+            <td>{{ studentData.parental.f_dob }}</td>
+          </tr>
+          <tr>
+            <td>Mother Name</td>
+            <td>{{ studentData.parental.m_name }}</td>
+          </tr>
+          <tr>
+            <td>Mother Occupation</td>
+            <td>{{ studentData.parental.m_occupation }}</td>
+          </tr>
+          <tr>
+            <td>Mother Mobile Number</td>
+            <td>{{ studentData.parental.m_mobile_no }}</td>
+          </tr>
+          <tr>
+            <td>Mother Email-Id</td>
+            <td>{{ studentData.parental.m_email }}</td>
+          </tr>
+          <tr>
+            <td>Mother DOB</td>
+            <td>{{ studentData.parental.m_dob }}</td>
+          </tr>
+          <tr>
+            <td>Transport&nbsp;Name&nbsp;&&nbsp;NO</td>
+            <td>
+              <span *ngIf="studentData.transport_route != null"
+                >{{ studentData.transport_route.tr_name }} ,
+                {{ studentData.transport_route.tr_no }}</span
+              >
+            </td>
+          </tr>
+          <!-- <tr *ngFor="let dt of studentData.doc">
+                    <td>{{dt.imageName}}</td>
+                    <td><img src="http://{{studentData.url}}{{dt.imageName}}" alt="image" style="width: 120px;"></td>
+                  </tr> -->
+        </tbody>
+      </table>
+
+      <div *ngIf="regBoxStatus && studentListLayout" id="htmlData">
+        <h5 style="padding: 12px 0px 0px 10px">Basic&nbsp;Details</h5>
+        <form [formGroup]="applicationForm" (ngSubmit)="onSubmit(applicationForm.value)" >
+        <div class="flex-conts">
+          <div class="mb-2">
+            <img
+              src="assets/image/profile/pp-size.jpeg"
+              alt="{{ studentData.name }}"
+              style="border-radius: 5px; max-width: 100%; padding: 10px"
+            />
+          </div>
+
+          <div class="flex-item">
+            <div>
+              <b>Name: </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  class="form-control"
+                  type="text"
+                  name="name"
+                  formControlName="name"                  
+              /></span>
+            </div>
+            <div>
+              <b>A/C&nbsp;No: </b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                   name="account"
+                  formControlName="account"   
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Add.&nbsp;No: </b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="admission_no"
+                  formControlName="admission_no"   
+                   
+              /></span>
+            </div>
+
+            <br />
+          </div>
+        </div>
+
+        <hr />
+        <h5 style="padding: 10px 0px 0px 10px">Academic&nbsp;Details</h5>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            background-color: whitesmoke;
+          "
+        >
+          <div
+            style="
+              margin-top: 10px;
+              width: 100%;
+              padding: 0 10px 10px 10px;
+              border-radius: 5px;
+            " 
+          >
+            <div>
+              <b>Standard</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="standard"
+                  formControlName="standard"    
+                  
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Session</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="academic_session"
+                  formControlName="academic_session"
+                  
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Roll&nbsp;No: </b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="roll_no"
+                  formControlName="roll_no"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Section: </b>&nbsp;&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="notation"
+                  formControlName="notation"
+                  
+              /></span>
+            </div>
+            <br />
+          </div>
+        </div>
+
+        <hr />
+        <h5 style="padding: 10px 0px 0px 10px">Contact&nbsp;Details</h5>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            background-color: whitesmoke;
+          "
+        >
+          <div
+            style="
+              margin-top: 10px;
+              width: 100%;
+              padding: 0 10px 10px 10px;
+              border-radius: 5px;
+            "
+          >
+            <div>
+              <b>Student&nbsp;E-Mail</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="email_id"
+                  formControlName="email_id"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Login&nbsp;No</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="cred"
+                  formControlName="cred"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Student&nbsp;Mobile&nbsp;No</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="mobile_no"
+                  formControlName="mobile_no"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Father&nbsp;E-Mail</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="f_email"
+                  formControlName="f_email"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Father&nbsp;Mobile&nbsp;No</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="f_mobile_no"
+                  formControlName="f_mobile_no"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Mother&nbsp;E-Mail</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="m_email"
+                  formControlName="m_email"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Mother&nbsp;Mobile&nbsp;No</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="m_mobile_no"
+                  formControlName="m_mobile_no"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Location</b>&nbsp;&nbsp;&nbsp;<span>
+                <textarea
+                  class="form-control"
+                  name="location"
+                  formControlName="location"
+                ></textarea>
+              </span>
+            </div>
+            <br />
+          </div>
+        </div>
+
+        <hr />
+        <h5 style="padding: 10px 0px 0px 10px">Parents'&nbsp;Details</h5>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            background-color: whitesmoke;
+          "
+        >
+          <div
+            style="
+              margin-top: 10px;
+              width: 100%;
+              padding: 0 10px 10px 10px;
+              border-radius: 5px;
+            "
+          >
+            <div>
+              <b>Father&nbsp;Name</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="f_name"
+                  formControlName="f_name"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Father&nbsp;Occupation</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="f_occupation"
+                  formControlName="f_occupation"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Father&nbsp;DOB</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="f_dob"
+                  formControlName="f_dob"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Mother&nbsp;Name</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="m_name"
+                  formControlName="m_name"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Mother&nbsp;Occupation</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="m_occupation"
+                  formControlName="m_occupation"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Mother&nbsp;DOB</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="m_dob"
+                  formControlName="m_dob"
+                  
+              /></span>
+            </div>
+            <br />
+          </div>
+        </div>
+        <hr />
+        <h5 style="padding: 10px 0px 0px 10px">Basic&nbsp;Details</h5>
+        <div
+          style="
+            display: flex; 
+            justify-content: space-between;
+            gap: 10px;
+            background-color: whitesmoke;
+          "
+        >
+          <div
+            style="
+              margin-top: 10px;
+              width: 100%;
+              padding: 0 10px 10px 10px;
+              border-radius: 5px;
+            "
+          >
+            <div>
+              <b>Aadhar</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="aadhar_no"
+                  formControlName="aadhar_no"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Category</b>&nbsp;&nbsp;&nbsp;<span
+                >
+                <select formControlName="category" class="form-control">
+                  <option value="">Select Category</option>
+                  <option value="General">GENERAL</option>
+                  <option value="BC-A">BC-A</option>
+                  <option value="BC-B">BC-B</option>
+                  <option value="SC">SC</option>
+                </select>
+                </span>
+            </div>
+            <div>
+              <b>Gender</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="gender"
+                  formControlName="gender"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Medium&nbsp;Of&nbsp;Instruction</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="instruction_medium"
+                  formControlName="instruction_medium"
+              /></span>
+            </div>
+            <div>
+              <b>Mother&nbsp;Tongue</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="mother_tongue"
+                  formControlName="mother_tongue"
+                  
+              /></span>
+            </div>
+
+            <div>
+              <b>Birth&nbsp;Crt.&nbsp;No</b>&nbsp;&nbsp;&nbsp;<span
+                ><input
+                  type="text"
+                  class="form-control"
+                  name="birth_cert_no"
+                  formControlName="birth_cert_no"
+                  
+              /></span>
+            </div>
+            <div>
+              <b>Transport&nbsp;Details</b>&nbsp;&nbsp;&nbsp;<span
+                ><input type="text" class="form-control" 
+              /></span>
+            </div>
+            <br />
+          </div>
+        </div>
+
+        <h5 style="padding: 10px 0px 0px 10px">Document's&nbsp;Details</h5>
+        <div
+          style="
+            display: flex;
+            justify-content: flex-start;
+            gap: 10x;
+            background-color: whitesmoke;
+            padding-bottom: 10px; 
+          "
+        >
+          <div style="display: flex; flex-direction: column; padding: 10px">
+            <label>Photo</label>
+            <img
+              src="assets/image/profile/pp-size.jpeg"
+              alt="{{ studentData.name }}"
+              style="border-radius: 5px; max-width: 120px; padding: 10px"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileChange($event, 'photo')"
+            />
+          </div>
+
+          <div style="display: flex; flex-direction: column; padding: 10px">
+            <label>Birth Certificate</label>
+            <img
+              src="assets/image/profile/pp-size.jpeg"
+              alt="{{ studentData.name }}"
+              style="border-radius: 5px; max-width: 120px; padding: 10px"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileChange($event, 'birthCert')"
+            />
+          </div>
+        </div>
+        <div class="my-4">
+          <button type="submit" class="btn btn-md btn-success">Update Details</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>

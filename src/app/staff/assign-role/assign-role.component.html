@@ -1,0 +1,47 @@
+<div *ngIf="co_box"
+    style="position: fixed;top: 0;left: 0;width:100%;height: 100%;;background-color:rgba(0,0,0, 0.5);z-index: 10;">
+</div>
+
+
+
+<!-- Add Box -->
+<div class="box" [ngClass]="this.co_box? 'top-10' : ''">
+    <div>
+        <div class="p-2 pt-3" style="display: flex; justify-content: space-between;">
+            <h4 class="px-3" style="letter-spacing: 0.9px; text-transform: uppercase; " *ngIf="co_box">{{name}}
+         <!-- &nbsp;&nbsp; <i class="fa fa-download" style="font-size: 16px; cursor: pointer;" (click)="openPDF()">Download</i> -->
+        </h4>
+            <span class="btn btn-sm rounded-pill" (click)="onClickRegBox(false)"><i
+                    class="fa fa-times"></i></span>
+        </div>
+        <hr class="p-0 m-0">
+        <div style="display: flex; justify-content: space-between;" class="px-4">
+            <table class="table table-striped" *ngIf="co_box" id="htmlData">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"><i class="fa fa-bars"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                       <td>{{name}}</td>
+                       <td><select (change)="updateRole(role.value)"#role class="form-control">
+                           <option>Select Role</option>
+                           <option *ngFor="let item of roleData" [value]="item | json ">{{item.name}}</option>
+                       </select></td>
+                       <td><span class="btn btn-sm btn-success" (click)="  onClickUpdate()">Update</span></td>
+                    </tr>
+                    
+                </tbody>
+                
+              </table>
+
+
+
+              
+
+        </div>
+    </div>
+</div>

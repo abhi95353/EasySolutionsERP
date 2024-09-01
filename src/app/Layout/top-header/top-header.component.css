@@ -1,0 +1,9 @@
+.fa-bell{
+background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
+color: whitesmoke;
+cursor: pointer;
+}
+
+.fa-times{
+    cursor: pointer;
+}

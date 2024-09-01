@@ -1,0 +1,63 @@
+<div class="row px-1">
+    <div class="col-6 col-lg-10">
+        <h3 style="letter-spacing: 0.9px; text-transform: uppercase;">Manage Section Name</h3>
+    </div>
+    <div class="col-6 col-lg-2" style="text-align: right;">
+        <span class="mt-1 btn btn-success btn-sm rounded-pill" [routerLink]="['../student-section-list']"  >List&nbsp;&nbsp;<i class="fa fa-list"></i></span>
+    </div>
+    <hr class="p-0 m-0">
+    <br> 
+
+    <div class="col-12 my-2" *ngIf="this.school_code != 'Select School' ; else notFound">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-xl-4 tabs" style="border-right: 12px solid whitesmoke;">
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div>
+                            <h5>Section Name</h5>
+                        </div>
+                    </div> 
+                    <form [formGroup]="divisionForm" (ngSubmit)="update()">
+                        <div class="col-12" formArrayName="divisions"> 
+                            <div class="inputBox my-4" *ngFor="let dt of divisions.controls;let i = index" [formGroupName]="i">
+                                <input type="text" formControlName="notation">
+                                <label>Section {{dt.value.section}}</label>
+                            </div>
+                        </div>
+                        <div class="col-12" style="text-align: right;">
+                            <input type="submit" class="btn btn-sm btn-success" value="Update">&nbsp;<i *ngIf="loaderStatus" class="fa fa-spinner fa-spin"></i>
+                        </div>
+                    </form>
+                    
+
+                    
+                </div>
+            </div>
+        </div>
+   
+    </div>
+
+    <ng-template #notFound>
+        <div class="row my-2 px-2">
+            <div class="col-12 tabs" style="position: relative;display: flex;align-items: baseline;">
+                <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<h5
+                    class="text-danger">No school Selected. Please Select the school</h5>
+            </div>
+        </div>
+    </ng-template>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

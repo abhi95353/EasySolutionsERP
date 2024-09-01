@@ -1,0 +1,90 @@
+.tabs{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    }
+    th{
+        font-weight: 500;
+    }
+    label{
+    text-transform: uppercase;
+    }
+    .box{
+    position: fixed;
+    top: -2000px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    border-radius: 5px;
+    transition: all 0.4s;
+    z-index: 11;height: 94%; width: 50%; overflow-y: scroll;
+    }
+    .top-10{
+    top: 10px;
+    }
+    p{
+    font-size: 14px;
+    font-weight: bold;
+    }
+    table,tr,td{ 
+    border: 0;
+    }
+
+
+    
+    
+    @media print{
+        *{
+            font-size: 24px;
+    }
+    }
+    
+    @page {
+      margin: 2cm;
+    }
+    @page:first {
+        margin: 0cm;
+    }
+    @page:last {
+        margin: 5cm;
+    }
+    @page:left {
+        margin: 2cm 1.5cm 2cm 2cm;
+    }
+    @page:right {
+        margin: 2cm 2cm 2cm 1.5cm;
+    }
+    .flex-conts{
+        display: flex;justify-content: space-between;background-color: whitesmoke;
+    }
+    .flex-item{
+        margin-top: 10px;width: 600px;padding: 0 10px 10px 10px;border-radius: 5px
+    }
+    @media (max-width: 575.98px) {  
+    p{
+    font-size: 12px;
+    }
+    .tabs{
+    padding: 0px;
+    border-radius: 5px;
+    }
+    }
+    
+    @media (max-width: 767.98px) { 
+    p{
+    font-size: 12px;
+    }
+    .tabs{
+    padding: 0px;
+    border-radius: 5px;
+    }
+    .box{
+        z-index: 11;height: 94%; width: 98%; overflow-y: scroll;
+        }
+    }
+
+
+    
+    
+    
+    

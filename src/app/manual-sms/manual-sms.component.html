@@ -1,0 +1,203 @@
+<div class="row px-1">
+  <div class="col-8 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Manual&nbsp;SMS
+    </h3>
+  </div>
+  <hr class="p-0 m-0" />
+  <br />
+  <div class="col-12" *ngIf="this.school_code != 'Select School'">
+    <form (ngSubmit)="SendSMS()" ngNativeValidate>
+      <div class="row">
+        <div
+          class="col-6 p-3 mb-2 tabs"
+          style="border-right: 4px solid whitesmoke"
+        >
+          <h5>Manual&nbsp;Massage</h5>
+
+          <div class="col-12">
+            <mat-tab-group animationDuration="0ms">
+              <mat-tab label="Group">
+                <span style="font-size: 14px; font-weight: 700">
+                  Massage To
+                </span>
+                <div class="mt-3"><input type="checkbox" (change)="onClickGroup(0,'student',$event)" /> Student</div>
+                <div><input type="checkbox" (change)="onClickGroup(1,'guardian',$event)" /> Guardians</div>
+                <div><input type="checkbox" (change)="onClickGroup(2,'staff',$event)" /> Staff</div>
+                <div><input type="checkbox" (change)="onClickGroup(3,'admin',$event)"/> Admin</div>
+              </mat-tab>
+              <mat-tab label="Class">
+                <span style="font-size: 14px; font-weight: 700">
+                  Massage To
+                </span>
+                <div class="inputBox mt-3">
+                  <select (change)="onSelectClass($event)">
+                    <option value="">Select Class</option>
+                    <option
+                      value="{{ dt | json }}"
+                      *ngFor="let dt of classList"
+                    >
+                      {{ dt.class }}
+                    </option>
+                  </select>
+                  <label>Class</label>
+                </div>
+                <div class="mt-3" style="border: 1px solid grey">
+                  <ng-container *ngFor="let dt of sectionList.divisions; let i = index">
+                    <span class="px-1"
+                      ><input id="section{{i}}" type="checkbox" (change)="onClickSection(dt.pivot.id,sectionList.class,dt.section,$event)"/>&nbsp;<label for="section{{i}}">Section</label>&nbsp; 
+                      {{ dt.section }}&nbsp;&nbsp;</span
+                    >
+                  </ng-container>
+                </div>
+              </mat-tab>
+              <mat-tab label="Individual">
+                <span style="font-size: 14px; font-weight: 700">
+                  Massage To
+                </span>
+                
+                <div class="inputBox mt-3">
+                  <textarea
+                    class="form-control"
+                    required
+                    [(ngModel)]="mobileNoString"
+                    name="mobileNoString"
+                    (input)="mobileNoUpdate(value.value)"
+                    #value
+                    cols="30"
+                    rows="10"
+                    placeholder="Mobile Number"
+                  ></textarea>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+          <br />
+          <div class="mt-2" style="border: 1px solid grey">
+            <div class="" *ngIf="isTemplateSelcted; else tempSelect">
+              <div class="mt-2 mb-4">Template Variables</div>
+              <ng-container *ngFor="let dt of fakeForVar; let i = index">
+                <div class="inputBox my-2 px-1">
+                  <input
+                    type="text"
+                    required
+                    (change)="createString(value.value, i)"
+                    #value
+                  />
+                  <label>Variables&nbsp;[{{ i + 1 }}]</label>
+                </div>
+                <br />
+              </ng-container>
+            </div>
+            <div class="col-12">
+              <ng-template #tempSelect
+                >Please Select Massage Template
+              </ng-template>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="col-12 col-md-4">
+            <input
+              type="submit"
+              value="Send"
+              class="btn btn-sm btn-success"
+              [disabled]="loadingStatus"
+            />
+            &nbsp;<i
+              class="fas fa-spinner fa-pulse text-success fa-lg"
+              *ngIf="loadingStatus"
+            ></i>
+          </div>
+
+          <div
+            class="col-12 my-3"
+            style="
+              border-radius: 4px;
+              background: #ffffff;
+              box-shadow:1px 1px 4px #666666;
+              height: 200px;
+              width: 100%;
+              padding: 4px 8px;
+            "
+          >
+          <b>Summary</b>
+          <div class="row">
+            <div class="col-12">
+              <div>Group</div>
+              <div style="display: flex;justify-content: flex-start;">
+
+              <ng-container *ngFor="let data of sms_details.value.group_list">
+                  <div style="display: flex;justify-content: space-between;padding: 4px;">
+                    <span style="font-size: 14px;background-color: black;color: white;border-radius:4px ;">
+                      &nbsp;{{data.name}}&nbsp;<i class="fa fa-trash bg-danger" style="padding: 4px;"></i></span>
+                  </div>
+              </ng-container>
+            </div> 
+
+            </div>
+
+            <div class="col-12">
+              <div>Class/Section</div>
+              <div style="display: flex;justify-content: flex-start;flex-wrap: wrap;">
+
+              <ng-container *ngFor="let data of sms_details.value.class_list">
+                  <div style="display: flex;justify-content: space-between;padding: 4px;">
+                    <span style="font-size: 14px;background-color: black;color: white;border-radius:4px ;">
+                      &nbsp;{{data.class_name}} / {{data.section}}&nbsp;<i class="fa fa-trash bg-danger" style="padding: 4px;"></i></span>
+                  </div>
+              </ng-container>
+            </div>
+
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="col-6 p-3 mb-2 tabs">
+          <div class="row">
+            <div class="col-12">
+              <h5>Select&nbsp;Message&nbsp;Template</h5>
+              <br /> 
+              <ng-container *ngIf="!templateLoading; else tempLoading">
+                <div class="row">
+                  <ul
+                    *ngFor="let dt of templteList.data"
+                    style="list-style-type: none"
+                  >
+                    <li
+                      style="cursor: pointer; padding: 2px 8px"
+                      (click)="onclickSelectSMS(dt.id, dt.uuid, dt.design)"
+                      [ngClass]="dt.id == id ? 'bg-info' : ''"
+                    >
+                      <b>{{ dt.template_id }}</b> / {{ dt.design }}
+                    </li>
+                  </ul>
+                </div>
+              </ng-container>
+              <ng-template #tempLoading>
+                <div class="text-center">
+                  <i class="fas fa-spinner fa-pulse text-success fa-lg"></i>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>

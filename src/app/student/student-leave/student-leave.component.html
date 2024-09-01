@@ -1,0 +1,134 @@
+<div class="row px-1">
+  <div class="col-8 col-lg-10">
+    <h3 style="letter-spacing: 0.9px; text-transform: uppercase">
+      Students&nbsp;Leave
+    </h3>
+  </div>
+
+  <div
+    class="col-4 col-lg-2"
+    style="text-align: right"
+    *ngIf="this.school_code != 'Select School'"
+  >
+
+  </div>
+  <hr class="p-0 m-0" />
+  <br />
+
+  <div
+    class="col-12 col-lg-10 col-xxl-10 offset-lg-1 offset-xxl-1"
+    *ngIf="this.school_code != 'Select School'; else notFound"
+  >
+    <div class="col-12 my-2 tabs">
+      <div class="row px-1">
+        <div class="col-12 col-lg-8 my-2">
+    
+        </div>
+        <div class="col-12 col-lg-4">
+          <div style="display: flex; justify-content: end">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Search By Name"
+              [(ngModel)]="searchText"
+            />
+            <i
+              class="fa fa-search fa-lg"
+              style="
+                background-color: lightseagreen;
+                color: white;
+                padding: 0px 10px;
+                margin-left: -10px;
+                border-radius: 5px;
+                padding-top: 12px;
+              "
+            ></i>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive mx-1 my-4" style="border-radius: 5px">
+        <table
+          class="table table-striped table-hover table-bordered border-success"
+          id="htmlData"
+        >
+          <thead class="bg-success text-white">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Account&nbsp;No</th>
+              <th scope="col">Name</th>
+              <th scope="col">Class</th>
+              <th scope="col">father&nbsp;Name</th>
+              <th scope="col">Reason</th>
+              <th scope="col">Date</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Request&nbsp;To</th>
+              <th scope="col">Approved</th>
+              <th scope="col">Action</th>
+            </tr> 
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of studentData.data |  filter:searchText ; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <th>{{ data.student.account }}</th>
+              <td>{{ data.student.name }}</td>
+              <td>{{ data.student.standard.notation }} / {{ data.student.division.notation }} </td>
+              <td>{{ data.student.f_name }}</td>
+              <td>
+                {{
+                  readMore && viewId == data.id
+                    ? data.reason
+                    : (data.reason | slice: 0:120)
+                }}
+                <span *ngIf="!readMore && viewId == data.id">...</span>
+                <a
+                  href="javascript:;"
+                  *ngIf="!readMore && (viewId == data.id || viewId == null)"
+                  (click)="readMoreFun(true, data.id)"
+                  >[Read More]</a
+                >
+                <a
+                  href="javascript:;"
+                  *ngIf="readMore && (viewId == data.id || viewId == null)"
+                  (click)="readMoreFun(false, data.id)"
+                  >[Read Less]</a
+                >
+              </td>
+              <td>{{ data.date | date:'medium'}}</td>
+              <td>{{ data.begin_at}}  -  {{ data.end_at}}</td>
+              <td>
+                <span >{{data.employee.name}}</span>
+              </td>
+              <td>
+                <span class="text-success fw-bold" *ngIf="data.is_approved">Yes</span>
+                <span class="text-danger fw-bold" *ngIf="!data.is_approved">No</span>
+              </td>
+
+              <td>
+               <div class="flex">
+                <i class="btn btn-sm btn-success fa fa-check my-1" aria-hidden="true" (click)="updateSTudentLeave(data.id , data.uuid , 1)"></i>&nbsp;
+                <i class="btn btn-sm btn-danger fa fa-times  my-1" aria-hidden="true" (click)="updateSTudentLeave(data.id , data.uuid , 0)"></i>
+               </div>
+              </td>
+               
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <div class="row my-2 px-2">
+      <div
+        class="col-12 tabs"
+        style="position: relative; display: flex; align-items: baseline"
+      >
+        <i class="fa fa-building fa-2x text-danger" aria-hidden="true"></i
+        >&nbsp;&nbsp;&nbsp;
+        <h5 class="text-danger">
+          No school Selected. Please Select the school
+        </h5>
+      </div>
+    </div>
+  </ng-template>
+</div>

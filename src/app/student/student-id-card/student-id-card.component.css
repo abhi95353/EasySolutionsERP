@@ -1,0 +1,132 @@
+/* rgb(202,189,58) */
+
+/* blue rgb(23,63,192) */
+
+/* dark blue rgb(2,71,130) */
+.main-bg-color{
+    background-color: rgba(202,189,58 , 0.9);
+}
+.studentName{
+    color: rgb(66, 103, 224);
+}
+
+span{
+    font-weight: 700;
+}
+.details span{
+    font-weight: 700;
+    font-size: 16.2px;
+}
+
+.bgs {
+    background-color: lightseagreen;
+    color:white;
+    border-color: lightseagreen;
+  }
+
+  .tabs{
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    }
+  ul li a{
+      color: black;
+  }
+  th{
+      font-weight: 500;
+  }
+  
+  tr{
+      border-left: 1px solid green;
+      border-right: 1px solid green;
+  }
+
+  td{
+      border: 0;
+  }
+  .fa {
+      cursor: pointer;
+  }
+  .example::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* input field */
+
+.inputBox {
+    position: relative;
+  }
+  
+  .inputBox input ,.inputBox select  {
+    width: 100%;
+    padding: 0.625rem 10px;
+    font-size: 1rem;
+    letter-spacing: 0.062rem;
+    border: 1px solid #ccc;
+    background: transparent;
+    border-radius: 4px;
+    
+  }
+  
+  .inputBox label { 
+    position: absolute;
+    top: 0;
+    left: 10px;
+    padding: 0.625rem 0;
+    font-size: 1rem;
+    color: grey;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  
+  .inputBox input ~ label, .inputBox select ~ label
+  {
+    top: -1.125rem;
+    left: 10px;
+    color: green;
+    font-size: 0.75rem;
+    background-color: white;
+    height: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .inputBox input:focus {
+    outline: none;
+    border: 2px solid green;
+  }
+  
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  

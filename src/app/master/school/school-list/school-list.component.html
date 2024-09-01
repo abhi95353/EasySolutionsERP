@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-8 col-lg-10">
+        <h3 style="text-transform: uppercase; letter-spacing: 0.9px;">School List</h3>
+    </div>
+    <div class="col-4 col-lg-2" style="text-align: right;">
+        <span class="mt-lg-1 mt-sm-0 btn btn-success btn-sm rounded-pill" [routerLink]="['../school-registration' , {action:'add' , id:null}]">School&nbsp;&nbsp;<i
+                class="fa fa-plus-square"></i></span>
+    </div>
+    <hr class="p-0 m-0">
+
+    <br>
+
+
+    <div class="col-12 my-2 tabs">
+        <div class="row px-1">
+            <div class="col-12 col-lg-8 my-2">
+                <button class="btn btn-sm btn-warning" (click)="downloadCSV()">Excel</button>&nbsp;
+            </div>
+            <div class="col-12 col-lg-4">
+                <div style="display: flex;justify-content: end;">
+                    <input type="search" 
+                  class="form-control"
+                  placeholder="Ex: Name, Code"  
+                  title="Ex: Name, Code"
+                  [(ngModel)]="searchText"
+                  >
+                    <i class="fa fa-search fa-lg"
+                        style="background-color: lightseagreen;color: white;padding: 0px 10px;margin-left: -10px;border-radius: 5px;padding-top: 12px;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive mx-1 my-4" style="border-radius: 5px;">
+            <table class="table  table-hover table-bordered table-sm"  id="htmlData">
+                <thead class="bg-success text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">School&nbsp;Code</th>
+                        <th scope="col">School&nbsp;Name</th>
+                        <th scope="col">Contact&nbsp;Person</th>
+                        <th scope="col">Designation</th>
+                        <th scope="col">Email - ID</th>
+                        <th scope="col">Helpline&nbsp;No</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Website</th>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="loaderStatus;else loadingTem">
+                        <tr>
+                            <td colspan="11" style="text-align: center;">
+                                <i class="fa fa-spinner fa-spin fa-2x text-success"></i>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-template #loadingTem>
+                        <ng-container *ngIf="!dataNotFound;else notfound">
+                            <tr *ngFor="let data of dataList | filter:searchText; let i = index" >
+                                <td>{{i+1}}</td>
+                                <td>{{data.code}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.contact_person}}</td>
+                                <td>{{data.designation}}</td>
+                                <td>{{data.contact_mail}}</td>
+                                <td><a href="tel:{{data.contact_no}}" style="text-decoration: none; color: black;">{{data.contact_no}}</a></td>
+                                <td>{{data.location}}</td>
+                                <td><span (click)="openWebsite(data.website)" style="color: blue; cursor: pointer;">{{data.website}}</span></td>
+                                <td><a href="https://{{data.base_url}}/{{data.logo}}"><img src="https://{{data.base_url}}/{{data.logo}}" alt="Logo" style="width: 80px;"></a></td>
+                                <td>
+                                    <i class="fas fa-edit text-success" style="cursor: pointer;" [routerLink]="['../school-registration' ,{action:'update' , 'uuid':data.uuid , id:data.id , school_code:data.code}]"></i>&nbsp;
+                                    <i class="fas fa-trash text-danger"
+                                        (click)="deleteSchool(data.id , data.uuid)" style="cursor: pointer;"></i></td>
+                            </tr>
+                        </ng-container>
+                        <ng-template #notfound>
+                            <tr>
+                                <td colspan="11">No Data Found</td>
+                            </tr>
+                        </ng-template>
+                    </ng-template>
+                    
+                </tbody>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
